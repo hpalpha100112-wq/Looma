@@ -1,0 +1,524 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8" />
+<meta name="viewport" content="width=device-width, initial-scale=1.0" />
+<meta name="theme-color" content="#f4f1eb" />
+<title>Looma — AI Interior Studio</title>
+<style>
+  :root {
+    color-scheme: light dark;
+    --page: light-dark(#f5f3ee, #111713);
+    --surface: light-dark(#fffefa, #1b221e);
+    --surface-2: light-dark(#ece9e1, #242c27);
+    --ink: light-dark(#20251f, #f0f0e9);
+    --muted: light-dark(#767b71, #a5afa3);
+    --line: light-dark(#dfddd4, #38423a);
+    --green: light-dark(#355847, #a5c7ad);
+    --green-ink: light-dark(#fffefa, #142018);
+    --lime: #d8e5bd;
+    --clay: #c87f5e;
+    --serif: Georgia, "Times New Roman", serif;
+    --sans: Inter, ui-sans-serif, system-ui, -apple-system, BlinkMacSystemFont, "Segoe UI", sans-serif;
+    --radius: 22px;
+    --shadow: 0 24px 70px rgba(28, 33, 27, .10);
+  }
+  * { box-sizing: border-box; }
+  html { scroll-behavior: smooth; scroll-padding-top: 84px; }
+  body { margin: 0; background: var(--page); color: var(--ink); font-family: var(--sans); font-size: 14px; line-height: 1.5; }
+  button, input, select, textarea { font: inherit; }
+  button { cursor: pointer; }
+  button:focus-visible, a:focus-visible, input:focus-visible, select:focus-visible, textarea:focus-visible { outline: 3px solid #95b59a; outline-offset: 3px; }
+  a { color: inherit; text-decoration: none; }
+  .app-root { min-height: 100vh; width: 100%; background-color: var(--page); }
+  .wrap { width: min(1180px, calc(100% - 48px)); margin: 0 auto; }
+  .topbar { height: 78px; display: flex; align-items: center; border-bottom: 1px solid var(--line); background: color-mix(in srgb, var(--page) 90%, transparent); position: sticky; top: 0; z-index: 20; backdrop-filter: blur(14px); }
+  .nav-inner { display:flex; align-items:center; justify-content:space-between; gap:24px; }
+  .brand { display:flex; align-items:center; gap:10px; font-size:20px; letter-spacing:-.8px; font-weight:700; flex-shrink:0; }
+  .brand-mark { width:32px; height:32px; border-radius:11px; background:var(--green); display:grid; place-items:center; color:var(--green-ink); }
+  .brand small { font-size:9px; letter-spacing:1.6px; color:var(--muted); font-weight:700; display:block; margin-top:-4px; }
+  .nav-links { display:flex; align-items:center; gap:28px; color:var(--muted); font-size:13px; }
+  .nav-links a { transition:color .2s; }
+  .nav-links a:hover { color:var(--ink); }
+  .nav-actions { display:flex; align-items:center; gap:11px; }
+  .btn { border:1px solid transparent; border-radius:999px; padding:12px 19px; font-weight:650; font-size:13px; display:inline-flex; align-items:center; justify-content:center; gap:9px; transition:transform .18s ease, background .18s ease, border .18s ease; white-space:nowrap; }
+  .btn:hover { transform:translateY(-1px); }
+  .btn-primary { color:var(--green-ink); background:var(--green); }
+  .btn-primary:hover { filter:brightness(1.04); }
+  .btn-plain { background:transparent; color:var(--ink); border-color:var(--line); }
+  .btn-plain:hover { background:var(--surface); }
+  .btn-small { padding:9px 14px; font-size:12px; }
+  .eyebrow { text-transform:uppercase; letter-spacing:1.7px; font-size:10px; font-weight:750; color:var(--green); display:flex; align-items:center; gap:8px; }
+  .eyebrow:before { content:""; width:21px; height:1px; background:currentColor; }
+  .hero { padding:55px 0 52px; display:grid; grid-template-columns: .92fr 1.08fr; gap:44px; align-items:center; min-height:580px; }
+  .hero h1 { font-family:var(--serif); font-weight:400; letter-spacing:-2.8px; line-height:.99; font-size:clamp(50px, 6.2vw, 78px); margin:22px 0 20px; max-width:560px; }
+  .hero h1 em { color:var(--green); font-weight:400; }
+  .hero-copy { color:var(--muted); font-size:16px; max-width:450px; line-height:1.75; }
+  .hero-actions { display:flex; gap:12px; margin:27px 0 23px; flex-wrap:wrap; }
+  .micro-trust { display:flex; align-items:center; flex-wrap:wrap; gap:17px; color:var(--muted); font-size:11px; }
+  .micro-trust span { display:flex; align-items:center; gap:6px; }
+  .check { display:inline-grid; place-items:center; width:16px; height:16px; border:1px solid var(--line); border-radius:50%; color:var(--green); font-size:10px; }
+  .hero-visual { position:relative; padding:13px; border:1px solid var(--line); background:var(--surface); border-radius:27px; box-shadow:var(--shadow); transform:rotate(.5deg); }
+  .hero-scene { overflow:hidden; border-radius:18px; aspect-ratio:1.23; background:#e5ddce; position:relative; }
+  .hero-scene svg { display:block; width:100%; height:100%; }
+  .float-pill { position:absolute; background:var(--surface); border:1px solid var(--line); box-shadow:0 8px 24px rgba(0,0,0,.08); padding:11px 14px; border-radius:14px; display:flex; align-items:center; gap:10px; font-size:11px; }
+  .float-pill strong { display:block; font-size:12px; }
+  .float-pill .sub { color:var(--muted); font-size:10px; }
+  .float-icon { display:grid; place-items:center; width:32px; height:32px; border-radius:10px; background:var(--lime); color:#31513e; flex-shrink:0; }
+  .pill-top { top:35px; right:-20px; }
+  .pill-bottom { bottom:27px; left:-25px; }
+  .visual-caption { display:flex; justify-content:space-between; gap:16px; padding:13px 5px 3px; font-size:11px; color:var(--muted); }
+  .visual-caption strong { color:var(--ink); font-size:12px; font-weight:650; }
+  .tiny-badge { background:light-dark(#edf3e8,#273a2d); color:var(--green); padding:4px 8px; border-radius:20px; font-size:9px; font-weight:750; letter-spacing:.6px; }
+  .trust-line { border-top:1px solid var(--line); border-bottom:1px solid var(--line); padding:18px 0; display:flex; align-items:center; justify-content:space-between; gap:18px; color:var(--muted); }
+  .trust-line p { font-size:10px; letter-spacing:1.4px; font-weight:750; text-transform:uppercase; margin:0; }
+  .trust-pills { display:flex; gap:10px; flex-wrap:wrap; }
+  .trust-pills span { border:1px solid var(--line); padding:7px 12px; border-radius:30px; font-size:11px; color:var(--ink); }
+  section { padding:82px 0; }
+  .section-head { display:flex; justify-content:space-between; align-items:end; gap:28px; margin-bottom:28px; }
+  .section-head h2 { font:400 clamp(34px,4vw,48px)/1.06 var(--serif); letter-spacing:-1.5px; margin:11px 0 0; }
+  .section-head p { color:var(--muted); line-height:1.7; max-width:390px; margin:0; }
+  .workflow-grid { display:grid; grid-template-columns:repeat(3,1fr); gap:15px; }
+  .workflow-card { padding:25px; background:var(--surface); border:1px solid var(--line); border-radius:var(--radius); min-height:216px; position:relative; overflow:hidden; }
+  .number { font-size:11px; letter-spacing:1px; color:var(--green); font-weight:750; }
+  .workflow-icon { width:42px; height:42px; border-radius:14px; background:var(--surface-2); display:grid; place-items:center; margin:21px 0 16px; color:var(--green); }
+  .workflow-card h3 { margin:0 0 7px; font-size:16px; letter-spacing:-.3px; }
+  .workflow-card p { margin:0; font-size:12px; color:var(--muted); line-height:1.7; max-width:280px; }
+  .styles-section { background:var(--surface-2); }
+  .filter-row { display:flex; flex-wrap:wrap; gap:8px; }
+  .filter-chip { border:1px solid var(--line); border-radius:30px; padding:8px 13px; color:var(--muted); background:transparent; font-size:11px; }
+  .filter-chip.active { background:var(--green); color:var(--green-ink); border-color:var(--green); }
+  .style-grid { display:grid; grid-template-columns:repeat(4,1fr); gap:15px; margin-top:24px; }
+  .style-card { background:var(--surface); border:1px solid var(--line); padding:9px; border-radius:18px; cursor:pointer; transition:transform .2s, box-shadow .2s, border .2s; text-align:left; color:var(--ink); min-width:0; }
+  .style-card:hover { transform:translateY(-3px); box-shadow:0 13px 28px rgba(30,40,30,.08); }
+  .style-card.selected { border:2px solid var(--green); padding:8px; }
+  .style-visual { height:180px; border-radius:12px; overflow:hidden; background:#e5ddce; }
+  .style-visual svg { width:100%; height:100%; display:block; }
+  .style-meta { display:flex; justify-content:space-between; align-items:start; padding:12px 5px 5px; gap:8px; }
+  .style-meta strong { display:block; font-size:13px; }
+  .style-meta small { color:var(--muted); font-size:10px; }
+  .style-number { font-family:var(--serif); color:var(--muted); font-size:18px; }
+  .workspace-preview { display:grid; grid-template-columns:1fr 1fr; gap:30px; align-items:center; }
+  .workspace-window { border:1px solid var(--line); border-radius:24px; background:var(--surface); overflow:hidden; box-shadow:var(--shadow); }
+  .window-head { display:flex; align-items:center; justify-content:space-between; padding:15px 18px; border-bottom:1px solid var(--line); font-size:11px; }
+  .dots { display:flex; gap:5px; }
+  .dots i { width:7px; height:7px; border-radius:50%; background:var(--line); }
+  .window-body { display:grid; grid-template-columns:112px 1fr; min-height:310px; }
+  .tool-rail { background:var(--surface-2); border-right:1px solid var(--line); padding:13px 9px; }
+  .tool { display:flex; align-items:center; gap:8px; padding:9px 7px; color:var(--muted); font-size:10px; border-radius:8px; }
+  .tool.active { color:var(--green); background:light-dark(#dce8d6,#304236); }
+  .canvas-demo { padding:14px; background:light-dark(#f4f1e9,#202922); position:relative; overflow:hidden; }
+  .canvas-demo svg { width:100%; height:100%; min-height:260px; display:block; border-radius:12px; }
+  .canvas-tag { position:absolute; top:24px; left:24px; background:var(--surface); border:1px solid var(--line); border-radius:8px; padding:7px 10px; font-size:10px; }
+  .workspace-copy h2 { font:400 clamp(34px,4vw,48px)/1.08 var(--serif); letter-spacing:-1.6px; margin:13px 0 16px; }
+  .workspace-copy > p { color:var(--muted); line-height:1.8; max-width:450px; }
+  .feature-list { display:grid; gap:14px; margin:26px 0; }
+  .feature { display:flex; gap:12px; align-items:flex-start; }
+  .feature-check { width:23px; height:23px; border:1px solid var(--line); border-radius:50%; display:grid; place-items:center; color:var(--green); flex-shrink:0; }
+  .feature strong { font-size:12px; display:block; margin-bottom:3px; }
+  .feature p { color:var(--muted); margin:0; font-size:11px; line-height:1.6; }
+  .projects-section { padding-top:68px; }
+  .project-grid { display:grid; grid-template-columns:repeat(3,1fr); gap:15px; }
+  .project-card { padding:10px; background:var(--surface); border:1px solid var(--line); border-radius:18px; }
+  .project-thumb { height:150px; background:#e4ddd0; border-radius:12px; overflow:hidden; position:relative; }
+  .project-thumb svg { width:100%; height:100%; display:block; }
+  .project-thumb .draft-tag { position:absolute; left:10px; top:10px; background:rgba(255,254,250,.88); color:#38513e; border-radius:7px; padding:4px 7px; font-size:9px; font-weight:700; }
+  .project-details { padding:12px 5px 4px; }
+  .project-details h3 { font-size:13px; margin:0 0 5px; }
+  .project-details p { font-size:10px; color:var(--muted); margin:0 0 13px; }
+  .project-foot { display:flex; justify-content:space-between; align-items:center; gap:8px; }
+  .text-button { border:0; background:transparent; color:var(--green); font-weight:700; font-size:11px; padding:6px 0; }
+  .saved-dot { width:7px;height:7px;border-radius:50%;background:#6f9978;display:inline-block;margin-right:5px; }
+  .pricing-band { border-radius:28px; padding:38px 42px; background:var(--green); color:var(--green-ink); display:grid; grid-template-columns:1.1fr .9fr; gap:24px; align-items:center; }
+  .pricing-band .eyebrow { color:light-dark(#dce8d6,#314a38); }
+  .pricing-band h2 { font:400 clamp(34px,4vw,48px)/1.05 var(--serif); letter-spacing:-1.4px; margin:13px 0; }
+  .pricing-band p { max-width:440px; opacity:.78; line-height:1.8; font-size:13px; }
+  .pricing-side { background:rgba(255,255,255,.11); border:1px solid rgba(255,255,255,.22); border-radius:20px; padding:23px; }
+  .price-top { display:flex; align-items:baseline; gap:8px; margin-bottom:10px; }
+  .price-top strong { font:400 38px var(--serif); }
+  .price-top span { font-size:11px; opacity:.7; }
+  .price-features { display:grid; gap:8px; font-size:11px; margin:16px 0 22px; }
+  .pricing-side .btn { background:var(--green-ink); color:var(--green); }
+  .footer { padding:29px 0 34px; border-top:1px solid var(--line); display:flex; justify-content:space-between; gap:20px; align-items:center; color:var(--muted); font-size:10px; }
+  .footer-links { display:flex; flex-wrap:wrap; gap:17px; }
+  .footer strong { color:var(--ink); }
+  .toast { position:fixed; z-index:80; bottom:22px; left:50%; transform:translate(-50%,20px); opacity:0; pointer-events:none; background:var(--ink); color:var(--page); border-radius:13px; padding:12px 17px; box-shadow:var(--shadow); font-size:12px; transition:all .22s; max-width:calc(100% - 24px); text-align:center; }
+  .toast.show { transform:translate(-50%,0); opacity:1; }
+  .modal-wrap { position:fixed; inset:0; z-index:60; background:rgba(14,20,15,.58); display:none; align-items:center; justify-content:center; padding:20px; backdrop-filter:blur(7px); }
+  .modal-wrap.open { display:flex; }
+  .modal { width:min(850px,100%); max-height:min(92vh,900px); overflow:auto; background:var(--surface); border:1px solid var(--line); border-radius:25px; box-shadow:0 35px 100px rgba(0,0,0,.28); }
+  .modal-top { padding:21px 24px; display:flex; align-items:center; justify-content:space-between; border-bottom:1px solid var(--line); gap:18px; }
+  .modal-top h2 { font:400 27px var(--serif); margin:0; letter-spacing:-.6px; }
+  .modal-top p { margin:4px 0 0; color:var(--muted); font-size:11px; }
+  .close-btn { border:1px solid var(--line); background:transparent; border-radius:50%; width:34px; height:34px; display:grid; place-items:center; color:var(--ink); font-size:18px; flex-shrink:0; }
+  .modal-content { padding:24px; }
+  .step-line { display:flex; gap:7px; margin-bottom:22px; }
+  .step-line span { height:3px; flex:1; border-radius:4px; background:var(--line); }
+  .step-line span.on { background:var(--green); }
+  .field-grid { display:grid; grid-template-columns:1fr 1fr; gap:18px; }
+  .field { display:grid; gap:7px; min-width:0; }
+  .field label, .field-label { font-size:11px; font-weight:750; color:var(--ink); }
+  .field small { color:var(--muted); font-size:10px; }
+  .field input, .field select, .field textarea { width:100%; background:var(--page); color:var(--ink); border:1px solid var(--line); border-radius:11px; padding:12px 13px; min-width:0; }
+  .field textarea { resize:vertical; min-height:72px; }
+  .radio-row { display:flex; gap:8px; flex-wrap:wrap; }
+  .radio-tile { position:relative; }
+  .radio-tile input { position:absolute; opacity:0; inset:0; width:100%; height:100%; cursor:pointer; }
+  .radio-tile span { display:flex; padding:11px 13px; border:1px solid var(--line); border-radius:11px; font-size:11px; color:var(--muted); cursor:pointer; align-items:center; gap:7px; background:var(--page); }
+  .radio-tile input:checked + span { background:light-dark(#e4ece0,#2b4031); border-color:var(--green); color:var(--green); font-weight:750; }
+  .style-options { display:grid; grid-template-columns:repeat(4,1fr); gap:9px; }
+  .mini-style { border:1px solid var(--line); background:var(--page); color:var(--ink); border-radius:12px; padding:7px; text-align:left; }
+  .mini-style.active { border:2px solid var(--green); padding:6px; }
+  .mini-style .swatch { height:43px; border-radius:7px; margin-bottom:7px; }
+  .mini-style b { font-size:10px; display:block; }
+  .upload-box { border:1px dashed var(--line); border-radius:14px; padding:17px; display:flex; gap:13px; align-items:center; background:var(--page); }
+  .upload-icon { border-radius:11px; background:var(--surface-2); width:38px; height:38px; display:grid; place-items:center; flex-shrink:0; color:var(--green); }
+  .upload-box strong { font-size:11px; display:block; }
+  .upload-box p { margin:3px 0 0; font-size:10px; color:var(--muted); }
+  .upload-box input { max-width:190px; font-size:10px; margin-left:auto; }
+  .upload-preview { margin-top:10px; display:none; align-items:center; gap:10px; font-size:11px; color:var(--muted); }
+  .upload-preview img { width:54px; height:44px; object-fit:cover; border-radius:8px; border:1px solid var(--line); }
+  .modal-footer { display:flex; justify-content:space-between; gap:12px; align-items:center; border-top:1px solid var(--line); padding:18px 24px; }
+  .disclaimer { color:var(--muted); font-size:10px; line-height:1.5; max-width:440px; }
+  .results-intro { display:flex; justify-content:space-between; gap:18px; align-items:start; margin-bottom:18px; }
+  .results-intro h3 { font:400 25px var(--serif); margin:0 0 5px; }
+  .results-intro p { color:var(--muted); font-size:11px; margin:0; }
+  .result-grid { display:grid; grid-template-columns:repeat(3,1fr); gap:12px; }
+  .result-card { border:1px solid var(--line); border-radius:15px; overflow:hidden; background:var(--page); cursor:pointer; color:var(--ink); text-align:left; padding:7px; min-width:0; }
+  .real-result-grid { grid-template-columns:minmax(0, 680px); }
+  .real-result-grid .result-image { aspect-ratio:1.4; }
+  .result-card.active { border:2px solid var(--green); padding:6px; box-shadow:0 0 0 2px color-mix(in srgb, var(--green) 15%, transparent); }
+  .result-image { aspect-ratio:1.05; border-radius:10px; overflow:hidden; background:#e6ddcf; }
+  .result-image svg { width:100%; height:100%; display:block; }
+  .result-meta { padding:10px 5px 5px; }
+  .result-meta strong { font-size:12px; display:block; }
+  .result-meta small { color:var(--muted); display:block; font-size:10px; margin-top:3px; }
+  .version-info { margin-top:16px; padding:15px; background:var(--surface-2); border-radius:14px; display:grid; grid-template-columns:repeat(3,1fr); gap:13px; }
+  .version-info small { font-size:9px; color:var(--muted); display:block; }
+  .version-info strong { font-size:12px; display:block; margin-top:3px; }
+  .results-actions { display:flex; gap:9px; flex-wrap:wrap; }
+  .compare-panel { display:none; grid-template-columns:1fr 1fr; gap:12px; margin-top:16px; }
+  .compare-panel.show { display:grid; }
+  .compare-col { padding:8px; border:1px solid var(--line); border-radius:13px; background:var(--page); }
+  .compare-col h4 { font-size:11px; margin:4px 3px 8px; }
+  .compare-col .scene-compare { height:140px; overflow:hidden; border-radius:9px; }
+  .scene-compare svg { width:100%; height:100%; display:block; }
+  .compare-col p { font-size:10px; color:var(--muted); margin:9px 3px 3px; }
+  .loader { text-align:center; padding:60px 15px; }
+  .loader-orb { width:58px;height:58px;border-radius:50%;margin:0 auto 20px;border:2px solid var(--line);border-top-color:var(--green); animation:spin 1s linear infinite; }
+  @keyframes spin { to { transform:rotate(360deg); } }
+  .loader h3 { font:400 28px var(--serif); margin:0 0 7px; }
+  .loader p { color:var(--muted); font-size:12px; max-width:340px; margin:0 auto; }
+  .mobile-note { font-size:10px; color:var(--muted); }
+  @media (max-width: 900px) {
+    .hero { gap:26px; grid-template-columns:1fr 1fr; padding-top:43px; }
+    .hero h1 { font-size:58px; }
+    .pill-top { right:-8px; }
+    .pill-bottom { left:-10px; }
+    .style-grid { grid-template-columns:repeat(2,1fr); }
+    .style-visual { height:210px; }
+    .workspace-preview { gap:22px; }
+    .pricing-band { padding:30px; }
+  }
+  @media (max-width: 680px) {
+    .wrap { width:min(100% - 30px, 520px); }
+    .topbar { height:66px; }
+    .nav-links { display:none; }
+    .nav-actions .btn-plain { display:none; }
+    .brand { font-size:18px; }
+    .hero { grid-template-columns:1fr; padding:37px 0 38px; gap:30px; }
+    .hero h1 { font-size:clamp(48px,14vw,68px); max-width:500px; }
+    .hero-copy { font-size:14px; }
+    .hero-visual { margin:0 7px 0 11px; }
+    .pill-top { top:21px; right:-8px; }
+    .pill-bottom { bottom:47px; left:-9px; }
+    .float-pill { padding:8px 10px; }
+    .float-icon { width:27px; height:27px; }
+    .trust-line { align-items:flex-start; flex-direction:column; }
+    section { padding:58px 0; }
+    .section-head { display:block; }
+    .section-head p { margin-top:14px; }
+    .workflow-grid, .project-grid { grid-template-columns:1fr; }
+    .workflow-card { min-height:0; }
+    .style-grid { grid-template-columns:repeat(2,1fr); gap:10px; }
+    .style-visual { height:150px; }
+    .workspace-preview { grid-template-columns:1fr; }
+    .window-body { grid-template-columns:92px 1fr; }
+    .tool { font-size:9px; }
+    .pricing-band { grid-template-columns:1fr; padding:27px 22px; }
+    .footer { align-items:flex-start; flex-direction:column; }
+    .field-grid { grid-template-columns:1fr; }
+    .modal-wrap { padding:8px; align-items:flex-end; }
+    .modal { max-height:96vh; border-radius:22px 22px 12px 12px; }
+    .modal-top { padding:17px; }
+    .modal-content { padding:17px; }
+    .modal-footer { padding:14px 17px; align-items:flex-start; flex-direction:column; }
+    .modal-footer .btn { width:100%; }
+    .upload-box { align-items:flex-start; flex-wrap:wrap; }
+    .upload-box input { width:100%; max-width:100%; margin-left:51px; }
+    .style-options { grid-template-columns:repeat(2,1fr); }
+    .result-grid { grid-template-columns:1fr; }
+    .result-card { display:grid; grid-template-columns:115px 1fr; gap:10px; align-items:center; }
+    .result-image { aspect-ratio:1; }
+    .results-intro { flex-direction:column; }
+    .version-info { grid-template-columns:1fr 1fr; }
+    .results-actions { width:100%; }
+    .results-actions .btn { flex:1; }
+    .compare-panel { grid-template-columns:1fr; }
+  }
+  [hidden] { display:none !important; }
+  .route-page { width:min(1180px,calc(100% - 48px)); margin:0 auto; padding:40px 0 78px; min-height:calc(100vh - 150px); }
+  .route-breadcrumb { display:flex; gap:8px; color:var(--muted); font-size:11px; margin-bottom:22px; }
+  .route-heading { display:flex; justify-content:space-between; align-items:end; gap:22px; margin-bottom:26px; }
+  .route-heading h1 { font:400 clamp(36px,5vw,58px)/1.04 var(--serif); letter-spacing:-1.8px; margin:10px 0 12px; }
+  .route-heading p { color:var(--muted); line-height:1.75; max-width:640px; margin:0; font-size:13px; }
+  .route-actions { display:flex; gap:9px; flex-wrap:wrap; flex-shrink:0; }
+  .route-kicker { text-transform:uppercase; letter-spacing:1.6px; font-size:10px; font-weight:750; color:var(--green); }
+  .route-section { margin-top:34px; }
+  .route-section-head { display:flex; justify-content:space-between; align-items:end; gap:18px; margin-bottom:16px; }
+  .route-section-head h2 { font:400 30px/1.1 var(--serif); margin:0; letter-spacing:-.8px; }
+  .route-section-head p { margin:0; color:var(--muted); font-size:11px; }
+  .route-stats { display:grid; grid-template-columns:repeat(3,1fr); gap:13px; margin:0 0 25px; }
+  .route-stat { padding:18px 20px; border:1px solid var(--line); background:var(--surface); border-radius:16px; }
+  .route-stat small { font-size:10px; color:var(--muted); display:block; }
+  .route-stat strong { display:block; font:400 28px var(--serif); margin:5px 0 3px; }
+  .route-stat span { color:var(--muted); font-size:10px; }
+  .route-toolbar { display:flex; gap:10px; justify-content:space-between; align-items:center; flex-wrap:wrap; margin-bottom:16px; }
+  .route-search,.route-select { border:1px solid var(--line); border-radius:11px; padding:11px 13px; background:var(--surface); color:var(--ink); }
+  .route-search { min-width:220px; max-width:100%; }
+  .route-cards { display:grid; grid-template-columns:repeat(3,minmax(0,1fr)); gap:15px; }
+  .route-card { border:1px solid var(--line); background:var(--surface); border-radius:18px; padding:10px; min-width:0; transition:transform .18s,border .18s,box-shadow .18s; }
+  .route-card:hover { transform:translateY(-2px); box-shadow:0 14px 28px rgba(30,40,30,.07); }
+  .route-card-visual { height:185px; border-radius:12px; background:var(--surface-2); overflow:hidden; position:relative; }
+  .route-card-visual svg,.route-card-visual img { width:100%;height:100%;display:block;object-fit:cover; }
+  .route-card-body { padding:13px 5px 5px; }
+  .route-card-body h3 { margin:0 0 5px; font-size:14px; }
+  .route-card-body p { margin:0 0 14px; font-size:11px; color:var(--muted); line-height:1.6; }
+  .route-card-foot { display:flex; align-items:center; justify-content:space-between; gap:10px; border-top:1px solid var(--line); padding:10px 4px 0; }
+  .route-card-foot small { color:var(--muted); font-size:10px; }
+  .route-empty { padding:45px 24px; text-align:center; color:var(--muted); border:1px dashed var(--line); border-radius:18px; }
+  .route-empty h3 { color:var(--ink); margin:0 0 7px; font:400 26px var(--serif); }
+  .route-empty p { max-width:380px; margin:0 auto 17px; line-height:1.7; font-size:12px; }
+  .studio-layout { display:grid; grid-template-columns:320px minmax(0,1fr); gap:16px; align-items:start; }
+  .studio-panel,.route-panel { border:1px solid var(--line); border-radius:18px; background:var(--surface); padding:18px; min-width:0; }
+  .studio-panel h3,.route-panel h3 { font:400 24px var(--serif); letter-spacing:-.5px; margin:0 0 5px; }
+  .studio-panel>p,.route-panel>p { margin:0 0 17px; font-size:11px; color:var(--muted); line-height:1.6; }
+  .studio-fields { display:grid; gap:13px; }
+  .studio-field { display:grid; gap:6px; }
+  .studio-field label { font-size:10px; font-weight:750; }
+  .studio-field input,.studio-field select,.studio-field textarea,.route-form input,.route-form select,.route-form textarea { min-width:0; width:100%; color:var(--ink); background:var(--page); border:1px solid var(--line); border-radius:10px; padding:10px 11px; font-size:11px; }
+  .studio-field textarea,.route-form textarea { min-height:66px; resize:vertical; }
+  .studio-dimensions { display:grid; grid-template-columns:1fr 1fr; gap:8px; }
+  .studio-style-list { display:grid; grid-template-columns:1fr 1fr; gap:7px; }
+  .studio-style-chip { background:var(--page); border:1px solid var(--line); color:var(--ink); border-radius:10px; padding:9px; text-align:left; font-size:10px; }
+  .studio-style-chip.active { border:2px solid var(--green); background:var(--surface-2); color:var(--green); padding:8px; font-weight:750; }
+  .studio-style-chip i { display:block; width:100%; height:20px; border-radius:5px; margin-bottom:7px; }
+  .studio-upload { display:block; border:1px dashed var(--line); border-radius:11px; padding:12px; background:var(--page); }
+  .studio-upload span { display:block; font-size:10px; font-weight:700; margin-bottom:4px; }
+  .studio-upload small { display:block; color:var(--muted); font-size:9px; margin-bottom:8px; }
+  .studio-stage-card { border:1px solid var(--line); border-radius:18px; background:var(--surface); overflow:hidden; min-width:0; }
+  .studio-stage-head { padding:15px 17px; display:flex; align-items:center; justify-content:space-between; gap:12px; border-bottom:1px solid var(--line); flex-wrap:wrap; }
+  .studio-stage-head strong { font-size:12px; }
+  .studio-stage-head small { display:block; font-size:10px; color:var(--muted); margin-top:3px; }
+  .studio-stage { background:var(--surface-2); padding:13px; min-height:340px; position:relative; }
+  .studio-stage>svg { width:100%; min-height:315px; display:block; border-radius:12px; overflow:hidden; }
+  .studio-stage>img { width:100%; height:100%; min-height:315px; max-height:540px; object-fit:contain; display:block; margin:auto; border-radius:12px; }
+  .studio-stage-label { position:absolute; top:24px; left:24px; padding:7px 10px; border-radius:8px; background:var(--surface); border:1px solid var(--line); font-size:10px; }
+  .studio-stage-foot { display:flex; align-items:center; justify-content:space-between; flex-wrap:wrap; gap:13px; padding:13px 17px; border-top:1px solid var(--line); }
+  .studio-stage-foot p { margin:0; color:var(--muted); font-size:10px; }
+  .studio-results { display:grid; grid-template-columns:repeat(3,minmax(0,1fr)); gap:12px; margin-top:16px; }
+  .studio-result { border:1px solid var(--line); border-radius:14px; padding:7px; background:var(--surface); color:var(--ink); text-align:left; }
+  .studio-result.active { border:2px solid var(--green); padding:6px; }
+  .studio-result svg { display:block; width:100%; border-radius:9px; aspect-ratio:1.5; }
+  .studio-result strong { display:block; font-size:11px; margin:8px 4px 3px; }
+  .studio-result small { display:block; font-size:9px; color:var(--muted); margin:0 4px 5px; }
+  .detail-banner { display:grid; grid-template-columns:1.1fr .9fr; gap:20px; border:1px solid var(--line); background:var(--surface); border-radius:20px; padding:14px; }
+  .detail-banner-visual { min-height:290px; border-radius:13px; overflow:hidden; background:var(--surface-2); }
+  .detail-banner-visual svg { display:block;width:100%;height:100%;min-height:290px; }
+  .detail-banner-copy { padding:15px 12px 12px 3px; }
+  .detail-banner-copy h2 { font:400 35px/1.05 var(--serif); letter-spacing:-1px; margin:11px 0; }
+  .detail-banner-copy p { color:var(--muted); line-height:1.8; font-size:12px; }
+  .detail-facts { display:grid; grid-template-columns:repeat(2,1fr); gap:9px; margin:18px 0; }
+  .detail-fact { padding:12px; background:var(--surface-2); border-radius:10px; }
+  .detail-fact small { display:block;color:var(--muted);font-size:9px; }
+  .detail-fact strong { display:block;font-size:11px;margin-top:4px; }
+  .route-two-col { display:grid; grid-template-columns:1fr 1fr; gap:16px; }
+  .route-list { display:grid; gap:0; }
+  .route-list-row { display:flex; align-items:flex-start; gap:12px; padding:15px 0; border-bottom:1px solid var(--line); }
+  .route-list-row:last-child { border-bottom:0; }
+  .route-list-icon { width:34px;height:34px;display:grid;place-items:center;border-radius:11px;background:var(--surface-2);color:var(--green);flex-shrink:0; }
+  .route-list-row strong { display:block;font-size:12px;margin-bottom:4px; }
+  .route-list-row p { margin:0;color:var(--muted);font-size:10px;line-height:1.65; }
+  .plan-grid { display:grid;grid-template-columns:repeat(3,minmax(0,1fr));gap:15px;align-items:stretch; }
+  .plan-card { background:var(--surface);border:1px solid var(--line);border-radius:18px;padding:24px;display:flex;flex-direction:column; }
+  .plan-card.featured { border:2px solid var(--green); padding:23px; box-shadow:var(--shadow); }
+  .plan-card h3 { font-size:15px;margin:0 0 8px; }
+  .plan-card p { color:var(--muted);font-size:11px;line-height:1.7;min-height:55px; }
+  .plan-price { font:400 38px var(--serif); letter-spacing:-1px; margin:9px 0 0; }
+  .plan-price small { font:400 11px var(--sans);color:var(--muted);letter-spacing:0; }
+  .plan-points { display:grid;gap:11px; font-size:11px;margin:18px 0 22px;flex:1; }
+  .plan-points span:before { content:'✓'; color:var(--green); margin-right:8px; }
+  .plan-card .btn { width:100%; }
+  .route-form { display:grid;gap:13px; }
+  .route-form label { display:grid;gap:6px;font-size:10px;font-weight:750; }
+  .route-form .status { font-size:11px;color:var(--green);line-height:1.6; }
+  .faq-item { border-bottom:1px solid var(--line); }
+  .faq-item button { display:flex;width:100%;justify-content:space-between;align-items:center;gap:16px;padding:17px 0;text-align:left;background:transparent;border:0;color:var(--ink);font-size:12px;font-weight:700; }
+  .faq-answer { display:none;color:var(--muted);font-size:11px;line-height:1.8;padding:0 25px 18px 0;max-width:650px; }
+  .faq-item.open .faq-answer { display:block; }
+  .route-status { padding:14px 16px; border:1px solid var(--line); background:var(--surface); border-radius:12px; font-size:11px; color:var(--muted); }
+  .app-root.is-routed .footer { margin-top:0; }
+  .nav-links a.active { color:var(--ink); font-weight:750; }
+  @media(max-width:900px){.route-cards{grid-template-columns:repeat(2,minmax(0,1fr))}.plan-grid{grid-template-columns:1fr}.plan-card p{min-height:0}.detail-banner{grid-template-columns:1fr}.studio-layout{grid-template-columns:280px minmax(0,1fr)}}
+  @media(max-width:680px){.route-page{width:min(100% - 30px,520px);padding:28px 0 55px}.route-heading{align-items:flex-start;flex-direction:column;gap:16px}.route-heading h1{font-size:42px}.route-actions{width:100%}.route-stats{grid-template-columns:1fr;gap:9px}.route-stat{padding:14px 16px}.route-stat strong{font-size:24px}.route-cards{grid-template-columns:1fr}.route-card-visual{height:210px}.studio-layout{grid-template-columns:1fr}.studio-sidebar{order:2}.studio-main{order:1}.studio-stage{min-height:250px;padding:8px}.studio-stage>svg{min-height:240px}.studio-results{grid-template-columns:1fr}.studio-result{display:grid;grid-template-columns:120px 1fr;gap:8px;align-items:center}.studio-result svg{grid-row:span 2}.studio-result strong{margin:0 4px;align-self:end}.studio-result small{margin:0 4px;align-self:start}.route-two-col{grid-template-columns:1fr}.route-toolbar{align-items:stretch}.route-search{width:100%;min-width:0}.route-section-head{align-items:flex-start;flex-direction:column}.detail-banner-copy{padding:12px 7px 6px}.detail-banner-copy h2{font-size:31px}}
+  @media (prefers-reduced-motion: reduce) {
+    *, *::before, *::after { scroll-behavior:auto !important; animation-duration:.01ms !important; transition-duration:.01ms !important; }
+  }
+</style>
+</head>
+<body>
+<div class="app-root">
+  <header class="topbar">
+    <div class="wrap nav-inner">
+      <a class="brand" href="#/home" aria-label="Looma home">
+        <span class="brand-mark" aria-hidden="true"><svg width="19" height="19" viewBox="0 0 24 24" fill="none"><path d="M5 18c7-1 12-6 13-13C11 6 6 11 5 18Z" stroke="currentColor" stroke-width="1.8" stroke-linejoin="round"/><path d="M5 19c3-5 6-7 11-10" stroke="currentColor" stroke-width="1.6" stroke-linecap="round"/></svg></span>
+        <span>Looma<small>AI INTERIOR STUDIO</small></span>
+      </a>
+      <nav class="nav-links" aria-label="Main navigation">
+        <a href="#/explore" data-nav-route="explore">Explore</a><a href="#/templates" data-nav-route="templates">Templates</a><a href="#/projects" data-nav-route="projects">Projects <span id="savedCount">0</span></a><a href="#/pricing" data-nav-route="pricing">Pricing</a>
+      </nav>
+      <div class="nav-actions">
+        <a class="btn btn-plain btn-small" id="navProjects" href="#/projects">My projects</a>
+        <a class="btn btn-plain btn-small" id="accountBtn" href="#/account">Account</a>
+        <a class="btn btn-primary btn-small" href="#/studio">Open studio <span aria-hidden="true">↗</span></a>
+      </div>
+    </div>
+  </header>
+
+  <div id="routeView" hidden aria-live="polite"></div>
+  <main id="homeMain">
+    <div class="wrap" id="home">
+      <section class="hero" style="padding-bottom:48px;">
+        <div class="hero-text">
+          <div class="eyebrow">Room to imagine</div>
+          <h1>Your space,<br />reimagined <em>beautifully.</em></h1>
+          <p class="hero-copy">Meet your new AI interior designer. Turn a room photo or a simple idea into a space that feels like you — without needing to know where to start.</p>
+          <div class="hero-actions">
+            <a class="btn btn-primary" href="#/studio">Design my room <span aria-hidden="true">↗</span></a>
+            <a class="btn btn-plain" href="#/explore">Explore inspiration <span aria-hidden="true">↓</span></a>
+          </div>
+          <div class="micro-trust"><span><i class="check">✓</i> Start with a photo or a blank room</span><span><i class="check">✓</i> Your brief stays in control</span></div>
+        </div>
+        <div class="hero-visual" aria-label="AI interior concept preview">
+          <div class="hero-scene" id="heroScene"></div>
+          <div class="float-pill pill-top"><span class="float-icon">✦</span><span><strong>One room. New possibilities.</strong><span class="sub">A calmer, more personal space</span></span></div>
+          <div class="float-pill pill-bottom"><span class="float-icon">◷</span><span><strong>Made around your brief</strong><span class="sub">Style · size · budget</span></span></div>
+          <div class="visual-caption"><span><strong>Sunday morning, indoors</strong><br />A concept in warm minimalism</span><span class="tiny-badge">AI CONCEPT</span></div>
+        </div>
+      </section>
+      <div class="trust-line">
+        <p>Designed for real-life decisions</p>
+        <div class="trust-pills"><span>Homeowners</span><span>Interior designers</span><span>Property staging</span><span>Renovation planning</span></div>
+      </div>
+    </div>
+
+    <section id="how">
+      <div class="wrap">
+        <div class="section-head">
+          <div><div class="eyebrow">A lighter way to design</div><h2>From “what if?” to<br />“this feels right.”</h2></div>
+          <p>No complicated software to learn before you begin. Start small, try ideas, and keep the ones that work for your home.</p>
+        </div>
+        <div class="workflow-grid">
+          <article class="workflow-card"><span class="number">01 / TELL US ABOUT YOUR ROOM</span><div class="workflow-icon"><svg width="22" height="22" viewBox="0 0 24 24" fill="none"><rect x="3" y="4" width="18" height="16" rx="2" stroke="currentColor" stroke-width="1.6"/><circle cx="8.5" cy="9" r="1.5" stroke="currentColor" stroke-width="1.5"/><path d="m4 17 5-5 3 3 3-4 5 6" stroke="currentColor" stroke-width="1.6" stroke-linecap="round" stroke-linejoin="round"/></svg></div><h3>Start with what you have</h3><p>Add a photo, enter room dimensions, or use a sample space. You can keep the pieces you already love.</p></article>
+          <article class="workflow-card"><span class="number">02 / EXPLORE YOUR STYLE</span><div class="workflow-icon"><svg width="22" height="22" viewBox="0 0 24 24" fill="none"><path d="M12 3v3M12 18v3M3 12h3M18 12h3M5.7 5.7l2.1 2.1m8.4 8.4 2.1 2.1m0-12.6-2.1 2.1m-8.4 8.4-2.1 2.1" stroke="currentColor" stroke-width="1.6" stroke-linecap="round"/><circle cx="12" cy="12" r="5" stroke="currentColor" stroke-width="1.6"/></svg></div><h3>Try more than one idea</h3><p>Explore calm, warm, natural or expressive directions with furniture, materials and lighting in mind.</p></article>
+          <article class="workflow-card"><span class="number">03 / MAKE IT YOURS</span><div class="workflow-icon"><svg width="22" height="22" viewBox="0 0 24 24" fill="none"><path d="M4 19.5V5a1 1 0 0 1 1-1h14a1 1 0 0 1 1 1v14.5H4Z" stroke="currentColor" stroke-width="1.6"/><path d="m7 15 3-3 2 2 5-5M8 8h.01" stroke="currentColor" stroke-width="1.6" stroke-linecap="round" stroke-linejoin="round"/></svg></div><h3>Compare, save, decide</h3><p>Keep your favourites together, compare versions, and track the budget assumptions behind each concept.</p></article>
+        </div>
+      </div>
+    </section>
+
+    <section class="styles-section" id="styles">
+      <div class="wrap">
+        <div class="section-head">
+          <div><div class="eyebrow">Find your feeling</div><h2>What should home<br />feel like?</h2></div>
+          <p>Use these as a starting point, not a rulebook. Pick a direction to pre-fill your design brief.</p>
+        </div>
+        <div class="filter-row" role="group" aria-label="Filter interior styles">
+          <button class="filter-chip active" data-filter="all">All styles</button><button class="filter-chip" data-filter="calm">Calm & natural</button><button class="filter-chip" data-filter="warm">Warm & lived-in</button><button class="filter-chip" data-filter="bold">Modern & bold</button>
+        </div>
+        <div class="style-grid" id="styleGrid">
+          <button class="style-card" data-style="Soft Minimal" data-category="calm"><div class="style-visual" data-scene="minimal"></div><div class="style-meta"><span><strong>Soft Minimal</strong><small>Quiet lines, clear space</small></span><span class="style-number">01</span></div></button>
+          <button class="style-card" data-style="Japandi" data-category="calm"><div class="style-visual" data-scene="japandi"></div><div class="style-meta"><span><strong>Japandi</strong><small>Natural texture, balance</small></span><span class="style-number">02</span></div></button>
+          <button class="style-card" data-style="Warm Modern" data-category="warm"><div class="style-visual" data-scene="warm"></div><div class="style-meta"><span><strong>Warm Modern</strong><small>Earthy, welcoming layers</small></span><span class="style-number">03</span></div></button>
+          <button class="style-card" data-style="Contemporary" data-category="bold"><div class="style-visual" data-scene="modern"></div><div class="style-meta"><span><strong>Contemporary</strong><small>Deep tones, clean contrast</small></span><span class="style-number">04</span></div></button>
+        </div>
+        <div style="display:flex;justify-content:center;margin-top:26px;"><a class="btn btn-primary" id="stylesCta" href="#/studio">Use a style in my room <span aria-hidden="true">↗</span></a></div>
+      </div>
+    </section>
+
+    <section id="workspace">
+      <div class="wrap workspace-preview">
+        <div class="workspace-window">
+          <div class="window-head"><span><strong>My living room</strong> <span style="color:var(--muted)">/ concept 01</span></span><span class="dots" aria-hidden="true"><i></i><i></i><i></i></span></div>
+          <div class="window-body">
+            <div class="tool-rail"><div class="tool active">◫ &nbsp;Room</div><div class="tool">✦ &nbsp;AI ideas</div><div class="tool">▧ &nbsp;Materials</div><div class="tool">☼ &nbsp;Lighting</div><div class="tool">⌁ &nbsp;Furniture</div><div style="height:1px;background:var(--line);margin:10px 5px;"></div><div class="tool">↶ &nbsp;Undo</div><div class="tool">◷ &nbsp;Versions</div></div>
+            <div class="canvas-demo"><div class="canvas-tag">2D / 3D preview</div><div id="workspaceScene"></div></div>
+          </div>
+        </div>
+        <div class="workspace-copy">
+          <div class="eyebrow">Your creative workspace</div>
+          <h2>Simple on the surface.<br />More powerful when needed.</h2>
+          <p>One clear place for your room, ideas and next steps. Start with the essentials, then bring in more control as your design grows.</p>
+          <div class="feature-list">
+            <div class="feature"><span class="feature-check">✓</span><div><strong>Keep your starting point safe</strong><p>Return to your original brief and compare each new direction.</p></div></div>
+            <div class="feature"><span class="feature-check">✓</span><div><strong>Make decisions with context</strong><p>See dimensions, budget ranges and any assumptions alongside each concept.</p></div></div>
+            <div class="feature"><span class="feature-check">✓</span><div><strong>Move at your own pace</strong><p>Save a draft, come back later, or share a version for feedback.</p></div></div>
+          </div>
+          <a class="btn btn-primary" href="#/studio">Try the design workspace <span aria-hidden="true">↗</span></a>
+        </div>
+      </div>
+    </section>
+
+    <section class="projects-section" id="projects">
+      <div class="wrap">
+        <div class="section-head">
+          <div><div class="eyebrow">A place for your ideas</div><h2>Pick up where you left off.</h2></div>
+          <a class="btn btn-plain btn-small" href="#/studio">+ New project</a>
+        </div>
+        <div class="project-grid" id="projectGrid">
+          <article class="project-card"><div class="project-thumb" data-project-scene="warm"><span class="draft-tag">SAVED CONCEPT</span></div><div class="project-details"><h3>Sunday living room</h3><p><span class="saved-dot"></span>Updated just now · Warm Modern</p><div class="project-foot"><span style="font-size:10px;color:var(--muted);">Approx. 18 m²</span><a class="text-button" href="#/projects/sample-sunday-living-room">Open project ↗</a></div></div></article>
+          <article class="project-card"><div class="project-thumb" data-project-scene="japandi"><span class="draft-tag">INSPIRATION</span></div><div class="project-details"><h3>Quiet bedroom</h3><p>Saved reference · Japandi</p><div class="project-foot"><span style="font-size:10px;color:var(--muted);">Idea board</span><a class="text-button" href="#/projects/sample-quiet-bedroom">Open project ↗</a></div></div></article>
+          <article class="project-card" style="border-style:dashed;background:transparent;display:flex;flex-direction:column;justify-content:center;align-items:center;text-align:center;min-height:258px;padding:25px;"><div style="width:45px;height:45px;border-radius:15px;background:var(--surface-2);display:grid;place-items:center;color:var(--green);font-size:24px;">+</div><h3 style="font-size:14px;margin:14px 0 6px;">A fresh idea starts here</h3><p style="font-size:11px;color:var(--muted);max-width:190px;margin:0 0 16px;">Create a room concept and keep everything in one place.</p><a class="btn btn-primary btn-small" href="#/studio">Create a project</a></article>
+        </div>
+      </div>
+    </section>
+
+    <section id="pricing" style="padding-top:25px;">
+      <div class="wrap">
+        <div class="pricing-band">
+          <div><div class="eyebrow">Start free, grow as you go</div><h2>Good design begins<br />with one small step.</h2><p>Try the core room-planning flow before deciding whether you need advanced renders, expanded assets or team collaboration. You stay in control of your design and spend.</p></div>
+          <div class="pricing-side"><div class="price-top"><strong>Free</strong><span>to get started</span></div><div style="font-size:11px;opacity:.8;">For your first ideas and room concepts</div><div class="price-features"><span>✓ &nbsp;Basic room brief & style exploration</span><span>✓ &nbsp;Save and compare concept drafts</span><span>✓ &nbsp;Starter furniture & material ideas</span><span>＋ &nbsp;Upgrade later for advanced tools</span></div><a class="btn" href="#/studio">Start designing <span aria-hidden="true">↗</span></a></div>
+        </div>
+        <p class="mobile-note" style="text-align:center;margin:14px 0 0;">AI image generation and account-backed project saving are available when the server is configured. Full 2D/3D editing, furniture shopping, collaboration and billing are later integrations.</p>
+      </div>
+    </section>
+  </main>
+
+  <footer class="wrap footer">
+    <div><strong style="font-size:16px;letter-spacing:-.5px;">Looma</strong><span style="margin-left:12px;">A little more at home.</span></div>
+    <div class="footer-links"><a href="#/home">Home</a><a href="#/explore">Explore</a><a href="#/templates">Templates</a><a href="#/projects">Projects</a><a href="#/community">Community</a><a href="#/pricing">Plans</a><a href="#/support">Help & support</a><a href="#/account">Account</a></div>
+    <span>© 2026 Looma Studio · Design workspace</span>
+  </footer>
+</div>
+
+<div class="toast" id="toast" role="status" aria-live="polite"></div>
+<div class="modal-wrap" id="studioModal" role="dialog" aria-modal="true" aria-labelledby="modalTitle" aria-hidden="true">
+  <div class="modal">
+    <div class="modal-top"><div><h2 id="modalTitle">Let's shape your space.</h2><p id="modalSub">A few details help us start in the right direction.</p></div><button class="close-btn" id="closeModal" aria-label="Close design studio">×</button></div>
+    <div class="modal-content" id="modalContent"></div>
+    <div class="modal-footer" id="modalFooter"></div>
+  </div>
+</div>
+
+<script src="/app.js" defer></script>
+</body>
+</html>
