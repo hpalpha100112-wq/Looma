@@ -185,8 +185,6 @@
   .results-intro p { color:var(--muted); font-size:11px; margin:0; }
   .result-grid { display:grid; grid-template-columns:repeat(3,1fr); gap:12px; }
   .result-card { border:1px solid var(--line); border-radius:15px; overflow:hidden; background:var(--page); cursor:pointer; color:var(--ink); text-align:left; padding:7px; min-width:0; }
-  .real-result-grid { grid-template-columns:minmax(0, 680px); }
-  .real-result-grid .result-image { aspect-ratio:1.4; }
   .result-card.active { border:2px solid var(--green); padding:6px; box-shadow:0 0 0 2px color-mix(in srgb, var(--green) 15%, transparent); }
   .result-image { aspect-ratio:1.05; border-radius:10px; overflow:hidden; background:#e6ddcf; }
   .result-image svg { width:100%; height:100%; display:block; }
@@ -210,6 +208,81 @@
   .loader h3 { font:400 28px var(--serif); margin:0 0 7px; }
   .loader p { color:var(--muted); font-size:12px; max-width:340px; margin:0 auto; }
   .mobile-note { font-size:10px; color:var(--muted); }
+  [hidden] { display:none !important; }
+  .route-shell { width:min(1180px,calc(100% - 48px)); margin:0 auto; padding:42px 0 82px; min-height:calc(100vh - 160px); }
+  .route-breadcrumb { display:flex; gap:8px; align-items:center; color:var(--muted); font-size:11px; margin-bottom:22px; }
+  .route-heading { display:flex; justify-content:space-between; align-items:end; gap:24px; margin-bottom:28px; }
+  .route-heading h1 { font:400 clamp(36px,5vw,58px)/1.04 var(--serif); letter-spacing:-1.8px; margin:10px 0 12px; }
+  .route-heading p { color:var(--muted); line-height:1.75; max-width:640px; margin:0; font-size:13px; }
+  .route-heading-actions { display:flex; gap:9px; flex-wrap:wrap; flex-shrink:0; }
+  .route-kicker { text-transform:uppercase; letter-spacing:1.6px; font-size:10px; font-weight:750; color:var(--green); }
+  .route-section { margin-top:36px; }
+  .route-section-head { display:flex; justify-content:space-between; align-items:end; gap:18px; margin-bottom:16px; }
+  .route-section-head h2 { font:400 30px/1.1 var(--serif); margin:0; letter-spacing:-.8px; }
+  .route-section-head p { margin:0; color:var(--muted); font-size:11px; }
+  .route-stat-grid { display:grid; grid-template-columns:repeat(3,1fr); gap:13px; margin:0 0 27px; }
+  .route-stat { padding:18px 20px; border:1px solid var(--line); background:var(--surface); border-radius:16px; }
+  .route-stat small { font-size:10px; color:var(--muted); display:block; }
+  .route-stat strong { display:block; font:400 28px var(--serif); margin:5px 0 3px; }
+  .route-stat span { color:var(--muted); font-size:10px; }
+  .route-toolbar { display:flex; gap:10px; justify-content:space-between; flex-wrap:wrap; margin-bottom:16px; }
+  .route-search { border:1px solid var(--line); border-radius:11px; padding:11px 13px; min-width:220px; max-width:100%; background:var(--surface); color:var(--ink); }
+  .route-select { border:1px solid var(--line); border-radius:11px; padding:10px 12px; background:var(--surface); color:var(--ink); }
+  .route-cards { display:grid; grid-template-columns:repeat(3,minmax(0,1fr)); gap:15px; }
+  .route-card { border:1px solid var(--line); background:var(--surface); border-radius:18px; padding:10px; min-width:0; }
+  .route-card-visual { height:185px; border-radius:12px; background:var(--surface-2); overflow:hidden; position:relative; }
+  .route-card-visual svg,.route-card-visual img { width:100%;height:100%;display:block;object-fit:cover; }
+  .route-card-body { padding:13px 5px 5px; }
+  .route-card-body h3 { margin:0 0 5px; font-size:14px; }
+  .route-card-body p { margin:0 0 14px; font-size:11px; color:var(--muted); line-height:1.6; }
+  .route-card-foot { display:flex; align-items:center; justify-content:space-between; gap:10px; border-top:1px solid var(--line); padding:10px 4px 0; }
+  .route-card-foot small { color:var(--muted); font-size:10px; }
+  .route-empty { padding:45px 24px; text-align:center; color:var(--muted); border:1px dashed var(--line); border-radius:18px; }
+  .route-empty h3 { color:var(--ink); margin:0 0 7px; font:400 26px var(--serif); }
+  .route-empty p { max-width:380px; margin:0 auto 17px; line-height:1.7; font-size:12px; }
+  .studio-layout { display:grid; grid-template-columns:300px minmax(0,1fr); gap:16px; align-items:start; }
+  .studio-panel,.route-panel { border:1px solid var(--line); border-radius:18px; background:var(--surface); padding:18px; min-width:0; }
+  .studio-panel h3,.route-panel h3 { font:400 24px var(--serif); margin:0 0 7px; }
+  .studio-panel p,.route-panel p { font-size:11px; color:var(--muted); line-height:1.7; }
+  .studio-form { display:grid; gap:13px; }
+  .studio-form label,.route-form label { display:grid; gap:6px; font-size:10px; font-weight:750; }
+  .studio-form input,.studio-form select,.studio-form textarea,.route-form input,.route-form select,.route-form textarea { width:100%; min-width:0; color:var(--ink); background:var(--page); border:1px solid var(--line); border-radius:10px; padding:10px 11px; font-size:11px; }
+  .studio-form textarea,.route-form textarea { min-height:70px; resize:vertical; }
+  .studio-stage { background:var(--surface-2); border-radius:16px; padding:12px; min-height:300px; }
+  .studio-stage svg,.route-card-visual svg { width:100%; display:block; }
+  .studio-stage svg { min-height:280px; border-radius:10px; }
+  .studio-style-grid { display:grid; grid-template-columns:1fr 1fr; gap:7px; }
+  .studio-style-choice { background:var(--page); border:1px solid var(--line); color:var(--ink); border-radius:10px; padding:9px; text-align:left; font-size:10px; }
+  .studio-style-choice.active { border:2px solid var(--green); padding:8px; color:var(--green); font-weight:750; }
+  .studio-style-choice i { display:block; height:18px; border-radius:5px; margin-bottom:6px; }
+  .studio-concepts { display:grid; grid-template-columns:repeat(3,minmax(0,1fr)); gap:10px; margin-top:12px; }
+  .studio-concept { padding:7px; background:var(--surface); border:1px solid var(--line); border-radius:12px; text-align:left; color:var(--ink); }
+  .studio-concept.active { border:2px solid var(--green); padding:6px; }
+  .studio-concept strong { display:block; font-size:10px; padding:7px 3px 2px; }
+  .route-two-col { display:grid; grid-template-columns:1fr 1fr; gap:16px; }
+  .route-list-row { display:flex; gap:12px; padding:14px 0; border-bottom:1px solid var(--line); }
+  .route-list-row:last-child { border-bottom:0; }
+  .route-list-row strong { font-size:12px; display:block; margin-bottom:4px; }
+  .route-list-row p { margin:0; }
+  .plan-grid { display:grid; grid-template-columns:repeat(3,minmax(0,1fr)); gap:15px; }
+  .plan-card { background:var(--surface); border:1px solid var(--line); border-radius:18px; padding:22px; display:flex; flex-direction:column; }
+  .plan-card.featured { border:2px solid var(--green); padding:21px; }
+  .plan-card h3 { font-size:15px; margin:0; }
+  .plan-card p { color:var(--muted); font-size:11px; line-height:1.7; }
+  .plan-price { font:400 37px var(--serif); margin:10px 0 0; }
+  .plan-list { display:grid; gap:10px; font-size:11px; margin:18px 0 22px; flex:1; }
+  .faq-item { border-bottom:1px solid var(--line); }
+  .faq-item button { display:flex; width:100%; justify-content:space-between; gap:14px; padding:16px 0; background:transparent; border:0; color:var(--ink); text-align:left; font-size:12px; font-weight:700; }
+  .faq-answer { display:none; color:var(--muted); font-size:11px; line-height:1.8; padding:0 0 17px; }
+  .faq-item.open .faq-answer { display:block; }
+  .route-form { display:grid; gap:13px; }
+  .route-status { font-size:11px; color:var(--green); line-height:1.6; }
+  .route-row { display:flex; align-items:center; justify-content:space-between; gap:18px; padding:15px 0; border-bottom:1px solid var(--line); }
+  .route-row:last-child { border-bottom:0; }
+  .route-row strong { display:block; font-size:12px; margin-bottom:4px; }
+  .route-row p { margin:0; }
+  @media (max-width:900px) { .route-cards {grid-template-columns:repeat(2,minmax(0,1fr));} .plan-grid {grid-template-columns:1fr;} .studio-layout {grid-template-columns:260px minmax(0,1fr);} }
+  @media (max-width:680px) { .route-shell {width:min(100% - 30px,520px);padding:30px 0 58px;} .route-heading {align-items:flex-start;flex-direction:column;} .route-heading h1 {font-size:43px;} .route-cards,.route-two-col,.studio-layout,.plan-grid {grid-template-columns:1fr;} .route-card-visual {height:210px;} .studio-concepts {grid-template-columns:1fr;} .route-toolbar {align-items:stretch;} .route-search {width:100%;min-width:0;} .route-stat-grid {grid-template-columns:1fr;} }
   @media (max-width: 900px) {
     .hero { gap:26px; grid-template-columns:1fr 1fr; padding-top:43px; }
     .hero h1 { font-size:58px; }
@@ -266,111 +339,6 @@
     .results-actions .btn { flex:1; }
     .compare-panel { grid-template-columns:1fr; }
   }
-  [hidden] { display:none !important; }
-  .route-page { width:min(1180px,calc(100% - 48px)); margin:0 auto; padding:40px 0 78px; min-height:calc(100vh - 150px); }
-  .route-breadcrumb { display:flex; gap:8px; color:var(--muted); font-size:11px; margin-bottom:22px; }
-  .route-heading { display:flex; justify-content:space-between; align-items:end; gap:22px; margin-bottom:26px; }
-  .route-heading h1 { font:400 clamp(36px,5vw,58px)/1.04 var(--serif); letter-spacing:-1.8px; margin:10px 0 12px; }
-  .route-heading p { color:var(--muted); line-height:1.75; max-width:640px; margin:0; font-size:13px; }
-  .route-actions { display:flex; gap:9px; flex-wrap:wrap; flex-shrink:0; }
-  .route-kicker { text-transform:uppercase; letter-spacing:1.6px; font-size:10px; font-weight:750; color:var(--green); }
-  .route-section { margin-top:34px; }
-  .route-section-head { display:flex; justify-content:space-between; align-items:end; gap:18px; margin-bottom:16px; }
-  .route-section-head h2 { font:400 30px/1.1 var(--serif); margin:0; letter-spacing:-.8px; }
-  .route-section-head p { margin:0; color:var(--muted); font-size:11px; }
-  .route-stats { display:grid; grid-template-columns:repeat(3,1fr); gap:13px; margin:0 0 25px; }
-  .route-stat { padding:18px 20px; border:1px solid var(--line); background:var(--surface); border-radius:16px; }
-  .route-stat small { font-size:10px; color:var(--muted); display:block; }
-  .route-stat strong { display:block; font:400 28px var(--serif); margin:5px 0 3px; }
-  .route-stat span { color:var(--muted); font-size:10px; }
-  .route-toolbar { display:flex; gap:10px; justify-content:space-between; align-items:center; flex-wrap:wrap; margin-bottom:16px; }
-  .route-search,.route-select { border:1px solid var(--line); border-radius:11px; padding:11px 13px; background:var(--surface); color:var(--ink); }
-  .route-search { min-width:220px; max-width:100%; }
-  .route-cards { display:grid; grid-template-columns:repeat(3,minmax(0,1fr)); gap:15px; }
-  .route-card { border:1px solid var(--line); background:var(--surface); border-radius:18px; padding:10px; min-width:0; transition:transform .18s,border .18s,box-shadow .18s; }
-  .route-card:hover { transform:translateY(-2px); box-shadow:0 14px 28px rgba(30,40,30,.07); }
-  .route-card-visual { height:185px; border-radius:12px; background:var(--surface-2); overflow:hidden; position:relative; }
-  .route-card-visual svg,.route-card-visual img { width:100%;height:100%;display:block;object-fit:cover; }
-  .route-card-body { padding:13px 5px 5px; }
-  .route-card-body h3 { margin:0 0 5px; font-size:14px; }
-  .route-card-body p { margin:0 0 14px; font-size:11px; color:var(--muted); line-height:1.6; }
-  .route-card-foot { display:flex; align-items:center; justify-content:space-between; gap:10px; border-top:1px solid var(--line); padding:10px 4px 0; }
-  .route-card-foot small { color:var(--muted); font-size:10px; }
-  .route-empty { padding:45px 24px; text-align:center; color:var(--muted); border:1px dashed var(--line); border-radius:18px; }
-  .route-empty h3 { color:var(--ink); margin:0 0 7px; font:400 26px var(--serif); }
-  .route-empty p { max-width:380px; margin:0 auto 17px; line-height:1.7; font-size:12px; }
-  .studio-layout { display:grid; grid-template-columns:320px minmax(0,1fr); gap:16px; align-items:start; }
-  .studio-panel,.route-panel { border:1px solid var(--line); border-radius:18px; background:var(--surface); padding:18px; min-width:0; }
-  .studio-panel h3,.route-panel h3 { font:400 24px var(--serif); letter-spacing:-.5px; margin:0 0 5px; }
-  .studio-panel>p,.route-panel>p { margin:0 0 17px; font-size:11px; color:var(--muted); line-height:1.6; }
-  .studio-fields { display:grid; gap:13px; }
-  .studio-field { display:grid; gap:6px; }
-  .studio-field label { font-size:10px; font-weight:750; }
-  .studio-field input,.studio-field select,.studio-field textarea,.route-form input,.route-form select,.route-form textarea { min-width:0; width:100%; color:var(--ink); background:var(--page); border:1px solid var(--line); border-radius:10px; padding:10px 11px; font-size:11px; }
-  .studio-field textarea,.route-form textarea { min-height:66px; resize:vertical; }
-  .studio-dimensions { display:grid; grid-template-columns:1fr 1fr; gap:8px; }
-  .studio-style-list { display:grid; grid-template-columns:1fr 1fr; gap:7px; }
-  .studio-style-chip { background:var(--page); border:1px solid var(--line); color:var(--ink); border-radius:10px; padding:9px; text-align:left; font-size:10px; }
-  .studio-style-chip.active { border:2px solid var(--green); background:var(--surface-2); color:var(--green); padding:8px; font-weight:750; }
-  .studio-style-chip i { display:block; width:100%; height:20px; border-radius:5px; margin-bottom:7px; }
-  .studio-upload { display:block; border:1px dashed var(--line); border-radius:11px; padding:12px; background:var(--page); }
-  .studio-upload span { display:block; font-size:10px; font-weight:700; margin-bottom:4px; }
-  .studio-upload small { display:block; color:var(--muted); font-size:9px; margin-bottom:8px; }
-  .studio-stage-card { border:1px solid var(--line); border-radius:18px; background:var(--surface); overflow:hidden; min-width:0; }
-  .studio-stage-head { padding:15px 17px; display:flex; align-items:center; justify-content:space-between; gap:12px; border-bottom:1px solid var(--line); flex-wrap:wrap; }
-  .studio-stage-head strong { font-size:12px; }
-  .studio-stage-head small { display:block; font-size:10px; color:var(--muted); margin-top:3px; }
-  .studio-stage { background:var(--surface-2); padding:13px; min-height:340px; position:relative; }
-  .studio-stage>svg { width:100%; min-height:315px; display:block; border-radius:12px; overflow:hidden; }
-  .studio-stage>img { width:100%; height:100%; min-height:315px; max-height:540px; object-fit:contain; display:block; margin:auto; border-radius:12px; }
-  .studio-stage-label { position:absolute; top:24px; left:24px; padding:7px 10px; border-radius:8px; background:var(--surface); border:1px solid var(--line); font-size:10px; }
-  .studio-stage-foot { display:flex; align-items:center; justify-content:space-between; flex-wrap:wrap; gap:13px; padding:13px 17px; border-top:1px solid var(--line); }
-  .studio-stage-foot p { margin:0; color:var(--muted); font-size:10px; }
-  .studio-results { display:grid; grid-template-columns:repeat(3,minmax(0,1fr)); gap:12px; margin-top:16px; }
-  .studio-result { border:1px solid var(--line); border-radius:14px; padding:7px; background:var(--surface); color:var(--ink); text-align:left; }
-  .studio-result.active { border:2px solid var(--green); padding:6px; }
-  .studio-result svg { display:block; width:100%; border-radius:9px; aspect-ratio:1.5; }
-  .studio-result strong { display:block; font-size:11px; margin:8px 4px 3px; }
-  .studio-result small { display:block; font-size:9px; color:var(--muted); margin:0 4px 5px; }
-  .detail-banner { display:grid; grid-template-columns:1.1fr .9fr; gap:20px; border:1px solid var(--line); background:var(--surface); border-radius:20px; padding:14px; }
-  .detail-banner-visual { min-height:290px; border-radius:13px; overflow:hidden; background:var(--surface-2); }
-  .detail-banner-visual svg { display:block;width:100%;height:100%;min-height:290px; }
-  .detail-banner-copy { padding:15px 12px 12px 3px; }
-  .detail-banner-copy h2 { font:400 35px/1.05 var(--serif); letter-spacing:-1px; margin:11px 0; }
-  .detail-banner-copy p { color:var(--muted); line-height:1.8; font-size:12px; }
-  .detail-facts { display:grid; grid-template-columns:repeat(2,1fr); gap:9px; margin:18px 0; }
-  .detail-fact { padding:12px; background:var(--surface-2); border-radius:10px; }
-  .detail-fact small { display:block;color:var(--muted);font-size:9px; }
-  .detail-fact strong { display:block;font-size:11px;margin-top:4px; }
-  .route-two-col { display:grid; grid-template-columns:1fr 1fr; gap:16px; }
-  .route-list { display:grid; gap:0; }
-  .route-list-row { display:flex; align-items:flex-start; gap:12px; padding:15px 0; border-bottom:1px solid var(--line); }
-  .route-list-row:last-child { border-bottom:0; }
-  .route-list-icon { width:34px;height:34px;display:grid;place-items:center;border-radius:11px;background:var(--surface-2);color:var(--green);flex-shrink:0; }
-  .route-list-row strong { display:block;font-size:12px;margin-bottom:4px; }
-  .route-list-row p { margin:0;color:var(--muted);font-size:10px;line-height:1.65; }
-  .plan-grid { display:grid;grid-template-columns:repeat(3,minmax(0,1fr));gap:15px;align-items:stretch; }
-  .plan-card { background:var(--surface);border:1px solid var(--line);border-radius:18px;padding:24px;display:flex;flex-direction:column; }
-  .plan-card.featured { border:2px solid var(--green); padding:23px; box-shadow:var(--shadow); }
-  .plan-card h3 { font-size:15px;margin:0 0 8px; }
-  .plan-card p { color:var(--muted);font-size:11px;line-height:1.7;min-height:55px; }
-  .plan-price { font:400 38px var(--serif); letter-spacing:-1px; margin:9px 0 0; }
-  .plan-price small { font:400 11px var(--sans);color:var(--muted);letter-spacing:0; }
-  .plan-points { display:grid;gap:11px; font-size:11px;margin:18px 0 22px;flex:1; }
-  .plan-points span:before { content:'✓'; color:var(--green); margin-right:8px; }
-  .plan-card .btn { width:100%; }
-  .route-form { display:grid;gap:13px; }
-  .route-form label { display:grid;gap:6px;font-size:10px;font-weight:750; }
-  .route-form .status { font-size:11px;color:var(--green);line-height:1.6; }
-  .faq-item { border-bottom:1px solid var(--line); }
-  .faq-item button { display:flex;width:100%;justify-content:space-between;align-items:center;gap:16px;padding:17px 0;text-align:left;background:transparent;border:0;color:var(--ink);font-size:12px;font-weight:700; }
-  .faq-answer { display:none;color:var(--muted);font-size:11px;line-height:1.8;padding:0 25px 18px 0;max-width:650px; }
-  .faq-item.open .faq-answer { display:block; }
-  .route-status { padding:14px 16px; border:1px solid var(--line); background:var(--surface); border-radius:12px; font-size:11px; color:var(--muted); }
-  .app-root.is-routed .footer { margin-top:0; }
-  .nav-links a.active { color:var(--ink); font-weight:750; }
-  @media(max-width:900px){.route-cards{grid-template-columns:repeat(2,minmax(0,1fr))}.plan-grid{grid-template-columns:1fr}.plan-card p{min-height:0}.detail-banner{grid-template-columns:1fr}.studio-layout{grid-template-columns:280px minmax(0,1fr)}}
-  @media(max-width:680px){.route-page{width:min(100% - 30px,520px);padding:28px 0 55px}.route-heading{align-items:flex-start;flex-direction:column;gap:16px}.route-heading h1{font-size:42px}.route-actions{width:100%}.route-stats{grid-template-columns:1fr;gap:9px}.route-stat{padding:14px 16px}.route-stat strong{font-size:24px}.route-cards{grid-template-columns:1fr}.route-card-visual{height:210px}.studio-layout{grid-template-columns:1fr}.studio-sidebar{order:2}.studio-main{order:1}.studio-stage{min-height:250px;padding:8px}.studio-stage>svg{min-height:240px}.studio-results{grid-template-columns:1fr}.studio-result{display:grid;grid-template-columns:120px 1fr;gap:8px;align-items:center}.studio-result svg{grid-row:span 2}.studio-result strong{margin:0 4px;align-self:end}.studio-result small{margin:0 4px;align-self:start}.route-two-col{grid-template-columns:1fr}.route-toolbar{align-items:stretch}.route-search{width:100%;min-width:0}.route-section-head{align-items:flex-start;flex-direction:column}.detail-banner-copy{padding:12px 7px 6px}.detail-banner-copy h2{font-size:31px}}
   @media (prefers-reduced-motion: reduce) {
     *, *::before, *::after { scroll-behavior:auto !important; animation-duration:.01ms !important; transition-duration:.01ms !important; }
   }
@@ -380,23 +348,23 @@
 <div class="app-root">
   <header class="topbar">
     <div class="wrap nav-inner">
-      <a class="brand" href="#/home" aria-label="Looma home">
+      <a class="brand" href="#home" aria-label="Looma home">
         <span class="brand-mark" aria-hidden="true"><svg width="19" height="19" viewBox="0 0 24 24" fill="none"><path d="M5 18c7-1 12-6 13-13C11 6 6 11 5 18Z" stroke="currentColor" stroke-width="1.8" stroke-linejoin="round"/><path d="M5 19c3-5 6-7 11-10" stroke="currentColor" stroke-width="1.6" stroke-linecap="round"/></svg></span>
         <span>Looma<small>AI INTERIOR STUDIO</small></span>
       </a>
       <nav class="nav-links" aria-label="Main navigation">
-        <a href="#/explore" data-nav-route="explore">Explore</a><a href="#/templates" data-nav-route="templates">Templates</a><a href="#/projects" data-nav-route="projects">Projects <span id="savedCount">0</span></a><a href="#/pricing" data-nav-route="pricing">Pricing</a>
+        <a href="#/explore" data-nav-route="explore">Explore</a><a href="#/templates" data-nav-route="templates">Templates</a><a href="#/projects" data-nav-route="projects">My projects</a><a href="#/pricing" data-nav-route="pricing">Pricing</a>
       </nav>
       <div class="nav-actions">
-        <a class="btn btn-plain btn-small" id="navProjects" href="#/projects">My projects</a>
-        <a class="btn btn-plain btn-small" id="accountBtn" href="#/account">Account</a>
+        <a class="btn btn-plain btn-small" id="navProjects" href="#/projects">My projects <span id="savedCount">1</span></a>
         <a class="btn btn-primary btn-small" href="#/studio">Open studio <span aria-hidden="true">↗</span></a>
       </div>
     </div>
   </header>
 
   <div id="routeView" hidden aria-live="polite"></div>
-  <main id="homeMain">
+
+  <main>
     <div class="wrap" id="home">
       <section class="hero" style="padding-bottom:48px;">
         <div class="hero-text">
@@ -485,8 +453,8 @@
           <a class="btn btn-plain btn-small" href="#/studio">+ New project</a>
         </div>
         <div class="project-grid" id="projectGrid">
-          <article class="project-card"><div class="project-thumb" data-project-scene="warm"><span class="draft-tag">SAVED CONCEPT</span></div><div class="project-details"><h3>Sunday living room</h3><p><span class="saved-dot"></span>Updated just now · Warm Modern</p><div class="project-foot"><span style="font-size:10px;color:var(--muted);">Approx. 18 m²</span><a class="text-button" href="#/projects/sample-sunday-living-room">Open project ↗</a></div></div></article>
-          <article class="project-card"><div class="project-thumb" data-project-scene="japandi"><span class="draft-tag">INSPIRATION</span></div><div class="project-details"><h3>Quiet bedroom</h3><p>Saved reference · Japandi</p><div class="project-foot"><span style="font-size:10px;color:var(--muted);">Idea board</span><a class="text-button" href="#/projects/sample-quiet-bedroom">Open project ↗</a></div></div></article>
+          <article class="project-card"><div class="project-thumb" data-project-scene="warm"><span class="draft-tag">SAVED CONCEPT</span></div><div class="project-details"><h3>Sunday living room</h3><p><span class="saved-dot"></span>Updated just now · Warm Modern</p><div class="project-foot"><span style="font-size:10px;color:var(--muted);">Approx. 18 m²</span><button class="text-button" data-open-project="Sunday living room">Open project ↗</button></div></div></article>
+          <article class="project-card"><div class="project-thumb" data-project-scene="japandi"><span class="draft-tag">INSPIRATION</span></div><div class="project-details"><h3>Quiet bedroom</h3><p>Saved reference · Japandi</p><div class="project-foot"><span style="font-size:10px;color:var(--muted);">Idea board</span><button class="text-button" data-open-project="Quiet bedroom">Open project ↗</button></div></div></article>
           <article class="project-card" style="border-style:dashed;background:transparent;display:flex;flex-direction:column;justify-content:center;align-items:center;text-align:center;min-height:258px;padding:25px;"><div style="width:45px;height:45px;border-radius:15px;background:var(--surface-2);display:grid;place-items:center;color:var(--green);font-size:24px;">+</div><h3 style="font-size:14px;margin:14px 0 6px;">A fresh idea starts here</h3><p style="font-size:11px;color:var(--muted);max-width:190px;margin:0 0 16px;">Create a room concept and keep everything in one place.</p><a class="btn btn-primary btn-small" href="#/studio">Create a project</a></article>
         </div>
       </div>
@@ -498,15 +466,15 @@
           <div><div class="eyebrow">Start free, grow as you go</div><h2>Good design begins<br />with one small step.</h2><p>Try the core room-planning flow before deciding whether you need advanced renders, expanded assets or team collaboration. You stay in control of your design and spend.</p></div>
           <div class="pricing-side"><div class="price-top"><strong>Free</strong><span>to get started</span></div><div style="font-size:11px;opacity:.8;">For your first ideas and room concepts</div><div class="price-features"><span>✓ &nbsp;Basic room brief & style exploration</span><span>✓ &nbsp;Save and compare concept drafts</span><span>✓ &nbsp;Starter furniture & material ideas</span><span>＋ &nbsp;Upgrade later for advanced tools</span></div><a class="btn" href="#/studio">Start designing <span aria-hidden="true">↗</span></a></div>
         </div>
-        <p class="mobile-note" style="text-align:center;margin:14px 0 0;">AI image generation and account-backed project saving are available when the server is configured. Full 2D/3D editing, furniture shopping, collaboration and billing are later integrations.</p>
+        <p class="mobile-note" style="text-align:center;margin:14px 0 0;">Preview note: this is an interactive front-end concept. Live AI generation, account sync, real 3D editing and billing require backend integrations.</p>
       </div>
     </section>
   </main>
 
   <footer class="wrap footer">
     <div><strong style="font-size:16px;letter-spacing:-.5px;">Looma</strong><span style="margin-left:12px;">A little more at home.</span></div>
-    <div class="footer-links"><a href="#/home">Home</a><a href="#/explore">Explore</a><a href="#/templates">Templates</a><a href="#/projects">Projects</a><a href="#/community">Community</a><a href="#/pricing">Plans</a><a href="#/support">Help & support</a><a href="#/account">Account</a></div>
-    <span>© 2026 Looma Studio · Design workspace</span>
+    <div class="footer-links"><a href="#/home">Home</a><a href="#/explore">Style library</a><a href="#/templates">Templates</a><a href="#/projects">Projects</a><a href="#/community">Community</a><a href="#/pricing">Plans</a><a href="#/support">Help & support</a><a href="#/account">Account</a></div>
+    <span>© 2026 Looma Studio · Design preview</span>
   </footer>
 </div>
 
@@ -519,6 +487,451 @@
   </div>
 </div>
 
-<script src="/app.js" defer></script>
+<script>
+(function(){
+  const palettes = {
+    minimal:{wall:'#e8e7df',floor:'#bba991',sofa:'#b7b8ae',sofa2:'#c9c9bf',accent:'#a4aa98',wood:'#92795e',plant:'#647c63',rug:'#dedbd1',art:'#d5d3ca'},
+    japandi:{wall:'#e8dfd1',floor:'#b58f6a',sofa:'#c8b9a6',sofa2:'#ddd0bd',accent:'#a78c6c',wood:'#916b4c',plant:'#6b7b5a',rug:'#e1d5c4',art:'#c5b8a3'},
+    warm:{wall:'#e6d7c4',floor:'#a87956',sofa:'#bba18a',sofa2:'#d0b9a1',accent:'#8a9876',wood:'#8a6046',plant:'#5f7856',rug:'#d4c3ad',art:'#bd8d70'},
+    modern:{wall:'#d9d8d1',floor:'#a08d7b',sofa:'#5a665e',sofa2:'#778079',accent:'#b58b62',wood:'#725744',plant:'#65785a',rug:'#c9c7bd',art:'#b7a28a'},
+    coastal:{wall:'#e9e4d8',floor:'#c9ac8d',sofa:'#d9d9ce',sofa2:'#eceadd',accent:'#789e9c',wood:'#a98764',plant:'#5e816c',rug:'#ddd8ca',art:'#8fb1ad'}
+  };
+  const styleMap = {'Soft Minimal':'minimal','Japandi':'japandi','Warm Modern':'warm','Contemporary':'modern','Coastal':'coastal'};
+  const styleDesc = {minimal:'Soft neutrals · clear silhouettes',japandi:'Natural textures · quiet balance',warm:'Earthy layers · warm timber',modern:'Deep tones · crisp contrast',coastal:'Airy palette · relaxed texture'};
+  const svgScene = (key='warm', compact=false) => {
+    const p = palettes[key] || palettes.warm;
+    const id = 'g'+key+(compact?'c':'f');
+    return `<svg viewBox="0 0 780 480" preserveAspectRatio="xMidYMid slice" xmlns="http://www.w3.org/2000/svg" role="img" aria-label="Illustrated interior in ${key} style">
+      <defs><linearGradient id="wall${id}" x1="0" y1="0" x2="1" y2="1"><stop stop-color="${p.wall}"/><stop offset="1" stop-color="${p.art}"/></linearGradient><linearGradient id="floor${id}" x1="0" y1="0" x2="0" y2="1"><stop stop-color="${p.floor}"/><stop offset="1" stop-color="${p.wood}"/></linearGradient><linearGradient id="sun${id}" x1="0" y1="0" x2="1" y2="1"><stop stop-color="#fff9dc" stop-opacity=".74"/><stop offset="1" stop-color="#fff9dc" stop-opacity="0"/></linearGradient><filter id="shadow${id}" x="-30%" y="-30%" width="160%" height="180%"><feGaussianBlur stdDeviation="8"/></filter></defs>
+      <rect width="780" height="480" fill="url(#wall${id})"/><rect y="349" width="780" height="131" fill="url(#floor${id})"/>
+      <path d="M0 350H780" stroke="#8f7962" stroke-opacity=".4" stroke-width="3"/>
+      <path d="M35 0V348M745 0V348" stroke="#fff" stroke-opacity=".2" stroke-width="2"/>
+      <rect x="72" y="45" width="182" height="190" rx="4" fill="#f1eee2" stroke="#fffaf0" stroke-width="10"/><rect x="86" y="59" width="154" height="162" fill="#b9cbc4"/><path d="M86 168Q140 125 164 155T240 131V221H86Z" fill="#dae0d1"/><path d="M163 59V221M86 140H240" stroke="#f4efe5" stroke-width="8"/><path d="M254 55 360 348H258L186 235Z" fill="url(#sun${id})" opacity=".6"/>
+      <rect x="452" y="61" width="187" height="118" rx="2" fill="#f4eee4" stroke="#c6b9a7" stroke-width="2"/><rect x="463" y="72" width="165" height="96" fill="${p.art}"/><path d="M474 146Q515 102 552 133T617 102V168H474Z" fill="${p.accent}" opacity=".55"/><circle cx="548" cy="104" r="17" fill="#e8d8b8" opacity=".9"/>
+      <ellipse cx="385" cy="421" rx="250" ry="35" fill="#3d3328" opacity=".17" filter="url(#shadow${id})"/><ellipse cx="404" cy="405" rx="244" ry="47" fill="${p.rug}" opacity=".95"/>
+      <path d="M232 313Q222 281 251 269L276 260H534Q568 264 576 292L585 352H226Z" fill="${p.sofa}"/><rect x="231" y="292" width="344" height="89" rx="20" fill="${p.sofa}"/><rect x="245" y="254" width="156" height="88" rx="18" fill="${p.sofa}"/><rect x="408" y="254" width="150" height="88" rx="18" fill="${p.sofa}"/><rect x="257" y="266" width="119" height="64" rx="13" fill="${p.sofa2}"/><rect x="421" y="265" width="119" height="65" rx="13" fill="${p.accent}" opacity=".83"/>
+      <path d="M239 373V394M562 373V394" stroke="${p.wood}" stroke-width="12" stroke-linecap="round"/><path d="M240 309Q257 298 277 312M423 309Q443 297 461 312" stroke="#fff" stroke-opacity=".3" stroke-width="3" fill="none"/>
+      <ellipse cx="398" cy="391" rx="105" ry="17" fill="#4a372a" opacity=".12"/><path d="M292 361Q394 347 504 361L487 388Q392 399 306 388Z" fill="${p.wood}"/><path d="M308 365Q400 355 487 365" stroke="#dfc5a0" stroke-opacity=".8" stroke-width="3" fill="none"/><path d="M319 388 313 419M474 388 482 419" stroke="${p.wood}" stroke-width="7"/>
+      <ellipse cx="393" cy="355" rx="30" ry="9" fill="#e4dac9"/><path d="M377 353q-9-35 0-45h31q8 24 0 45Z" fill="#f0e9dc"/><path d="M392 310q-12-28 4-43q9 19 0 43" fill="${p.plant}"/><path d="M392 312q-25-16-23-30q23 4 23 30M394 310q21-23 31-17q-5 19-31 17" fill="${p.plant}"/>
+      <path d="M657 349V209" stroke="${p.wood}" stroke-width="7"/><path d="M623 210Q657 164 691 210L679 239H635Z" fill="#e5d3b7"/><ellipse cx="657" cy="350" rx="37" ry="8" fill="#4a372a" opacity=".1"/><path d="M629 352h56l-6 27h-44Z" fill="${p.wood}"/>
+      <rect x="42" y="300" width="20" height="50" rx="4" fill="${p.wood}"/><path d="M52 302Q15 270 29 235Q57 249 55 294M53 297Q82 259 100 269Q91 303 53 310M51 277Q35 239 51 213Q74 244 55 285" fill="${p.plant}"/><path d="M33 350h39l-5 36H38Z" fill="#c6b5a0"/><ellipse cx="53" cy="351" rx="19" ry="5" fill="#dfd0bb"/>
+      <rect x="682" y="307" width="51" height="43" rx="5" fill="${p.accent}"/><path d="M687 308v43M728 308v43" stroke="#fff" stroke-opacity=".15" stroke-width="2"/><rect width="780" height="480" fill="url(#sun${id})" opacity=".13"/>
+    </svg>`;
+  };
+  document.getElementById('heroScene').innerHTML = svgScene('warm');
+  document.getElementById('workspaceScene').innerHTML = svgScene('japandi',true);
+  document.querySelectorAll('[data-scene]').forEach(el=>el.innerHTML=svgScene(el.dataset.scene,true));
+  document.querySelectorAll('[data-project-scene]').forEach(el=>el.insertAdjacentHTML('afterbegin',svgScene(el.dataset.projectScene,true)));
+
+  let selectedStyle = 'Warm Modern';
+  let selectedStyleKey = 'warm';
+  let selectedConcept = 0;
+  let generated = false;
+  let uploadedFileName = '';
+  let savedProjects = [{name:'Sunday living room',style:'Warm Modern',room:'Living room',dims:'4.5 × 4 m',budget:'₹1.5L – ₹3L',key:'warm'}];
+  try { const saved = JSON.parse(localStorage.getItem('looma-projects') || 'null'); if (Array.isArray(saved)) savedProjects = saved; } catch (_) {}
+  let toastTimer;
+  const modal = document.getElementById('studioModal');
+  const content = document.getElementById('modalContent');
+  const footer = document.getElementById('modalFooter');
+  const title = document.getElementById('modalTitle');
+  const subtitle = document.getElementById('modalSub');
+  const toastEl = document.getElementById('toast');
+  function toast(msg){ toastEl.textContent=msg; toastEl.classList.add('show'); clearTimeout(toastTimer); toastTimer=setTimeout(()=>toastEl.classList.remove('show'),2900); }
+  function setSavedCount(){ document.getElementById('savedCount').textContent=String(savedProjects.length); }
+  function openModal(){ modal.classList.add('open'); modal.setAttribute('aria-hidden','false'); document.body.style.overflow='hidden'; showBrief(); }
+  function closeModal(){ modal.classList.remove('open'); modal.setAttribute('aria-hidden','true'); document.body.style.overflow=''; }
+  document.querySelectorAll('.open-studio').forEach(b=>b.addEventListener('click',openModal));
+  document.getElementById('closeModal').addEventListener('click',closeModal);
+  modal.addEventListener('click',e=>{if(e.target===modal) closeModal();});
+  document.addEventListener('keydown',e=>{if(e.key==='Escape'&&modal.classList.contains('open')) closeModal();});
+
+  document.querySelectorAll('.filter-chip').forEach(chip=>chip.addEventListener('click',()=>{
+    document.querySelectorAll('.filter-chip').forEach(x=>x.classList.toggle('active',x===chip));
+    document.querySelectorAll('.style-card').forEach(card=>{card.style.display=(chip.dataset.filter==='all'||card.dataset.category===chip.dataset.filter)?'':'none';});
+  }));
+  document.querySelectorAll('.style-card').forEach(card=>card.addEventListener('click',()=>{
+    document.querySelectorAll('.style-card').forEach(c=>c.classList.toggle('selected',c===card));
+    selectedStyle=card.dataset.style; selectedStyleKey=styleMap[selectedStyle]||'warm';
+    toast(selectedStyle+' selected — we’ll add it to your design brief.');
+    document.getElementById('stylesCta').textContent='Use '+selectedStyle+' in my room ↗';
+  }));
+
+  function showBrief(){
+    generated=false; uploadedFileName=''; selectedConcept=0;
+    title.textContent='Let’s shape your space.'; subtitle.textContent='A few details help us start in the right direction.';
+    content.innerHTML=`<div class="step-line"><span class="on"></span><span></span></div>
+      <div class="field-grid">
+        <div class="field"><label for="projectName">Give your project a name</label><input id="projectName" value="My ${selectedStyle==='Warm Modern'?'living room':'room'} idea" maxlength="70" /></div>
+        <div class="field"><label for="roomType">Which room are we designing?</label><select id="roomType"><option>Living room</option><option>Bedroom</option><option>Kitchen</option><option>Dining room</option><option>Bathroom</option><option>Studio apartment</option><option>Office</option></select></div>
+        <div class="field"><label>Room size <span style="font-weight:400;color:var(--muted)">(approximate)</span></label><div style="display:flex;gap:8px;"><input id="roomWidth" type="number" min="1" max="100" step="0.1" value="4.5" aria-label="Room width in metres"/><input id="roomLength" type="number" min="1" max="100" step="0.1" value="4" aria-label="Room length in metres"/></div><small>Metres · enter your best estimate</small></div>
+        <div class="field"><label for="budget">Your planned budget</label><select id="budget"><option value="Under ₹75,000">Under ₹75,000</option><option value="₹75,000 – ₹1.5L">₹75,000 – ₹1.5L</option><option value="₹1.5L – ₹3L" selected>₹1.5L – ₹3L</option><option value="₹3L – ₹6L">₹3L – ₹6L</option><option value="₹6L+">₹6L+</option><option value="Just exploring">Just exploring</option></select><small>We’ll show a planning range, not a quote.</small></div>
+        <div class="field" style="grid-column:1/-1;"><span class="field-label">Choose a design direction</span><div class="style-options">${Object.entries({minimal:'Soft Minimal',japandi:'Japandi',warm:'Warm Modern',modern:'Contemporary'}).map(([key,name])=>`<button class="mini-style ${selectedStyle===name?'active':''}" type="button" data-modal-style="${name}" data-key="${key}"><div class="swatch" style="background:linear-gradient(135deg,${palettes[key].wall} 0 42%,${palettes[key].sofa} 42% 70%,${palettes[key].wood} 70%);"></div><b>${name}</b></button>`).join('')}</div></div>
+        <div class="field" style="grid-column:1/-1;"><label>Start with a room photo <span style="color:var(--muted);font-weight:400">(optional)</span></label><div class="upload-box"><div class="upload-icon">＋</div><div><strong>Upload an inspiration or room photo</strong><p>JPG, PNG or WEBP · in this preview, it stays in your browser</p></div><input id="roomUpload" type="file" accept="image/png,image/jpeg,image/webp" /></div><div class="upload-preview" id="uploadPreview"><img id="uploadedThumb" alt="Selected room photo preview"/><span id="uploadedName"></span><button class="text-button" id="removeUpload" type="button">Remove</button></div></div>
+        <div class="field" style="grid-column:1/-1;"><label for="keepItems">What should stay? <span style="font-weight:400;color:var(--muted)">(optional)</span></label><textarea id="keepItems" placeholder="e.g. Keep the wooden floor, sofa and window clear…"></textarea></div>
+      </div>`;
+    footer.innerHTML=`<span class="disclaimer">Your dimensions and budget help guide the concept. Final measurements, structural changes and purchase costs should be verified before work begins.</span><button class="btn btn-primary" id="generateBtn">Generate concepts <span aria-hidden="true">✦</span></button>`;
+    document.querySelectorAll('[data-modal-style]').forEach(btn=>btn.addEventListener('click',()=>{
+      document.querySelectorAll('[data-modal-style]').forEach(x=>x.classList.toggle('active',x===btn)); selectedStyle=btn.dataset.modalStyle; selectedStyleKey=btn.dataset.key;
+    }));
+    const fileInput=document.getElementById('roomUpload');
+    fileInput.addEventListener('change',()=>{
+      const file=fileInput.files && fileInput.files[0]; if(!file)return;
+      if(file.size>8*1024*1024){toast('Choose an image smaller than 8 MB for this preview.');fileInput.value='';return;}
+      uploadedFileName=file.name; const reader=new FileReader();
+      reader.onload=()=>{document.getElementById('uploadedThumb').src=reader.result;document.getElementById('uploadedName').textContent=file.name;document.getElementById('uploadPreview').style.display='flex';}; reader.readAsDataURL(file);
+    });
+    document.getElementById('removeUpload').addEventListener('click',()=>{fileInput.value='';uploadedFileName='';document.getElementById('uploadPreview').style.display='none';});
+    document.getElementById('generateBtn').addEventListener('click',generatePreview);
+  }
+  function generatePreview(){
+    const width=Number(document.getElementById('roomWidth').value), length=Number(document.getElementById('roomLength').value);
+    if(!width||!length||width<1||length<1||width>100||length>100){toast('Enter a room width and length between 1 and 100 metres.');return;}
+    const brief={name:document.getElementById('projectName').value.trim()||'My room idea',room:document.getElementById('roomType').value,width,length,budget:document.getElementById('budget').value,keep:document.getElementById('keepItems').value.trim(),photo:uploadedFileName,style:selectedStyle,key:selectedStyleKey};
+    window.currentBrief=brief;
+    title.textContent='Exploring directions for your room';subtitle.textContent='Preparing a local concept preview';
+    content.innerHTML=`<div class="loader"><div class="loader-orb" aria-hidden="true"></div><h3>Finding a feeling for your space…</h3><p>We’re setting up a few visual directions from your room type, style and budget choices.</p></div>`;
+    footer.innerHTML=`<span class="disclaimer">Demo interaction only. This preview does not send your room photo to an AI model.</span><button class="btn btn-plain" id="cancelGenerate">Back to brief</button>`;
+    document.getElementById('cancelGenerate').addEventListener('click',showBrief);
+    setTimeout(()=>showResults(brief),850);
+  }
+  function showResults(brief){
+    generated=true; selectedConcept=0;
+    const options=[{name:brief.style,key:brief.key,desc:styleDesc[brief.key]||styleDesc.warm},{name:'A softer variation',key:brief.key==='minimal'?'japandi':brief.key==='modern'?'warm':'minimal',desc:'Lighter materials · more breathing room'},{name:'A bolder variation',key:brief.key==='modern'?'coastal':'modern',desc:'Higher contrast · a stronger focal point'}];
+    window.currentOptions=options;
+    title.textContent='Your first concepts';subtitle.textContent='Choose a direction to explore. Nothing is final.';
+    content.innerHTML=`<div class="step-line"><span class="on"></span><span class="on"></span></div><div class="results-intro"><div><h3>${esc(brief.name)}</h3><p>${esc(brief.room)} · ${brief.width} × ${brief.length} m · ${esc(brief.style)}${brief.photo?' · photo selected':''}</p></div><span class="tiny-badge">DEMO CONCEPTS</span></div>
+      <div class="result-grid">${options.map((opt,i)=>`<button class="result-card ${i===0?'active':''}" data-concept="${i}" aria-pressed="${i===0?'true':'false'}"><div class="result-image">${svgScene(opt.key,true)}</div><div class="result-meta"><strong>${esc(opt.name)}</strong><small>${esc(opt.desc)}</small></div></button>`).join('')}</div>
+      <div class="version-info"><div><small>Room area</small><strong>${(brief.width*brief.length).toFixed(1)} m² approx.</strong></div><div><small>Planning budget</small><strong>${esc(brief.budget)}</strong></div><div><small>Room brief</small><strong>${esc(brief.room)}</strong></div></div>
+      ${brief.keep?`<div style="margin-top:12px;border:1px solid var(--line);border-radius:12px;padding:12px;font-size:11px;"><span style="color:var(--muted)">Keep in mind:</span> ${esc(brief.keep)}</div>`:''}
+      <div class="compare-panel" id="comparePanel"><div class="compare-col"><h4>Selected direction</h4><div class="scene-compare" id="compareA"></div><p id="compareTextA"></p></div><div class="compare-col"><h4>Alternative direction</h4><div class="scene-compare" id="compareB"></div><p id="compareTextB"></p></div></div>
+      <p class="disclaimer" style="max-width:none;margin-top:14px;">These are illustrative style previews, not generated from your uploaded image. Budget and dimensions are user-provided planning context; verify measurements and local costs with a professional.</p>`;
+    footer.innerHTML=`<div class="results-actions"><button class="btn btn-plain btn-small" id="compareBtn">⇄ Compare versions</button><button class="btn btn-plain btn-small" id="editBriefBtn">Edit brief</button></div><div class="results-actions"><button class="btn btn-plain btn-small" id="saveBtn">♡ Save idea</button><button class="btn btn-primary" id="exportBtn">Export brief ↗</button></div>`;
+    document.querySelectorAll('[data-concept]').forEach(btn=>btn.addEventListener('click',()=>selectConcept(Number(btn.dataset.concept))));
+    document.getElementById('compareBtn').addEventListener('click',toggleCompare);
+    document.getElementById('editBriefBtn').addEventListener('click',showBrief);
+    document.getElementById('saveBtn').addEventListener('click',saveCurrent);
+    document.getElementById('exportBtn').addEventListener('click',exportBrief);
+  }
+  function selectConcept(i){
+    selectedConcept=i;
+    document.querySelectorAll('[data-concept]').forEach(btn=>{const on=Number(btn.dataset.concept)===i;btn.classList.toggle('active',on);btn.setAttribute('aria-pressed',String(on));});
+    const cp=document.getElementById('comparePanel'); if(cp&&cp.classList.contains('show'))updateCompare();
+    const saveBtn=document.getElementById('saveBtn'); if(saveBtn)saveBtn.textContent='♡ Save idea';
+  }
+  function toggleCompare(){const p=document.getElementById('comparePanel');p.classList.toggle('show');const b=document.getElementById('compareBtn');b.textContent=p.classList.contains('show')?'Hide comparison':'⇄ Compare versions';if(p.classList.contains('show'))updateCompare();}
+  function updateCompare(){
+    const brief=window.currentBrief; const options=window.currentOptions; const other=(selectedConcept+1)%options.length; const a=options[selectedConcept],b=options[other];
+    document.getElementById('compareA').innerHTML=svgScene(a.key,true);document.getElementById('compareB').innerHTML=svgScene(b.key,true);
+    document.getElementById('compareTextA').textContent=a.name+' — '+a.desc;document.getElementById('compareTextB').textContent=b.name+' — '+b.desc;
+  }
+  function saveCurrent(){
+    const brief=window.currentBrief, opt=window.currentOptions[selectedConcept];
+    const name=brief.name;
+    const exists=savedProjects.some(p=>p.name===name);
+    if(!exists)savedProjects.unshift({name,style:opt.name,room:brief.room,dims:brief.width+' × '+brief.length+' m',budget:brief.budget,key:opt.key});
+    else savedProjects=savedProjects.map(p=>p.name===name?{...p,style:opt.name,key:opt.key,room:brief.room,dims:brief.width+' × '+brief.length+' m',budget:brief.budget}:p);
+    try { localStorage.setItem('looma-projects',JSON.stringify(savedProjects)); } catch (_) { toast('Saved for this session, but browser storage is unavailable.'); }
+    renderProjects();setSavedCount();document.getElementById('saveBtn').textContent='✓ Saved to projects';toast('Saved “'+name+'” to My projects.');
+  }
+  function exportBrief(){
+    const b=window.currentBrief, opt=window.currentOptions[selectedConcept];
+    const textContent=`LOOMA INTERIOR DESIGN BRIEF\n\nProject: ${b.name}\nRoom: ${b.room}\nDimensions: ${b.width} × ${b.length} m (approx.)\nArea: ${(b.width*b.length).toFixed(1)} m²\nBudget band: ${b.budget}\nSelected direction: ${opt.name}\nStyle notes: ${opt.desc}\nMust keep: ${b.keep||'Not specified'}\nPhoto: ${b.photo||'No photo uploaded'}\n\nNote: This is a concept-planning brief. Verify dimensions, feasibility and prices with qualified local professionals.\n`;
+    const blob=new Blob([textContent],{type:'text/plain;charset=utf-8'}); const url=URL.createObjectURL(blob); const a=document.createElement('a');a.href=url;a.download=(b.name.toLowerCase().replace(/[^a-z0-9]+/g,'-').replace(/^-|-$/g,'')||'looma-design')+'-brief.txt';document.body.appendChild(a);a.click();a.remove();URL.revokeObjectURL(url);toast('Your design brief is ready to save.');
+  }
+  function esc(s){return String(s).replace(/[&<>"']/g,c=>({'&':'&amp;','<':'&lt;','>':'&gt;','"':'&quot;',"'":'&#39;'}[c]));}
+  function renderProjects(){
+    const grid=document.getElementById('projectGrid');
+    const savedCards=savedProjects.map((p,i)=>`<article class="project-card"><div class="project-thumb">${svgScene(p.key,true)}<span class="draft-tag">SAVED CONCEPT</span></div><div class="project-details"><h3>${esc(p.name)}</h3><p><span class="saved-dot"></span>Saved · ${esc(p.style)}</p><div class="project-foot"><span style="font-size:10px;color:var(--muted);">${esc(p.dims||'Idea board')}</span><button class="text-button" data-saved-project="${i}">Open project ↗</button></div></div></article>`).join('');
+    const original=`<article class="project-card"><div class="project-thumb">${svgScene('japandi',true)}<span class="draft-tag">INSPIRATION</span></div><div class="project-details"><h3>Quiet bedroom</h3><p>Saved reference · Japandi</p><div class="project-foot"><span style="font-size:10px;color:var(--muted);">Idea board</span><button class="text-button" data-open-project="Quiet bedroom">Open project ↗</button></div></div></article>`;
+    const create=document.createElement('div');create.className='project-card';create.style.cssText='border-style:dashed;background:transparent;display:flex;flex-direction:column;justify-content:center;align-items:center;text-align:center;min-height:258px;padding:25px;';create.innerHTML='<div style="width:45px;height:45px;border-radius:15px;background:var(--surface-2);display:grid;place-items:center;color:var(--green);font-size:24px;">+</div><h3 style="font-size:14px;margin:14px 0 6px;">A fresh idea starts here</h3><p style="font-size:11px;color:var(--muted);max-width:190px;margin:0 0 16px;">Create a room concept and keep everything in one place.</p><a class="btn btn-primary btn-small" href="#/studio">Create a project</a>';
+    grid.innerHTML=savedCards+original;grid.appendChild(create);
+    grid.querySelectorAll('[data-saved-project]').forEach(b=>b.addEventListener('click',()=>{const p=savedProjects[Number(b.dataset.savedProject)];if(p)location.hash='#/project/'+encodeURIComponent(p.name);}));
+    grid.querySelectorAll('[data-open-project]').forEach(b=>b.addEventListener('click',()=>{location.hash='#/project/'+encodeURIComponent(b.dataset.openProject);}));
+  }
+  function openSaved(i){
+    const p=savedProjects[i]; if(!p)return;
+    window.currentBrief={name:p.name,room:p.room||'Living room',width:4.5,length:4,budget:p.budget||'Just exploring',style:p.style,key:p.key||'warm',keep:'',photo:''};
+    window.currentOptions=[{name:p.style,key:p.key||'warm',desc:styleDesc[p.key]||'Saved design direction'},{name:'A softer variation',key:'minimal',desc:styleDesc.minimal},{name:'A bolder variation',key:'modern',desc:styleDesc.modern}];
+    selectedConcept=0;modal.classList.add('open');modal.setAttribute('aria-hidden','false');document.body.style.overflow='hidden';showResults(window.currentBrief);
+  }
+  function openReference(name){toast(name+' is an inspiration placeholder. Create a project to explore your own room.');}
+  const routeView = document.getElementById('routeView');
+  const homeMain = document.querySelector('main');
+  const routeStyles = [
+    {name:'Soft Minimal',key:'minimal',category:'Calm & natural',desc:'Quiet lines, soft neutrals and open space.'},
+    {name:'Japandi',key:'japandi',category:'Calm & natural',desc:'Natural textures and thoughtful balance.'},
+    {name:'Warm Modern',key:'warm',category:'Warm & lived-in',desc:'Earthy layers, inviting light and timber.'},
+    {name:'Contemporary',key:'modern',category:'Modern & bold',desc:'Strong contrast and clean silhouettes.'},
+    {name:'Coastal',key:'coastal',category:'Calm & natural',desc:'Airy tones and relaxed natural finishes.'}
+  ];
+  const routeTemplates = [
+    {name:'Sunlit Living Room',room:'Living room',style:'Warm Modern',key:'warm',width:4.5,length:4,budget:'₹1.5L – ₹3L',desc:'A welcoming everyday living space.'},
+    {name:'Quiet Japandi Bedroom',room:'Bedroom',style:'Japandi',key:'japandi',width:3.8,length:3.5,budget:'₹75,000 – ₹1.5L',desc:'Restful textures and a calm palette.'},
+    {name:'Small-Space Minimal',room:'Studio apartment',style:'Soft Minimal',key:'minimal',width:3.5,length:3.5,budget:'Under ₹75,000',desc:'Make a compact room feel lighter.'},
+    {name:'Contemporary Dining',room:'Dining room',style:'Contemporary',key:'modern',width:4,length:3.6,budget:'₹1.5L – ₹3L',desc:'Simple shapes with a strong focal point.'},
+    {name:'Fresh Coastal Kitchen',room:'Kitchen',style:'Coastal',key:'coastal',width:3.5,length:3,budget:'₹3L – ₹6L',desc:'Light finishes and practical surfaces.'},
+    {name:'Warm Home Office',room:'Office',style:'Warm Modern',key:'warm',width:3,length:3,budget:'₹75,000 – ₹1.5L',desc:'A comfortable and focused workspace.'}
+  ];
+  window.studioPrefill = window.studioPrefill || null;
+  window.vercelBrief = window.vercelBrief || null;
+  window.vercelOptions = window.vercelOptions || [];
+  window.vercelSelectedConcept = 0;
+  window.vercelUploadedData = '';
+  window.vercelGenerated = false;
+  function pageHeader(kicker, heading, description, actions) {
+    return "<div class='route-heading'><div><div class='route-kicker'>" + kicker + "</div><h1>" + heading + "</h1><p>" + description + "</p></div><div class='route-heading-actions'>" + (actions || '') + "</div></div>";
+  }
+  function pageShell(route, label, body) {
+    return "<div class='route-shell'><div class='route-breadcrumb'><a href='#/home'>Home</a><span>/</span><span>" + label + "</span></div>" + body + "</div>";
+  }
+  function sceneThumb(key) { return "<div class='route-card-visual'>" + svgScene(key, true) + "</div>"; }
+  function styleCards(items) {
+    return items.map(function(item) {
+      return "<article class='route-card' data-filter-card data-search-text='" + esc((item.name+' '+item.category+' '+item.desc).toLowerCase()) + "'>" + sceneThumb(item.key) + "<div class='route-card-body'><span class='route-kicker'>" + item.category + "</span><h3>" + item.name + "</h3><p>" + item.desc + "</p><div class='route-card-foot'><small>" + (styleDesc[item.key] || '') + "</small><button class='text-button' data-action='use-style' data-style='" + item.name + "'>Use style ↗</button></div></div></article>";
+    }).join('');
+  }
+  function renderExplore() {
+    return pageShell('explore','Explore',pageHeader('A library of possibilities','Find your design direction.','Browse different interior styles, search for a feeling, then carry your choice into the studio.',"<a class='btn btn-primary' href='#/studio'>Start a room ↗</a>") +
+      "<div class='route-toolbar'><input class='route-search' id='styleSearch' type='search' placeholder='Search styles, materials or moods…' aria-label='Search styles'><select class='route-select' id='styleCategory' aria-label='Filter by category'><option value='all'>All styles</option><option value='Calm & natural'>Calm & natural</option><option value='Warm & lived-in'>Warm & lived-in</option><option value='Modern & bold'>Modern & bold</option></select></div><div class='route-cards' id='exploreCards'>" + styleCards(routeStyles) + "</div><div class='route-section'><div class='route-panel'><h3>Not sure what fits?</h3><p>Start with room dimensions, budget and the pieces you want to keep. Looma will help you organize the brief before you pick a direction.</p><a class='btn btn-primary' href='#/studio'>Build my room brief ↗</a></div></div>");
+  }
+  function renderTemplates() {
+    const cards = routeTemplates.map(function(t,i) {
+      return "<article class='route-card' data-filter-card data-search-text='" + esc((t.name+' '+t.room+' '+t.style+' '+t.desc).toLowerCase()) + "'>" + sceneThumb(t.key) + "<div class='route-card-body'><span class='route-kicker'>ROOM TEMPLATE " + String(i+1).padStart(2,'0') + "</span><h3>" + t.name + "</h3><p>" + t.desc + "</p><div class='route-card-foot'><small>" + t.room + " · " + t.width + " × " + t.length + " m</small><button class='text-button' data-action='use-template' data-template='" + i + "'>Use template ↗</button></div></div></article>";
+    }).join('');
+    return pageShell('templates','Templates',pageHeader('A useful place to begin','Start with a room template.','Choose a starter brief with a room type, dimensions, style and budget band. Everything remains editable in the studio.',"<a class='btn btn-primary' href='#/studio'>Blank project ↗</a>") +
+      "<div class='route-toolbar'><input class='route-search' id='templateSearch' type='search' placeholder='Search room templates…' aria-label='Search templates'><span class='route-kicker'>Editable starter briefs</span></div><div class='route-cards'>" + cards + "</div>");
+  }
+  function getBriefDefaults() {
+    return window.studioPrefill || window.vercelBrief || {name:'My room concept',room:'Living room',width:4.5,length:4,budget:'₹1.5L – ₹3L',style:selectedStyle,key:selectedStyleKey,keep:''};
+  }
+  function renderStudio() {
+    if (window.vercelGenerated && window.vercelBrief) return renderStudioResults();
+    const b = getBriefDefaults();
+    selectedStyle = b.style || selectedStyle;
+    selectedStyleKey = b.key || styleMap[selectedStyle] || selectedStyleKey;
+    const choices = routeStyles.map(function(s) { return "<button type='button' class='studio-style-choice " + ((b.key || selectedStyleKey)===s.key?'active':'') + "' data-action='studio-style' data-style='" + s.name + "' data-key='" + s.key + "'><i style='background:linear-gradient(90deg," + palettes[s.key].wall + " 0 33%, " + palettes[s.key].sofa + " 33% 66%, " + palettes[s.key].wood + " 66%)'></i>" + s.name + "</button>"; }).join('');
+    const body = pageHeader('Your creative workspace','Let’s design your room.','Set the essentials first. This Vercel-ready demo creates illustrative concepts in your browser; a live AI provider can be connected later.',"<a class='btn btn-plain btn-small' href='#/projects'>My projects</a>") +
+      "<div class='studio-layout'><aside class='studio-panel'><h3>Room brief</h3><p>Start with the details you know. You can change any of these later.</p><form class='studio-form' id='roomBriefForm'><label>Project name<input id='briefName' maxlength='70' value='" + esc(b.name || 'My room concept') + "' required></label><label>Room type<select id='briefRoom'>" + ['Living room','Bedroom','Kitchen','Dining room','Bathroom','Studio apartment','Office'].map(function(x){return "<option " + ((b.room||'Living room')===x?'selected':'') + ">" + x + "</option>";}).join('') + "</select></label><div><label>Dimensions in metres</label><div class='studio-dimensions'><input type='number' id='briefWidth' min='1' max='100' step='0.1' value='" + (b.width || 4.5) + "' aria-label='Room width' required><input type='number' id='briefLength' min='1' max='100' step='0.1' value='" + (b.length || 4) + "' aria-label='Room length' required></div></div><label>Budget band<select id='briefBudget'>" + ['Under ₹75,000','₹75,000 – ₹1.5L','₹1.5L – ₹3L','₹3L – ₹6L','₹6L+','Just exploring'].map(function(x){return "<option " + ((b.budget||'Just exploring')===x?'selected':'') + ">" + x + "</option>";}).join('') + "</select></label><div><label>Choose a style</label><div class='studio-style-grid'>" + choices + "</div></div><label>Must-keep items<textarea id='briefKeep' placeholder='e.g. keep my existing sofa and wooden floor'>" + esc(b.keep || '') + "</textarea></label><label>Optional room photo<input id='briefPhoto' type='file' accept='image/png,image/jpeg,image/webp'></label><small id='photoStatus' class='route-status'>" + (window.vercelUploadedData?'Photo selected in this browser.':'Photo stays in your browser in this static demo.') + "</small><button class='btn btn-primary' type='submit'>Create concept preview ✦</button></form></aside><div class='route-panel'><div class='route-section-head'><div><span class='route-kicker'>DESIGN CANVAS</span><h2 style='font:400 28px var(--serif);margin:7px 0 5px;'>A first look at your space</h2><p style='margin:0;'>A style illustration to help you explore the direction.</p></div><span class='tiny-badge'>DEMO PREVIEW</span></div><div class='studio-stage' id='studioStage'>" + svgScene(b.key || 'warm',false) + "</div><div class='route-section'><h3>What happens next?</h3><div class='route-list-row'><div><strong>01 · Create a concept</strong><p>Generate a style preview and check the assumptions in your brief.</p></div></div><div class='route-list-row'><div><strong>02 · Compare alternatives</strong><p>Switch between visual directions before you save an idea.</p></div></div><div class='route-list-row'><div><strong>03 · Save or export</strong><p>Keep a project locally or export a text brief for later.</p></div></div></div></div></div>";
+    return pageShell('studio','Studio',body);
+  }
+  function renderStudioResults() {
+    const b = window.vercelBrief;
+    const opts = window.vercelOptions || [];
+    const concept = opts[window.vercelSelectedConcept] || opts[0] || {name:b.style,key:b.key,desc:styleDesc[b.key]||''};
+    const optionsHtml = opts.map(function(o,i){return "<button class='studio-concept " + (i===window.vercelSelectedConcept?'active':'') + "' data-action='studio-select' data-index='" + i + "'>" + svgScene(o.key,true) + "<strong>" + esc(o.name) + "</strong></button>";}).join('');
+    const comparison = window.vercelCompare ? "<div class='route-two-col route-section'><div class='route-panel'><h3>Selected direction</h3>" + svgScene(concept.key,true) + "<p>" + esc(concept.name) + "</p></div><div class='route-panel'><h3>Alternative direction</h3>" + svgScene(opts[(window.vercelSelectedConcept+1)%opts.length].key,true) + "<p>" + esc(opts[(window.vercelSelectedConcept+1)%opts.length].name) + "</p></div></div>" : '';
+    const body = pageHeader('Concept options',esc(b.name),'Choose a direction, compare its mood, then save or export your brief.',"<button class='btn btn-plain btn-small' data-action='studio-edit'>Edit brief</button>") +
+      "<div class='studio-topline'><div><strong>" + esc(b.room) + " · " + b.width + " × " + b.length + " m</strong><small>" + (b.width*b.length).toFixed(1) + " m² approximate · Budget " + esc(b.budget) + "</small></div><span class='tiny-badge'>ILLUSTRATIVE CONCEPTS</span></div><div class='route-panel'><div class='route-section-head'><div><span class='route-kicker'>CURRENT SELECTION</span><h2 style='font:400 28px var(--serif);margin:6px 0;'>" + esc(concept.name) + "</h2><p style='margin:0;'>" + esc(concept.desc) + "</p></div><button class='btn btn-plain btn-small' data-action='studio-compare'>⇄ " + (window.vercelCompare?'Hide comparison':'Compare versions') + "</button></div><div class='studio-stage'>" + svgScene(concept.key,false) + "</div><div class='studio-concepts'>" + optionsHtml + "</div>" + comparison + "<p class='route-status'>Preview only: these are sample illustrations, not AI output based on the uploaded photo. Photos and drafts remain in this browser; no image is sent to a server.</p><div class='home-route-cta'><button class='btn btn-primary' data-action='studio-save'>Save to projects ♡</button><button class='btn btn-plain' data-action='studio-export'>Export brief ↓</button><button class='btn btn-plain' data-action='studio-edit'>Edit brief</button></div></div>";
+    return pageShell('studio','Studio',body);
+  }
+  function renderProjectsPage() {
+    const cards = savedProjects.map(function(p) {
+      return "<article class='route-card' data-filter-card data-search-text='" + esc((p.name+' '+p.room+' '+p.style).toLowerCase()) + "'>" + sceneThumb(p.key || 'warm') + "<div class='route-card-body'><span class='route-kicker'>SAVED PROJECT</span><h3>" + esc(p.name) + "</h3><p>" + esc(p.room || 'Room concept') + " · " + esc(p.style || 'Unstyled') + "</p><div class='route-card-foot'><small>" + esc(p.dims || 'Dimensions not set') + "</small><a class='text-button' href='#/project/" + encodeURIComponent(p.name) + "'>Open project ↗</a></div></div></article>";
+    }).join('');
+    return pageShell('projects','Projects',pageHeader('Your design library','All your ideas, in one place.','Open a saved project, review its brief, or continue designing. Saved drafts in this version stay in this browser.',"<a class='btn btn-primary' href='#/studio'>+ New project</a>") +
+      "<div class='route-stat-grid'><div class='route-stat'><small>Saved projects</small><strong>" + savedProjects.length + "</strong><span>Stored in this browser</span></div><div class='route-stat'><small>Start fresh</small><strong>01</strong><span>One brief to get moving</span></div><div class='route-stat'><small>Next step</small><strong>Save</strong><span>Compare before deciding</span></div></div><div class='route-toolbar'><input class='route-search' id='projectSearch' type='search' placeholder='Search your projects…' aria-label='Search projects'></div>" +
+      (cards ? "<div class='route-cards'>" + cards + "</div>" : "<div class='route-empty'><h3>Your library is ready.</h3><p>Create your first room concept to see it here.</p><a class='btn btn-primary' href='#/studio'>Start a project ↗</a></div>"));
+  }
+  function renderProjectDetail(name) {
+    const p = savedProjects.find(function(item){return item.name===name;}) || (name==='Quiet bedroom' ? {name:'Quiet bedroom',room:'Bedroom',style:'Japandi',dims:'Idea board',budget:'Just exploring',key:'japandi',sample:true} : null);
+    if (!p) return pageShell('projects','Project not found',pageHeader('Your project library','We couldn’t find that project.','It may have been deleted or may not exist in this browser.',"<a class='btn btn-primary' href='#/projects'>Back to projects</a>") + "<div class='route-empty'><h3>No project at this address.</h3><p>Return to your project library or create a new room concept.</p><a class='btn btn-plain' href='#/studio'>Open studio</a></div>");
+    return pageShell('project','Project details',pageHeader('Saved room concept',esc(p.name),'Review the selected style and brief assumptions, then continue designing or manage this saved draft.',"<a class='btn btn-plain btn-small' href='#/projects'>← All projects</a>") +
+      "<div class='detail-banner'><div class='detail-banner-visual'>" + svgScene(p.key||'warm',false) + "</div><div class='detail-banner-copy'><span class='route-kicker'>" + (p.sample?'INSPIRATION REFERENCE':'SAVED PROJECT') + "</span><h2>" + esc(p.name) + "</h2><p>" + esc(p.style||'Interior idea') + " — " + esc(styleDesc[p.key]||'A direction to explore') + "</p><div class='detail-facts'><div class='detail-fact'><small>Room</small><strong>" + esc(p.room||'Not specified') + "</strong></div><div class='detail-fact'><small>Dimensions</small><strong>" + esc(p.dims||'Not specified') + "</strong></div><div class='detail-fact'><small>Planning budget</small><strong>" + esc(p.budget||'Not specified') + "</strong></div><div class='detail-fact'><small>Data status</small><strong>Browser saved</strong></div></div><div class='home-route-cta'><button class='btn btn-primary' data-action='continue-project' data-project='" + esc(p.name) + "'>Continue in studio ↗</button>" + (p.sample?'':"<button class='btn btn-plain' data-action='rename-project' data-project='" + esc(p.name) + "'>Rename</button><button class='btn btn-plain' data-action='delete-project' data-project='" + esc(p.name) + "'>Delete</button>") + "</div></div></div><div class='route-section route-two-col'><div class='route-panel'><h3>Design notes</h3><p>This concept is a starting point for discussion. Check dimensions, access, light, furniture clearances and local prices before buying or renovating.</p></div><div class='route-panel'><h3>Keep moving</h3><p>Try a different material palette or create a second concept without losing your first saved direction.</p><a class='btn btn-plain btn-small' href='#/explore'>Explore other styles ↗</a></div></div>");
+  }
+  function renderCommunity() {
+    const ideas = [
+      {title:'The calm corner',desc:'Turn a small corner into a quiet place to read or reset.',key:'japandi',tag:'Small-space ideas'},
+      {title:'Make rental-friendly changes',desc:'Try lighting, textiles and removable details before structural changes.',key:'minimal',tag:'Rental homes'},
+      {title:'A warmer welcome',desc:'Explore colour, timber and lighting that make an entry feel inviting.',key:'warm',tag:'Everyday living'}
+    ];
+    return pageShell('community','Community',pageHeader('Ideas from the design desk','Small ideas, better spaces.','Explore sample design prompts and save one to your project workflow. Community posts here are curated demo content, not live user submissions.',"<a class='btn btn-primary' href='#/studio'>Create your own ↗</a>") +
+      "<div class='route-cards'>" + ideas.map(function(i,n){return "<article class='route-card'>" + sceneThumb(i.key) + "<div class='route-card-body'><span class='route-kicker'>" + i.tag + "</span><h3>" + i.title + "</h3><p>" + i.desc + "</p><div class='route-card-foot'><small>Design prompt " + (n+1) + "</small><button class='text-button' data-action='save-prompt' data-prompt='" + n + "'>Save prompt ♡</button></div></div></article>";}).join('') + "</div><div class='route-section route-panel'><h3>Share a little inspiration</h3><p>Community publishing and comments will need a hosted backend and moderation tools before public launch.</p><a class='btn btn-plain' href='#/support'>Send feedback ↗</a></div>");
+  }
+  function renderPricing() {
+    const plans = [
+      {name:'Starter',price:'Free',desc:'Try the workflow and organize your first concepts.',points:['Room brief and style selection','Sample concept previews','Browser-based project saving'],featured:false},
+      {name:'Creator',price:'Planned',desc:'For frequent room iteration and richer exports.',points:['Future AI image generation','Higher-resolution exports','Expanded material library'],featured:true},
+      {name:'Studio',price:'Planned',desc:'For teams, designers and client review.',points:['Future shared workspaces','Comments and review links','Advanced project history'],featured:false}
+    ];
+    return pageShell('pricing','Pricing',pageHeader('Transparent by design','Start free. Upgrade only when it helps.','This version is a free prototype. Paid plans and checkout are not active, and no payment will be taken from this page.',"<a class='btn btn-primary' href='#/studio'>Try the free studio ↗</a>") +
+      "<div class='plan-grid'>" + plans.map(function(p){return "<article class='plan-card " + (p.featured?'featured':'') + "'><span class='route-kicker'>" + (p.featured?'FUTURE PLAN':'LOOMA PLAN') + "</span><h3>" + p.name + "</h3><p>" + p.desc + "</p><div class='plan-price'>" + p.price + "</div><div class='plan-list'>" + p.points.map(function(x){return "<span>✓ " + x + "</span>";}).join('') + "</div><a class='btn " + (p.featured?'btn-primary':'btn-plain') + "' href='#/studio'>" + (p.featured?'Explore the demo':'Get started') + " ↗</a></article>";}).join('') + "</div><div class='route-section route-panel'><h3>No hidden checkout</h3><p>The live subscription system is not connected. These plan descriptions communicate a possible roadmap only, rather than promising currently enabled features.</p></div>");
+  }
+  function renderAccount() {
+    let profile = {}; try { profile = JSON.parse(localStorage.getItem('looma-profile') || '{}') || {}; } catch (_) {}
+    return pageShell('account','Account',pageHeader('Your personal workspace','Your Looma profile.','This static deployment stores a display name locally in this browser only. It does not create a secure online account.',"<a class='btn btn-plain btn-small' href='#/projects'>View projects</a>") +
+      "<div class='route-two-col'><div class='route-panel'><h3>" + (profile.name?'Welcome back, '+esc(profile.name):'Set up a demo profile') + "</h3><p>Use this local profile to personalize the preview. For production sign-in, connect an authentication provider before collecting real credentials.</p><form id='accountForm' class='route-form'><label>Display name<input id='profileName' maxlength='60' value='" + esc(profile.name||'') + "' placeholder='Your name' required></label><label>Email for display only<input id='profileEmail' type='email' value='" + esc(profile.email||'') + "' placeholder='you@example.com'></label><button class='btn btn-primary' type='submit'>Save local profile</button><p id='accountStatus' class='route-status' role='status'></p></form><button class='btn btn-plain btn-small' style='margin-top:10px;' data-action='account-logout'>Clear local profile</button></div><div class='route-panel'><h3>Workspace settings</h3><div class='route-row'><div><strong>Project storage</strong><p>Saved on this browser using local storage.</p></div><span class='tiny-badge'>LOCAL</span></div><div class='route-row'><div><strong>AI image generation</strong><p>Sample illustrations only. No API calls are made by this page.</p></div><span class='tiny-badge'>DEMO</span></div><div class='route-row'><div><strong>Security</strong><p>Do not store passwords or secret keys in this demo profile.</p></div></div></div></div>");
+  }
+  function renderSupport() {
+    const faqs = [
+      ['Are these concepts generated by AI?','Not in this static deployment. The room images are sample illustrations. A live image-generation endpoint can be added later using a server-side API key.'],
+      ['Will my projects sync across devices?','No. Project drafts are saved in this browser. Multi-device sync requires a hosted database and user authentication.'],
+      ['Can I rely on the suggested cost?','No. The budget is a planning band supplied by you, not a quote. Confirm materials, site conditions, dimensions and labour with local professionals.'],
+      ['Can I build an editable 3D floor plan here?','The current canvas is a visual concept preview, not a full 2D/3D floor-plan editor. That needs a dedicated editor engine.']
+    ];
+    return pageShell('support','Support',pageHeader('Help when you need it','Let’s make the next step clear.','Browse common questions or prepare feedback. This static site does not send support messages to a remote team yet.',"<a class='btn btn-plain btn-small' href='#/studio'>Back to studio</a>") +
+      "<div class='route-two-col'><div class='route-panel'><h3>Frequently asked questions</h3>" + faqs.map(function(f,i){return "<div class='faq-item'><button type='button' data-action='faq-toggle' data-faq='" + i + "'>" + f[0] + "<span>+</span></button><div class='faq-answer'>" + f[1] + "</div></div>";}).join('') + "</div><div class='route-panel'><h3>Send feedback</h3><p>The message can be prepared here, but it cannot be delivered until a support service is connected.</p><form class='route-form' id='supportForm'><label>Your email<input type='email' id='supportEmail' placeholder='you@example.com' required></label><label>What do you need help with?<select id='supportTopic'><option>Website feedback</option><option>Design workspace</option><option>Projects and saving</option><option>Accessibility</option><option>Other</option></select></label><label>Message<textarea id='supportMessage' placeholder='Describe the issue or idea…' required></textarea></label><button class='btn btn-primary' type='submit'>Save feedback draft</button><p class='route-status' id='supportStatus' role='status'></p></form></div></div>");
+  }
+  function renderRoute() {
+    const rawHash = location.hash || '#/home';
+    if (!rawHash.startsWith('#/')) {
+      routeView.hidden = true; homeMain.hidden = false;
+      return;
+    }
+    const raw = rawHash.slice(2);
+    const parts = raw.split('?')[0].split('/');
+    const route = parts[0] || 'home';
+    const projectName = parts.length > 1 ? decodeURIComponent(parts.slice(1).join('/')) : '';
+    if (route === 'home') {
+      routeView.hidden = true; homeMain.hidden = false;
+      window.scrollTo(0,0);
+      return;
+    }
+    homeMain.hidden = true;
+    routeView.hidden = false;
+    routeView.innerHTML = route === 'explore' ? renderExplore()
+      : route === 'templates' ? renderTemplates()
+      : route === 'studio' ? renderStudio()
+      : route === 'projects' ? renderProjectsPage()
+      : route === 'project' ? renderProjectDetail(projectName)
+      : route === 'community' ? renderCommunity()
+      : route === 'pricing' ? renderPricing()
+      : route === 'account' ? renderAccount()
+      : route === 'support' ? renderSupport()
+      : pageShell('home','Page not found',pageHeader('Looma','That page isn’t here.','Choose a section from the navigation to continue.',"<a class='btn btn-primary' href='#/home'>Return home</a>"));
+    document.querySelectorAll('[data-nav-route]').forEach(function(a){a.style.color=a.dataset.navRoute===route?'var(--ink)':'';a.style.fontWeight=a.dataset.navRoute===route?'750':'';});
+    window.scrollTo(0,0);
+    if (route === 'explore') filterRouteCards('styleSearch','styleCategory');
+    if (route === 'templates') filterRouteCards('templateSearch');
+    if (route === 'projects') filterRouteCards('projectSearch');
+  }
+  function filterRouteCards(searchId, categoryId) {
+    const search = document.getElementById(searchId);
+    const category = categoryId ? document.getElementById(categoryId) : null;
+    function apply() {
+      const q = search ? search.value.toLowerCase().trim() : '';
+      const cat = category ? category.value : 'all';
+      routeView.querySelectorAll('[data-filter-card]').forEach(function(card) {
+        const matchText = (card.dataset.searchText || '').includes(q);
+        const matchCat = cat === 'all' || (card.dataset.searchText || '').includes(cat.toLowerCase());
+        card.hidden = !(matchText && matchCat);
+      });
+    }
+    if (search) search.addEventListener('input',apply);
+    if (category) category.addEventListener('change',apply);
+    apply();
+  }
+  function useStyle(styleName, key) {
+    const style = routeStyles.find(function(s){return s.name===styleName;}) || routeStyles[2];
+    selectedStyle = style.name; selectedStyleKey = key || style.key;
+    window.studioPrefill = Object.assign({}, getBriefDefaults(), {style:selectedStyle,key:selectedStyleKey});
+    window.vercelGenerated = false;
+    location.hash = '#/studio';
+    if (location.hash === '#/studio') renderRoute();
+  }
+  function useTemplate(index) {
+    const t = routeTemplates[Number(index)]; if (!t) return;
+    selectedStyle=t.style; selectedStyleKey=t.key;
+    window.studioPrefill = {name:t.name,room:t.room,style:t.style,key:t.key,width:t.width,length:t.length,budget:t.budget,keep:''};
+    window.vercelBrief = null; window.vercelGenerated = false;
+    location.hash = '#/studio';
+    if (location.hash === '#/studio') renderRoute();
+  }
+  function persistProject(p) {
+    const existing = savedProjects.findIndex(function(x){return x.name===p.name;});
+    if (existing >= 0) savedProjects[existing] = Object.assign({},savedProjects[existing],p);
+    else savedProjects.unshift(p);
+    try { localStorage.setItem('looma-projects',JSON.stringify(savedProjects)); } catch (_) {}
+    setSavedCount(); renderProjects();
+  }
+  function exportRouteBrief() {
+    const b=window.vercelBrief; const opt=window.vercelOptions[window.vercelSelectedConcept] || {name:b.style,desc:''};
+    const output=['LOOMA INTERIOR DESIGN BRIEF','','Project: '+b.name,'Room: '+b.room,'Dimensions: '+b.width+' × '+b.length+' m (approx.)','Area: '+(b.width*b.length).toFixed(1)+' m²','Budget band: '+b.budget,'Selected style: '+opt.name,'Style notes: '+opt.desc,'Must keep: '+(b.keep||'Not specified'),'','Concept preview only. Verify dimensions, local prices and feasibility with qualified professionals.'].join('\n');
+    const url=URL.createObjectURL(new Blob([output],{type:'text/plain;charset=utf-8'}));
+    const a=document.createElement('a');a.href=url;a.download=(b.name.toLowerCase().replace(/[^a-z0-9]+/g,'-').replace(/^-|-$/g,'')||'looma')+'-brief.txt';document.body.appendChild(a);a.click();a.remove();URL.revokeObjectURL(url);toast('Your design brief was exported.');
+  }
+  routeView.addEventListener('click',function(event) {
+    const target=event.target.closest('[data-action]'); if(!target)return;
+    const action=target.dataset.action;
+    if(action==='use-style') useStyle(target.dataset.style);
+    if(action==='use-template') useTemplate(target.dataset.template);
+    if(action==='studio-style') {
+      selectedStyle=target.dataset.style; selectedStyleKey=target.dataset.key;
+      window.studioPrefill=Object.assign({},getBriefDefaults(),{style:selectedStyle,key:selectedStyleKey});
+      routeView.querySelectorAll('[data-action="studio-style"]').forEach(function(button){button.classList.toggle('active',button===target);});
+      const stage=document.getElementById('studioStage'); if(stage)stage.innerHTML=svgScene(selectedStyleKey,false);
+    }
+    if(action==='studio-select') {window.vercelSelectedConcept=Number(target.dataset.index)||0;window.vercelCompare=false;renderRoute();}
+    if(action==='studio-edit') {window.vercelGenerated=false;window.studioPrefill=window.vercelBrief;renderRoute();}
+    if(action==='studio-compare') {window.vercelCompare=!window.vercelCompare;renderRoute();}
+    if(action==='studio-save') {
+      const b=window.vercelBrief;const opt=window.vercelOptions[window.vercelSelectedConcept]||{name:b.style,key:b.key};
+      persistProject({name:b.name,room:b.room,style:opt.name,key:opt.key,dims:b.width+' × '+b.length+' m',budget:b.budget,keep:b.keep||''});
+      toast('Project saved in this browser.');target.textContent='✓ Saved to projects';
+    }
+    if(action==='studio-export') exportRouteBrief();
+    if(action==='continue-project') {
+      const p=savedProjects.find(function(x){return x.name===target.dataset.project;});
+      if(p){window.studioPrefill={name:p.name,room:p.room,width:Number((p.dims||'').split(' ')[0])||4.5,length:4,budget:p.budget,style:p.style,key:p.key||'warm',keep:p.keep||''};selectedStyle=p.style;selectedStyleKey=p.key||'warm';}
+      else {window.studioPrefill={name:target.dataset.project,room:'Bedroom',style:'Japandi',key:'japandi',width:4,length:3.5,budget:'Just exploring',keep:''};}
+      window.vercelBrief=null;window.vercelGenerated=false;location.hash='#/studio';
+    }
+    if(action==='rename-project') {
+      const oldName=target.dataset.project;const next=prompt('Choose a new project name',oldName);
+      if(next&&next.trim()&&next.trim()!==oldName){const p=savedProjects.find(function(x){return x.name===oldName;});if(p){p.name=next.trim();localStorage.setItem('looma-projects',JSON.stringify(savedProjects));location.hash='#/project/'+encodeURIComponent(p.name);}}
+    }
+    if(action==='delete-project') {
+      const name=target.dataset.project;
+      if(confirm('Delete “'+name+'” from this browser?')){savedProjects=savedProjects.filter(function(p){return p.name!==name;});localStorage.setItem('looma-projects',JSON.stringify(savedProjects));setSavedCount();renderProjects();location.hash='#/projects';}
+    }
+    if(action==='save-prompt') {
+      let list=[];try{list=JSON.parse(localStorage.getItem('looma-prompts')||'[]');}catch(_){}
+      const ideas=['The calm corner','Make rental-friendly changes','A warmer welcome'];
+      const promptName=ideas[Number(target.dataset.prompt)]||ideas[0];
+      if(!list.includes(promptName))list.push(promptName);
+      localStorage.setItem('looma-prompts',JSON.stringify(list));target.textContent='✓ Prompt saved';toast('Saved prompt: '+promptName);
+    }
+    if(action==='faq-toggle') target.parentElement.classList.toggle('open');
+    if(action==='account-logout'){localStorage.removeItem('looma-profile');renderRoute();toast('Local profile cleared.');}
+  });
+  routeView.addEventListener('submit',function(event) {
+    if(event.target.id==='roomBriefForm') {
+      event.preventDefault();
+      const width=Number(document.getElementById('briefWidth').value),length=Number(document.getElementById('briefLength').value);
+      if(!Number.isFinite(width)||!Number.isFinite(length)||width<1||length<1||width>100||length>100){toast('Enter room dimensions between 1 and 100 metres.');return;}
+      const name=document.getElementById('briefName').value.trim()||'My room concept';
+      window.vercelBrief={name:name,room:document.getElementById('briefRoom').value,width:width,length:length,budget:document.getElementById('briefBudget').value,style:selectedStyle,key:selectedStyleKey,keep:document.getElementById('briefKeep').value.trim(),photo:window.vercelUploadedData?'Photo selected':''};
+      window.vercelOptions=[
+        {name:selectedStyle,key:selectedStyleKey,desc:styleDesc[selectedStyleKey]||''},
+        {name:'A softer variation',key:selectedStyleKey==='minimal'?'japandi':'minimal',desc:'Lighter materials and more breathing room.'},
+        {name:'A bolder variation',key:selectedStyleKey==='modern'?'coastal':'modern',desc:'More contrast and a stronger focal point.'}
+      ];
+      window.vercelSelectedConcept=0;window.vercelCompare=false;window.vercelGenerated=true;window.studioPrefill=window.vercelBrief;renderRoute();toast('Concept previews created locally.');
+    }
+    if(event.target.id==='accountForm') {
+      event.preventDefault();
+      const profile={name:document.getElementById('profileName').value.trim(),email:document.getElementById('profileEmail').value.trim()};
+      localStorage.setItem('looma-profile',JSON.stringify(profile));
+      document.getElementById('accountStatus').textContent='Local profile saved in this browser. Secure sign-in is not connected.';
+    }
+    if(event.target.id==='supportForm') {
+      event.preventDefault();
+      const draft={email:document.getElementById('supportEmail').value,topic:document.getElementById('supportTopic').value,message:document.getElementById('supportMessage').value,createdAt:new Date().toISOString()};
+      localStorage.setItem('looma-support-draft',JSON.stringify(draft));
+      document.getElementById('supportStatus').textContent='Feedback draft saved in this browser. It has not been sent to a support team.';
+    }
+  });
+  routeView.addEventListener('change',function(event) {
+    if(event.target.id==='briefPhoto') {
+      const file=event.target.files && event.target.files[0]; if(!file)return;
+      if(!/^image\/(png|jpeg|webp)$/.test(file.type)||file.size>8*1024*1024){toast('Choose a JPG, PNG or WEBP image smaller than 8 MB.');event.target.value='';return;}
+      const reader=new FileReader();reader.onload=function(){window.vercelUploadedData=String(reader.result||'');const status=document.getElementById('photoStatus');if(status)status.textContent='Photo selected: '+file.name+' (kept in this browser only).';};reader.readAsDataURL(file);
+    }
+  });
+  renderProjects();setSavedCount();
+  renderRoute();
+  window.addEventListener('hashchange',renderRoute);
+})();
+</script>
 </body>
 </html>
