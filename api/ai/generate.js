@@ -33,6 +33,9 @@ export default async function handler(req, res) {
           image: await toFile(photo.bytes, "room-reference." + (photo.mimeType === "image/jpeg" ? "jpg" : photo.mimeType.split("/")[1]), { type: photo.mimeType }),
           prompt,
           size: "1024x1024",
+          quality: "medium",
+          output_format: "jpeg",
+          output_compression: 80,
           n: 1
         })
       : await client.images.generate({
@@ -43,7 +46,7 @@ export default async function handler(req, res) {
         });
     const output = image.data?.[0]?.b64_json;
     if (!output) return res.status(502).json({ error: "The image provider returned no image. Please retry." });
-    return res.status(200).json({ image: "data:image/png;base64," + output, note: "AI concept image only. It is not measured room geometry." });
+    return res.status(200).json({ image: "data:image/jpeg;base64," + output, note: "AI concept image only. It is not measured room geometry." });
   } catch (error) {
     if (/photo|image format|selected file/i.test(error?.message || "")) return res.status(400).json({ error: error.message });
     return sendApiError(res, error);
