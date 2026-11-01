@@ -342,6 +342,32 @@
   @media (prefers-reduced-motion: reduce) {
     *, *::before, *::after { scroll-behavior:auto !important; animation-duration:.01ms !important; transition-duration:.01ms !important; }
   }
+  .ai-assistant { margin-top:22px; padding-top:22px; border-top:1px solid var(--line); }
+  .ai-assistant-head { display:flex; align-items:flex-start; justify-content:space-between; gap:16px; }
+  .ai-assistant-head h3 { margin:4px 0; font:400 24px var(--serif); }
+  .ai-assistant-head p, .ai-caption { color:var(--muted); font-size:12px; }
+  .ai-colors { display:grid; grid-template-columns:1fr 1fr; gap:12px; }
+  .ai-colors input { width:100%; height:40px; padding:4px; }
+  .ai-status { color:var(--muted); font-size:12px; min-height:22px; margin:10px 0; }
+  .ai-status[data-error="true"] { color:#a54532; }
+  .ai-conversation { display:grid; gap:10px; margin:12px 0; }
+  .ai-message { border-radius:14px; padding:12px 14px; background:var(--surface-2); white-space:pre-wrap; overflow-wrap:anywhere; }
+  .ai-message[data-role="assistant"] { background:color-mix(in srgb,var(--green) 9%,var(--surface)); }
+  .ai-message small { display:block; color:var(--muted); font-size:10px; text-transform:uppercase; letter-spacing:1px; margin-bottom:4px; }
+  .ai-chat-form { display:grid; gap:10px; margin-top:12px; }
+  .ai-chat-form textarea { width:100%; min-height:78px; }
+  .ai-design-card { margin-top:16px; padding:16px; border:1px solid var(--line); border-radius:16px; background:var(--surface); }
+  .ai-design-card h3 { margin:0 0 8px; font:400 21px var(--serif); }
+  .ai-design-card h4 { margin:18px 0 6px; font-size:12px; }
+  .ai-design-card p, .ai-design-card li { font-size:12px; color:var(--muted); }
+  .ai-design-card ul { padding-left:18px; }
+  .ai-palette { display:flex; gap:10px; flex-wrap:wrap; }
+  .ai-swatch { display:flex; align-items:center; gap:7px; font-size:11px; color:var(--muted); }
+  .ai-swatch i { width:24px; height:24px; border:1px solid var(--line); border-radius:50%; }
+  .ai-generated-image { display:block; width:100%; max-height:620px; object-fit:contain; background:var(--surface-2); border-radius:16px; margin-top:16px; }
+  .ai-image-actions { display:flex; gap:10px; flex-wrap:wrap; margin-top:12px; }
+  .ai-actions { display:flex; gap:10px; flex-wrap:wrap; margin-top:14px; }
+  @media (max-width:680px) { .ai-assistant-head { display:block; } .ai-colors { gap:8px; } .ai-generated-image { max-height:420px; } }
 </style>
 </head>
 <body>
@@ -706,13 +732,12 @@
     return window.studioPrefill || window.vercelBrief || {name:'My room concept',room:'Living room',width:4.5,length:4,budget:'₹1.5L – ₹3L',style:selectedStyle,key:selectedStyleKey,keep:''};
   }
   function renderStudio() {
-    if (window.vercelGenerated && window.vercelBrief) return renderStudioResults();
     const b = getBriefDefaults();
     selectedStyle = b.style || selectedStyle;
     selectedStyleKey = b.key || styleMap[selectedStyle] || selectedStyleKey;
     const choices = routeStyles.map(function(s) { return "<button type='button' class='studio-style-choice " + ((b.key || selectedStyleKey)===s.key?'active':'') + "' data-action='studio-style' data-style='" + s.name + "' data-key='" + s.key + "'><i style='background:linear-gradient(90deg," + palettes[s.key].wall + " 0 33%, " + palettes[s.key].sofa + " 33% 66%, " + palettes[s.key].wood + " 66%)'></i>" + s.name + "</button>"; }).join('');
-    const body = pageHeader('Your creative workspace','Let’s design your room.','Set the essentials first. This Vercel-ready demo creates illustrative concepts in your browser; a live AI provider can be connected later.',"<a class='btn btn-plain btn-small' href='#/projects'>My projects</a>") +
-      "<div class='studio-layout'><aside class='studio-panel'><h3>Room brief</h3><p>Start with the details you know. You can change any of these later.</p><form class='studio-form' id='roomBriefForm'><label>Project name<input id='briefName' maxlength='70' value='" + esc(b.name || 'My room concept') + "' required></label><label>Room type<select id='briefRoom'>" + ['Living room','Bedroom','Kitchen','Dining room','Bathroom','Studio apartment','Office'].map(function(x){return "<option " + ((b.room||'Living room')===x?'selected':'') + ">" + x + "</option>";}).join('') + "</select></label><div><label>Dimensions in metres</label><div class='studio-dimensions'><input type='number' id='briefWidth' min='1' max='100' step='0.1' value='" + (b.width || 4.5) + "' aria-label='Room width' required><input type='number' id='briefLength' min='1' max='100' step='0.1' value='" + (b.length || 4) + "' aria-label='Room length' required></div></div><label>Budget band<select id='briefBudget'>" + ['Under ₹75,000','₹75,000 – ₹1.5L','₹1.5L – ₹3L','₹3L – ₹6L','₹6L+','Just exploring'].map(function(x){return "<option " + ((b.budget||'Just exploring')===x?'selected':'') + ">" + x + "</option>";}).join('') + "</select></label><div><label>Choose a style</label><div class='studio-style-grid'>" + choices + "</div></div><label>Must-keep items<textarea id='briefKeep' placeholder='e.g. keep my existing sofa and wooden floor'>" + esc(b.keep || '') + "</textarea></label><label>Optional room photo<input id='briefPhoto' type='file' accept='image/png,image/jpeg,image/webp'></label><small id='photoStatus' class='route-status'>" + (window.vercelUploadedData?'Photo selected in this browser.':'Photo stays in your browser in this static demo.') + "</small><button class='btn btn-primary' type='submit'>Create concept preview ✦</button></form></aside><div class='route-panel'><div class='route-section-head'><div><span class='route-kicker'>DESIGN CANVAS</span><h2 style='font:400 28px var(--serif);margin:7px 0 5px;'>A first look at your space</h2><p style='margin:0;'>A style illustration to help you explore the direction.</p></div><span class='tiny-badge'>DEMO PREVIEW</span></div><div class='studio-stage' id='studioStage'>" + svgScene(b.key || 'warm',false) + "</div><div class='route-section'><h3>What happens next?</h3><div class='route-list-row'><div><strong>01 · Create a concept</strong><p>Generate a style preview and check the assumptions in your brief.</p></div></div><div class='route-list-row'><div><strong>02 · Compare alternatives</strong><p>Switch between visual directions before you save an idea.</p></div></div><div class='route-list-row'><div><strong>03 · Save or export</strong><p>Keep a project locally or export a text brief for later.</p></div></div></div></div></div>";
+    const body = pageHeader('Your creative workspace','Let’s design your room.','Set the essentials first. Looma uses these details only when you request an AI design.',"<a class='btn btn-plain btn-small' href='#/projects'>My projects</a>") +
+      "<div class='studio-layout'><aside class='studio-panel'><h3>Room brief</h3><p>Start with the details you know. You can change any of these later.</p><form class='studio-form' id='roomBriefForm'><label>Project name<input id='briefName' maxlength='70' value='" + esc(b.name || 'My room concept') + "' required></label><label>Room type<select id='briefRoom'>" + ['Living room','Bedroom','Kitchen','Dining room','Bathroom','Studio apartment','Office'].map(function(x){return "<option " + ((b.room||'Living room')===x?'selected':'') + ">" + x + "</option>";}).join('') + "</select></label><div><label>Dimensions in metres</label><div class='studio-dimensions'><input type='number' id='briefWidth' min='1' max='100' step='0.1' value='" + (b.width || 4.5) + "' aria-label='Room width' required><input type='number' id='briefLength' min='1' max='100' step='0.1' value='" + (b.length || 4) + "' aria-label='Room length' required></div></div><label>Budget band<select id='briefBudget'>" + ['Under ₹75,000','₹75,000 – ₹1.5L','₹1.5L – ₹3L','₹3L – ₹6L','₹6L+','Just exploring'].map(function(x){return "<option " + ((b.budget||'Just exploring')===x?'selected':'') + ">" + x + "</option>";}).join('') + "</select></label><div><label>Choose a style</label><div class='studio-style-grid'>" + choices + "</div></div><div><label>Two preferred colors</label><div class='ai-colors'><label>Color one<input id='briefColorOne' type='color' value='" + esc(b.colorOne || '#d9c7ae') + "'></label><label>Color two<input id='briefColorTwo' type='color' value='" + esc(b.colorTwo || '#56705d') + "'></label></div></div><label>Must-keep items<textarea id='briefKeep' placeholder='e.g. keep my existing sofa and wooden floor'>" + esc(b.keep || '') + "</textarea></label><label>Optional room photo<input id='briefPhoto' type='file' accept='image/png,image/jpeg,image/webp'></label><small id='photoStatus' class='route-status'>" + (window.vercelUploadedData?'Photo selected. It will be sent only with your design request.':'Photo stays in your browser until you request an AI design.') + "</small><button class='btn btn-primary' id='aiBriefSubmit' type='submit'>Ask Looma for design ideas ✦</button></form></aside><div class='route-panel'><div class='route-section-head'><div><span class='route-kicker'>DESIGN CANVAS</span><h2 style='font:400 28px var(--serif);margin:7px 0 5px;'>Your room, thoughtfully reimagined</h2><p style='margin:0;'>Ask for room analysis and a structured design specification.</p></div><span class='tiny-badge'>AI DESIGNER</span></div><div class='studio-stage' id='studioStage'><p class='ai-caption'>Your design response will appear here after you submit the room brief.</p></div><section class='ai-assistant' aria-label='Looma AI designer'><div class='ai-assistant-head'><div><span class='route-kicker'>LOOMA AI DESIGNER</span><h3>Let’s make a plan that fits.</h3><p>Photos are sent for visual analysis only when you ask for a design. Exact measurements are never inferred from a photo.</p></div><span class='tiny-badge'>RESPONSES API</span></div><div class='ai-status' id='aiStatus' role='status' aria-live='polite'>No AI response yet.</div><div class='ai-conversation' id='aiConversation' role='log' aria-live='polite'></div><div id='aiDesignOutput'></div><form class='ai-chat-form' id='aiChatForm'><label for='aiFollowup'>Ask a follow-up question</label><textarea id='aiFollowup' maxlength='2000' placeholder='For example: how can we keep the existing sofa and add more storage?'></textarea><button class='btn btn-plain' type='submit'>Ask Looma ↗</button></form><div class='ai-actions'><button class='btn btn-primary' type='button' data-action='ai-generate-image'>Generate a room concept image ✦</button><button class='btn btn-plain' type='button' data-action='studio-save'>Save design to projects ♡</button></div><p class='ai-caption'>Generated images are visual concepts, not measured 3D geometry. Design specifications save in this browser; remote image storage is not connected yet.</p></section></div></div>";
     return pageShell('studio','Studio',body);
   }
   function renderStudioResults() {
@@ -853,6 +878,9 @@
   routeView.addEventListener('click',function(event) {
     const target=event.target.closest('[data-action]'); if(!target)return;
     const action=target.dataset.action;
+    if(action==='ai-retry') sendAiMessage(window.loomaAiLastPrompt,true);
+    if(action==='ai-generate-image') generateAiImage();
+
     if(action==='use-style') useStyle(target.dataset.style);
     if(action==='use-template') useTemplate(target.dataset.template);
     if(action==='studio-style') {
@@ -865,8 +893,8 @@
     if(action==='studio-edit') {window.vercelGenerated=false;window.studioPrefill=window.vercelBrief;renderRoute();}
     if(action==='studio-compare') {window.vercelCompare=!window.vercelCompare;renderRoute();}
     if(action==='studio-save') {
-      const b=window.vercelBrief;const opt=window.vercelOptions[window.vercelSelectedConcept]||{name:b.style,key:b.key};
-      persistProject({name:b.name,room:b.room,style:opt.name,key:opt.key,dims:b.width+' × '+b.length+' m',budget:b.budget,keep:b.keep||''});
+      const b=window.vercelBrief;if(!b){toast('Submit a room brief before saving a design.');return;}const opt=window.vercelOptions[window.vercelSelectedConcept]||{name:b.style,key:b.key};
+      persistProject({name:b.name,room:b.room,style:opt.name||b.style,key:opt.key||b.key,dims:b.width+' × '+b.length+' m',budget:b.budget,keep:b.keep||'',design:window.loomaAiDesign?window.loomaAiDesign.design:undefined});
       toast('Project saved in this browser.');target.textContent='✓ Saved to projects';
     }
     if(action==='studio-export') exportRouteBrief();
@@ -894,19 +922,189 @@
     if(action==='faq-toggle') target.parentElement.classList.toggle('open');
     if(action==='account-logout'){localStorage.removeItem('looma-profile');renderRoute();toast('Local profile cleared.');}
   });
+  function resetAiConversationForBrief(brief) {
+    const key = String(brief.name || '').trim().toLowerCase();
+    if (window.loomaAiConversationKey !== key) {
+      window.loomaAiConversationKey = key;
+      window.loomaAiMessages = [];
+      window.loomaAiDesign = null;
+      window.loomaAiLastPrompt = '';
+    }
+  }
+  function renderAiConversation() {
+    const log = document.getElementById('aiConversation');
+    if (!log) return;
+    log.replaceChildren();
+    (window.loomaAiMessages || []).forEach(function(message) {
+      const item = document.createElement('div');
+      item.className = 'ai-message';
+      item.dataset.role = message.role;
+      const label = document.createElement('small');
+      label.textContent = message.role === 'assistant' ? 'Looma' : 'You';
+      const copy = document.createElement('div');
+      copy.textContent = message.content;
+      item.append(label, copy);
+      log.appendChild(item);
+    });
+  }
+  function renderAiDesign(design) {
+    const host = document.getElementById('aiDesignOutput');
+    const stage = document.getElementById('studioStage');
+    if (!host || !design) return;
+    const colors = design.colorPalette || {};
+    const swatch = function(name, value) {
+      const color = /^#[0-9a-f]{6}$/i.test(value || '') ? value : '#dddddd';
+      return "<span class='ai-swatch'><i style='background:" + color + "'></i>" + esc(name) + " " + esc(color) + "</span>";
+    };
+    const list = function(items) {
+      return Array.isArray(items) && items.length ? "<ul>" + items.slice(0,12).map(function(item){return "<li>" + esc(typeof item === 'string' ? item : Object.values(item).join(' · ')) + "</li>";}).join('') + "</ul>" : "<p>No specific recommendations yet.</p>";
+    };
+    const materials = (design.materials || []).slice(0,10).map(function(item){return "<li><strong>" + esc(item.name) + "</strong> · " + esc(item.category) + " — " + esc(item.reason) + "</li>";});
+    const furniture = (design.furnitureSuggestions || []).slice(0,10).map(function(item){return "<li><strong>" + esc(item.name) + "</strong> · " + esc(item.category) + "<br>" + esc(item.suggestedPosition) + "<br><small>" + esc(item.sizeGuidance) + "</small></li>";});
+    host.innerHTML = "<article class='ai-design-card'><span class='route-kicker'>" + esc(design.roomType) + " · " + esc(design.designStyle) + "</span><h3>" + esc(design.designSummary) + "</h3><h4>Color palette</h4><div class='ai-palette'>" + swatch('Primary',colors.primary) + swatch('Secondary',colors.secondary) + swatch('Accent',colors.accent) + "</div><h4>Materials</h4>" + (materials.length ? "<ul>" + materials.join('') + "</ul>" : "<p>No material recommendations yet.</p>") + "<h4>Furniture ideas</h4>" + (furniture.length ? "<ul>" + furniture.join('') + "</ul>" : "<p>No furniture recommendations yet.</p>") + "<h4>Lighting</h4>" + list(design.lightingSuggestions) + "<h4>Design recommendations</h4>" + list(design.designRecommendations) + (design.missingInformation?.length ? "<h4>Still to confirm</h4>" + list(design.missingInformation) : "") + (design.confidenceNotes?.length ? "<h4>Visual confidence</h4>" + list(design.confidenceNotes) : "") + "<p class='ai-caption'>Positions are descriptive suggestions, not measured coordinates. Verify room dimensions and clearances before purchasing.</p></article>";
+    if (stage) stage.innerHTML = "<p class='ai-caption'>Design specification ready. The structured recommendations are shown below.</p>";
+  }
+  function setAiStatus(message, isError) {
+    const status = document.getElementById('aiStatus');
+    if (!status) return;
+    status.dataset.error = isError ? 'true' : 'false';
+    status.textContent = message;
+  }
+  async function sendAiMessage(text, retry) {
+    const brief = window.vercelBrief;
+    if (!brief) { setAiStatus('Enter and submit your room brief before asking Looma a follow-up.', true); return; }
+    const prompt = String(text || '').trim();
+    if (!prompt) { setAiStatus('Write a question or request first.', true); return; }
+    resetAiConversationForBrief(brief);
+    if (!retry) {
+      window.loomaAiMessages.push({role:'user',content:prompt});
+      if (window.loomaAiMessages.length > 11) window.loomaAiMessages = window.loomaAiMessages.slice(-10);
+      window.loomaAiLastPrompt = prompt;
+    }
+    const briefButton = document.getElementById('aiBriefSubmit');
+    const chatButton = document.querySelector('#aiChatForm button[type="submit"]');
+    if (briefButton) briefButton.disabled = true;
+    if (chatButton) chatButton.disabled = true;
+    renderAiConversation();
+    setAiStatus('Looma is reviewing your brief' + (window.vercelUploadedData ? ' and room photo' : '') + '…', false);
+    try {
+      const response = await fetch('/api/ai/chat', {
+        method:'POST',
+        headers:{'Content-Type':'application/json'},
+        body:JSON.stringify({
+          brief: {
+            name:brief.name, room:brief.room, width:brief.width, length:brief.length,
+            budget:brief.budget, style:brief.style, keep:brief.keep,
+            colorOne:brief.colorOne, colorTwo:brief.colorTwo
+          },
+          messages:window.loomaAiMessages.slice(-12),
+          photo:window.vercelUploadedData || null
+        })
+      });
+      const data = await response.json().catch(function(){return {};});
+      if (!response.ok) throw new Error(data.error || 'Looma could not complete that request. Please retry.');
+      if (typeof data.message !== 'string' || !data.design || typeof data.design !== 'object') throw new Error('Looma returned an incomplete response. Please retry.');
+      window.loomaAiMessages.push({role:'assistant',content:data.message});
+      window.loomaAiDesign = data.design;
+      renderAiConversation();
+      renderAiDesign(data.design);
+      setAiStatus('Design updated from your room brief.', false);
+    } catch (error) {
+      const status = document.getElementById('aiStatus');
+      setAiStatus(error.message || 'Looma could not complete that request. Please retry.', true);
+      if (status) {
+        const retryButton = document.createElement('button');
+        retryButton.type = 'button';
+        retryButton.className = 'text-button';
+        retryButton.dataset.action = 'ai-retry';
+        retryButton.textContent = 'Retry';
+        status.append(' ', retryButton);
+      }
+    } finally {
+      if (briefButton) briefButton.disabled = false;
+      if (chatButton) chatButton.disabled = false;
+    }
+  }
+  async function generateAiImage() {
+    const brief = window.vercelBrief;
+    if (!brief) { setAiStatus('Create a room design first, then generate its image.', true); return; }
+    const generateButton = document.querySelector('[data-action="ai-generate-image"]');
+    if (generateButton) generateButton.disabled = true;
+    const stage = document.getElementById('studioStage');
+    setAiStatus('Creating a visual concept… this can take a little while.', false);
+    const prompt = [
+      'Room: ' + brief.room + '; user-entered size ' + brief.width + ' by ' + brief.length + ' metres.',
+      'Style: ' + brief.style + '. Budget: ' + brief.budget + '.',
+      'Preferred colors: ' + (brief.colorOne || 'not specified') + ' and ' + (brief.colorTwo || 'not specified') + '.',
+      'Must keep: ' + (brief.keep || 'not specified') + '.',
+      window.loomaAiDesign?.design?.designSummary || '',
+      (window.loomaAiDesign?.design?.designRecommendations || []).join(' '),
+      'Make a photorealistic interior concept with realistic circulation. Do not add text or claim dimensional accuracy.'
+    ].filter(Boolean).join(' ').slice(0,2000);
+    try {
+      const response = await fetch('/api/ai/generate', {
+        method:'POST', headers:{'Content-Type':'application/json'},
+        body:JSON.stringify({prompt:prompt,photo:window.vercelUploadedData || null})
+      });
+      const data = await response.json().catch(function(){return {};});
+      if (!response.ok) throw new Error(data.error || 'Image generation failed. Please retry.');
+      if (typeof data.image !== 'string' || !data.image.startsWith('data:image/png;base64,')) throw new Error('The image provider returned no usable image.');
+      if (stage) {
+        stage.replaceChildren();
+        const image = document.createElement('img');
+        image.className = 'ai-generated-image';
+        image.alt = 'AI-generated interior concept image; not measured room geometry';
+        image.src = data.image;
+        const note = document.createElement('p');
+        note.className = 'ai-caption';
+        note.textContent = data.note || 'Concept image only; not measured room geometry.';
+        const link = document.createElement('a');
+        link.className = 'btn btn-plain btn-small';
+        link.href = data.image;
+        link.download = (brief.name || 'looma-room').toLowerCase().replace(/[^a-z0-9]+/g,'-') + '-concept.png';
+        link.textContent = 'Download image';
+        const actions = document.createElement('div');
+        actions.className = 'ai-image-actions';
+        actions.appendChild(link);
+        stage.append(image,note,actions);
+      }
+      setAiStatus('Concept image generated. It is available here to preview or download; it has not been saved to cloud storage.', false);
+    } catch (error) {
+      setAiStatus(error.message || 'Image generation failed. Please retry.', true);
+      const status = document.getElementById('aiStatus');
+      if (status) {
+        const retryButton = document.createElement('button');
+        retryButton.type = 'button';
+        retryButton.className = 'text-button';
+        retryButton.dataset.action = 'ai-generate-image';
+        retryButton.textContent = 'Retry image';
+        status.append(' ', retryButton);
+      }
+    } finally {
+      if (generateButton) generateButton.disabled = false;
+    }
+  }
   routeView.addEventListener('submit',function(event) {
     if(event.target.id==='roomBriefForm') {
       event.preventDefault();
       const width=Number(document.getElementById('briefWidth').value),length=Number(document.getElementById('briefLength').value);
       if(!Number.isFinite(width)||!Number.isFinite(length)||width<1||length<1||width>100||length>100){toast('Enter room dimensions between 1 and 100 metres.');return;}
       const name=document.getElementById('briefName').value.trim()||'My room concept';
-      window.vercelBrief={name:name,room:document.getElementById('briefRoom').value,width:width,length:length,budget:document.getElementById('briefBudget').value,style:selectedStyle,key:selectedStyleKey,keep:document.getElementById('briefKeep').value.trim(),photo:window.vercelUploadedData?'Photo selected':''};
-      window.vercelOptions=[
-        {name:selectedStyle,key:selectedStyleKey,desc:styleDesc[selectedStyleKey]||''},
-        {name:'A softer variation',key:selectedStyleKey==='minimal'?'japandi':'minimal',desc:'Lighter materials and more breathing room.'},
-        {name:'A bolder variation',key:selectedStyleKey==='modern'?'coastal':'modern',desc:'More contrast and a stronger focal point.'}
-      ];
-      window.vercelSelectedConcept=0;window.vercelCompare=false;window.vercelGenerated=true;window.studioPrefill=window.vercelBrief;renderRoute();toast('Concept previews created locally.');
+      window.vercelBrief={name:name,room:document.getElementById('briefRoom').value,width:width,length:length,budget:document.getElementById('briefBudget').value,style:selectedStyle,key:selectedStyleKey,keep:document.getElementById('briefKeep').value.trim(),colorOne:document.getElementById('briefColorOne').value,colorTwo:document.getElementById('briefColorTwo').value};
+      window.studioPrefill=window.vercelBrief;
+      resetAiConversationForBrief(window.vercelBrief);
+      const prompt='Please analyze my room photo if provided and create a practical interior design concept for this room. Explain how it fits my room type, selected style, budget and two preferred colors. Tell me what important information is still missing.';
+      sendAiMessage(prompt,false);
+      return;
+    }
+    if(event.target.id==='aiChatForm') {
+      event.preventDefault();
+      const input=document.getElementById('aiFollowup');
+      const question=input.value.trim();
+      if(!question)return;
+      input.value='';
+      sendAiMessage(question,false);
+      return;
     }
     if(event.target.id==='accountForm') {
       event.preventDefault();
@@ -924,7 +1122,7 @@
   routeView.addEventListener('change',function(event) {
     if(event.target.id==='briefPhoto') {
       const file=event.target.files && event.target.files[0]; if(!file)return;
-      if(!/^image\/(png|jpeg|webp)$/.test(file.type)||file.size>8*1024*1024){toast('Choose a JPG, PNG or WEBP image smaller than 8 MB.');event.target.value='';return;}
+      if(!/^image\/(png|jpeg|webp)$/.test(file.type)||file.size>2500000){toast('Choose a JPG, PNG or WEBP image smaller than 2.5 MB.');event.target.value='';return;}
       const reader=new FileReader();reader.onload=function(){window.vercelUploadedData=String(reader.result||'');const status=document.getElementById('photoStatus');if(status)status.textContent='Photo selected: '+file.name+' (kept in this browser only).';};reader.readAsDataURL(file);
     }
   });
