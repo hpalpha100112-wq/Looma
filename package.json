@@ -7,7 +7,7 @@
     "node": ">=22"
   },
   "scripts": {
-    "check": "node --check api/ai/chat.js && node --check api/ai/generate.js && node --check lib/ai.js"
+    "check": "node --check api/ai/chat.js && node --check api/ai/generate.js && node --check lib/ai.js && node --check lib/furniture.js"
   },
   "dependencies": {
     "openai": "^7.47.0"
