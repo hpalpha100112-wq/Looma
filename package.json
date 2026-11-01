@@ -1,0 +1,15 @@
+{
+  "name": "looma-ai-interior-studio",
+  "version": "2.0.0",
+  "private": true,
+  "type": "module",
+  "engines": {
+    "node": ">=22"
+  },
+  "scripts": {
+    "check": "node --check api/ai/chat.js && node --check api/ai/generate.js && node --check lib/ai.js"
+  },
+  "dependencies": {
+    "openai": "^7.47.0"
+  }
+}
