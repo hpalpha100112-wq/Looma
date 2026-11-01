@@ -17,7 +17,7 @@ The AI routes return a clear setup message when their required variables are mis
 - `POST /api/ai/generate` creates or transforms a room concept image using the configured image model.
 - Both routes validate request size and image format, send `store: false` for Responses, bound output and request sizes, and return provider failures without fabricated results.
 
-The Studio keeps a room brief and AI conversation in the current browser session. Saved project data, including structured design specifications, remains in this browser's local storage. Generated images can be previewed or downloaded. There is no remote database, user authentication, or private object storage in this version, so images are not saved to cloud storage and project ownership checks are not available.
+The Studio keeps the conversation and structured design context in session storage for the current browser tab. Saved project data, including structured specifications, remains in this browser's local storage. Uploaded photos remain in memory until the user submits an AI request. Generated images can be previewed or downloaded. There is no remote database, user authentication, or private object storage in this version, so images are not saved to cloud storage and project ownership checks are not available. `lib/furniture.js` defines a validated future catalog record contract without adding sample inventory.
 
 ## Local checks
 
