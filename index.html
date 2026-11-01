@@ -1060,7 +1060,7 @@
       });
       const data = await response.json().catch(function(){return {};});
       if (!response.ok) throw new Error(data.error || 'Image generation failed. Please retry.');
-      if (typeof data.image !== 'string' || !data.image.startsWith('data:image/png;base64,')) throw new Error('The image provider returned no usable image.');
+      if (typeof data.image !== 'string' || !data.image.startsWith('data:image/jpeg;base64,')) throw new Error('The image provider returned no usable image.');
       if (stage) {
         stage.replaceChildren();
         const image = document.createElement('img');
@@ -1073,7 +1073,7 @@
         const link = document.createElement('a');
         link.className = 'btn btn-plain btn-small';
         link.href = data.image;
-        link.download = (brief.name || 'looma-room').toLowerCase().replace(/[^a-z0-9]+/g,'-') + '-concept.png';
+        link.download = (brief.name || 'looma-room').toLowerCase().replace(/[^a-z0-9]+/g,'-') + '-concept.jpg';
         link.textContent = 'Download image';
         const actions = document.createElement('div');
         actions.className = 'ai-image-actions';
