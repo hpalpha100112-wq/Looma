@@ -897,7 +897,7 @@
     if(action==='studio-compare') {window.vercelCompare=!window.vercelCompare;renderRoute();}
     if(action==='studio-save') {
       const b=window.vercelBrief;if(!b){toast('Submit a room brief before saving a design.');return;}const opt=window.vercelOptions[window.vercelSelectedConcept]||{name:b.style,key:b.key};
-      const prior=savedProjects.find(function(item){return item.name===b.name;});const imageIds=getProjectImageIds(prior);if(window.loomaAiImageAssetId&&!imageIds.includes(window.loomaAiImageAssetId))imageIds.push(window.loomaAiImageAssetId);persistProject({id:window.loomaAiProjectId||createLocalId(),imageAssetIds:imageIds,name:b.name,room:b.room,style:opt.name||b.style,key:opt.key||b.key,dims:b.width+' × '+b.length+' m',budget:b.budget,keep:b.keep||'',design:window.loomaAiDesign?window.loomaAiDesign.design:undefined});
+      const prior=savedProjects.find(function(item){return item.name===b.name;});const imageIds=getProjectImageIds(prior);if(window.loomaAiImageAssetId&&!imageIds.includes(window.loomaAiImageAssetId))imageIds.push(window.loomaAiImageAssetId);persistProject({id:window.loomaAiProjectId||createLocalId(),imageAssetIds:imageIds,name:b.name,room:b.room,style:opt.name||b.style,key:opt.key||b.key,dims:b.width+' × '+b.length+' m',budget:b.budget,keep:b.keep||'',design:window.loomaAiDesign?window.loomaAiDesign.design:undefined,conversationHistory:(window.loomaAiMessages||[]).slice(-12)});
       toast('Project saved in this browser.');target.textContent='✓ Saved to projects';
     }
     if(action==='studio-export') exportRouteBrief();
@@ -1005,14 +1005,28 @@
     }
   }
   function saveAiSessionContext() {
+    const context = {
+      messages:(window.loomaAiMessages || []).slice(-12),
+      design:window.loomaAiDesign || null,
+      projectId:window.loomaAiProjectId || null,
+      imageAssetId:window.loomaAiImageAssetId || null
+    };
     try {
-      sessionStorage.setItem('looma-ai-context:' + window.loomaAiConversationKey, JSON.stringify({
-        messages:window.loomaAiMessages || [],
-        design:window.loomaAiDesign || null,
-        projectId:window.loomaAiProjectId || null,
-        imageAssetId:window.loomaAiImageAssetId || null
-      }));
+      sessionStorage.setItem('looma-ai-context:' + window.loomaAiConversationKey, JSON.stringify(context));
     } catch (_) {}
+    const project = savedProjects.find(function(item){return item.id===context.projectId;})
+      || savedProjects.find(function(item){return String(item.name||'').trim().toLowerCase()===window.loomaAiConversationKey;});
+    if (project) {
+      if (!project.id) project.id = context.projectId;
+      project.conversationHistory = context.messages;
+      if (context.design && context.design.design) project.design = context.design.design;
+      if (context.imageAssetId) {
+        const ids = getProjectImageIds(project);
+        if (!ids.includes(context.imageAssetId)) ids.push(context.imageAssetId);
+        project.imageAssetIds = ids;
+      }
+      try { localStorage.setItem('looma-projects', JSON.stringify(savedProjects)); } catch (_) {}
+    }
   }
   function resetAiConversationForBrief(brief) {
     const key = String(brief.name || '').trim().toLowerCase();
@@ -1024,16 +1038,22 @@
       const project=savedProjects.find(function(item){return String(item.name||'').trim().toLowerCase()===key;});
       window.loomaAiProjectId=project && project.id ? project.id : createLocalId();
       window.loomaAiImageAssetId=getProjectImageIds(project).slice(-1)[0] || null;
+      if (project) {
+        window.loomaAiMessages=Array.isArray(project.conversationHistory)
+          ? project.conversationHistory.filter(function(item){return item && ['user','assistant'].includes(item.role) && typeof item.content === 'string';}).slice(-12)
+          : [];
+        window.loomaAiDesign=project.design && typeof project.design === 'object' ? {message:'',design:project.design} : null;
+      }
       try {
         const saved = JSON.parse(sessionStorage.getItem('looma-ai-context:' + key) || 'null');
-        if (saved && Array.isArray(saved.messages)) {
+        if (saved && Array.isArray(saved.messages) && saved.messages.length) {
           window.loomaAiMessages = saved.messages.filter(function(item){return item && ['user','assistant'].includes(item.role) && typeof item.content === 'string';}).slice(-12);
-          window.loomaAiDesign = saved.design && typeof saved.design === 'object' ? saved.design : null;
-          if(typeof saved.projectId==='string')window.loomaAiProjectId=saved.projectId;
-          if(typeof saved.imageAssetId==='string')window.loomaAiImageAssetId=saved.imageAssetId;
-          const lastUser = window.loomaAiMessages.slice().reverse().find(function(item){return item.role === 'user';});
-          window.loomaAiLastPrompt = lastUser ? lastUser.content : '';
         }
+        if (saved && saved.design && typeof saved.design === 'object') window.loomaAiDesign=saved.design;
+        if(saved && typeof saved.projectId==='string')window.loomaAiProjectId=saved.projectId;
+        if(saved && typeof saved.imageAssetId==='string')window.loomaAiImageAssetId=saved.imageAssetId;
+        const lastUser = window.loomaAiMessages.slice().reverse().find(function(item){return item.role === 'user';});
+        window.loomaAiLastPrompt = lastUser ? lastUser.content : '';
       } catch (_) {}
     }
   }
