@@ -1,13 +1,19 @@
-import { allowRequest, DESIGNER_INSTRUCTIONS, DESIGN_SCHEMA, getOpenAI, sendApiError, setCommonHeaders, validateDesign, validatePhotoDataUrl } from "../../lib/ai.js";
+import { allowRequest, DESIGNER_INSTRUCTIONS, DESIGN_SCHEMA, getOpenAI, sendApiError, setCommonHeaders, validateDesign, validateDesignSpec, validatePhotoDataUrl } from "../../lib/ai.js";
 
 const MAX_BODY_BYTES = 4_000_000;
 const MAX_MESSAGES = 12;
 
 function validBrief(brief) {
-  if (!brief || typeof brief !== "object") return false;
-  return typeof brief.room === "string" && brief.room.length <= 80
-    && typeof brief.style === "string" && brief.style.length <= 80
-    && typeof brief.budget === "string" && brief.budget.length <= 80
+  if (!brief || typeof brief !== "object" || Array.isArray(brief)) return false;
+  const requiredText = (value, max) => typeof value === "string" && value.trim().length > 0 && value.length <= max;
+  const optionalText = (value, max) => value == null || (typeof value === "string" && value.length <= max);
+  return requiredText(brief.room, 80)
+    && requiredText(brief.style, 80)
+    && requiredText(brief.budget, 80)
+    && optionalText(brief.name, 100)
+    && optionalText(brief.keep, 500)
+    && optionalText(brief.colorOne, 40)
+    && optionalText(brief.colorTwo, 40)
     && Number.isFinite(Number(brief.width)) && Number(brief.width) > 0 && Number(brief.width) <= 100
     && Number.isFinite(Number(brief.length)) && Number(brief.length) > 0 && Number(brief.length) <= 100;
 }
@@ -21,6 +27,7 @@ export default async function handler(req, res) {
   if (Number(req.headers["content-length"] || 0) > MAX_BODY_BYTES) return res.status(413).json({ error: "That request is too large. Choose a smaller photo (maximum 2.5 MB)." });
   try {
     const body = req.body || {};
+    if (Buffer.byteLength(JSON.stringify(body), "utf8") > MAX_BODY_BYTES) return res.status(413).json({ error: "That request is too large. Choose a smaller photo (maximum 2.5 MB)." });
     const messageInput = Array.isArray(body.messages) ? body.messages : [];
     if (!validBrief(body.brief)) return res.status(400).json({ error: "Add a valid room type, style, budget, and dimensions first." });
     if (!messageInput.length || messageInput.length > MAX_MESSAGES) return res.status(400).json({ error: "Send a message with up to 12 recent turns." });
@@ -35,6 +42,9 @@ export default async function handler(req, res) {
       throw error;
     }
     const photo = validatePhotoDataUrl(body.photo);
+    const designContext = validateDesignSpec(body.designContext) && JSON.stringify(body.designContext).length <= 12_000
+      ? body.designContext
+      : null;
     if (!allowRequest(req, res, 20)) return;
     const briefContext = [
       "ROOM BRIEF (user-provided; dimensions are user-entered, not photo-derived):",
@@ -45,7 +55,8 @@ export default async function handler(req, res) {
       `Selected style: ${body.brief.style}`,
       `Must-keep items: ${String(body.brief.keep || "Not specified").slice(0, 500)}`,
       `Preferred colors: ${String(body.brief.colorOne || "not specified")} and ${String(body.brief.colorTwo || "not specified")}`,
-      photo ? "A room photo is attached to this request for visual analysis only. Do not infer exact measurements from it." : "No room photo is attached."
+      photo ? "A room photo is attached to this request for visual analysis only. Do not infer exact measurements from it." : "No room photo is attached.",
+      designContext ? "CURRENT SAVED DESIGN SPECIFICATION (project context, concept only): " + JSON.stringify(designContext) : "No prior structured design is available."
     ].join("\n");
     const input = messages.slice(0, -1).map((item) => ({ role: item.role, content: item.content }));
     const lastContent = [{ type: "input_text", text: `${briefContext}\n\nUser request: ${messages[messages.length - 1].content}` }];
