@@ -42,6 +42,9 @@ export default async function handler(req, res) {
           model: process.env.OPENAI_IMAGE_MODEL,
           prompt,
           size: "1024x1024",
+          quality: "medium",
+          output_format: "jpeg",
+          output_compression: 80,
           n: 1
         });
     const output = image.data?.[0]?.b64_json;
