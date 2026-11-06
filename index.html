@@ -738,7 +738,7 @@
     resetAiConversationForBrief(b);
     const choices = routeStyles.map(function(s) { return "<button type='button' class='studio-style-choice " + ((b.key || selectedStyleKey)===s.key?'active':'') + "' data-action='studio-style' data-style='" + s.name + "' data-key='" + s.key + "'><i style='background:linear-gradient(90deg," + palettes[s.key].wall + " 0 33%, " + palettes[s.key].sofa + " 33% 66%, " + palettes[s.key].wood + " 66%)'></i>" + s.name + "</button>"; }).join('');
     const body = pageHeader('Your creative workspace','Let’s design your room.','Set the essentials first. Looma uses these details only when you request an AI design.',"<a class='btn btn-plain btn-small' href='#/projects'>My projects</a>") +
-      "<div class='studio-layout'><aside class='studio-panel'><h3>Room brief</h3><p>Start with the details you know. You can change any of these later.</p><form class='studio-form' id='roomBriefForm'><label>Project name<input id='briefName' maxlength='70' value='" + esc(b.name || 'My room concept') + "' required></label><label>Room type<select id='briefRoom'>" + ['Living room','Bedroom','Kitchen','Dining room','Bathroom','Studio apartment','Office'].map(function(x){return "<option " + ((b.room||'Living room')===x?'selected':'') + ">" + x + "</option>";}).join('') + "</select></label><div><label>Dimensions in metres</label><div class='studio-dimensions'><input type='number' id='briefWidth' min='1' max='100' step='0.1' value='" + (b.width || 4.5) + "' aria-label='Room width' required><input type='number' id='briefLength' min='1' max='100' step='0.1' value='" + (b.length || 4) + "' aria-label='Room length' required></div></div><label>Budget band<select id='briefBudget'>" + ['Under ₹75,000','₹75,000 – ₹1.5L','₹1.5L – ₹3L','₹3L – ₹6L','₹6L+','Just exploring'].map(function(x){return "<option " + ((b.budget||'Just exploring')===x?'selected':'') + ">" + x + "</option>";}).join('') + "</select></label><div><label>Choose a style</label><div class='studio-style-grid'>" + choices + "</div></div><div><label>Two preferred colors</label><div class='ai-colors'><label>Color one<input id='briefColorOne' type='color' value='" + esc(b.colorOne || '#d9c7ae') + "'></label><label>Color two<input id='briefColorTwo' type='color' value='" + esc(b.colorTwo || '#56705d') + "'></label></div></div><label>Must-keep items<textarea id='briefKeep' placeholder='e.g. keep my existing sofa and wooden floor'>" + esc(b.keep || '') + "</textarea></label><label>Optional room photo<input id='briefPhoto' type='file' accept='image/png,image/jpeg,image/webp'></label><small id='photoStatus' class='route-status'>" + (window.vercelUploadedData?'Photo selected. It will be sent only with your design request.':'Photo stays in your browser until you request an AI design.') + "</small><button class='btn btn-primary' id='aiBriefSubmit' type='submit'>Ask Looma for design ideas ✦</button></form></aside><div class='route-panel'><div class='route-section-head'><div><span class='route-kicker'>DESIGN CANVAS</span><h2 style='font:400 28px var(--serif);margin:7px 0 5px;'>Your room, thoughtfully reimagined</h2><p style='margin:0;'>Ask for room analysis and a structured design specification.</p></div><span class='tiny-badge'>AI DESIGNER</span></div><div class='studio-stage' id='studioStage'><p class='ai-caption'>Your design response will appear here after you submit the room brief.</p></div><section class='ai-assistant' aria-label='Looma AI designer'><div class='ai-assistant-head'><div><span class='route-kicker'>LOOMA AI DESIGNER</span><h3>Let’s make a plan that fits.</h3><p>Photos are sent for visual analysis only when you ask for a design. Exact measurements are never inferred from a photo.</p></div><span class='tiny-badge'>RESPONSES API</span></div><div class='ai-status' id='aiStatus' role='status' aria-live='polite'>No AI response yet.</div><div class='ai-conversation' id='aiConversation' role='log' aria-live='polite'></div><div id='aiDesignOutput'></div><form class='ai-chat-form' id='aiChatForm'><label for='aiFollowup'>Ask a follow-up question</label><textarea id='aiFollowup' maxlength='2000' placeholder='For example: how can we keep the existing sofa and add more storage?'></textarea><button class='btn btn-plain' type='submit'>Ask Looma ↗</button></form><div class='ai-actions'><button class='btn btn-primary' type='button' data-action='ai-generate-image'>Generate a room concept image ✦</button><button class='btn btn-plain' type='button' data-action='studio-save'>Save design to projects ♡</button></div><p class='ai-caption'>Generated images are visual concepts, not measured 3D geometry. Design specifications save in this browser; remote image storage is not connected yet.</p></section></div></div>";
+      "<div class='studio-layout'><aside class='studio-panel'><h3>Room brief</h3><p>Start with the details you know. You can change any of these later.</p><form class='studio-form' id='roomBriefForm'><label>Project name<input id='briefName' maxlength='70' value='" + esc(b.name || 'My room concept') + "' required></label><label>Room type<select id='briefRoom'>" + ['Living room','Bedroom','Kitchen','Dining room','Bathroom','Studio apartment','Office'].map(function(x){return "<option " + ((b.room||'Living room')===x?'selected':'') + ">" + x + "</option>";}).join('') + "</select></label><div><label>Dimensions in metres</label><div class='studio-dimensions'><input type='number' id='briefWidth' min='1' max='100' step='0.1' value='" + (b.width || 4.5) + "' aria-label='Room width' required><input type='number' id='briefLength' min='1' max='100' step='0.1' value='" + (b.length || 4) + "' aria-label='Room length' required></div></div><label>Budget band<select id='briefBudget'>" + ['Under ₹75,000','₹75,000 – ₹1.5L','₹1.5L – ₹3L','₹3L – ₹6L','₹6L+','Just exploring'].map(function(x){return "<option " + ((b.budget||'Just exploring')===x?'selected':'') + ">" + x + "</option>";}).join('') + "</select></label><div><label>Choose a style</label><div class='studio-style-grid'>" + choices + "</div></div><div><label>Two preferred colors</label><div class='ai-colors'><label>Color one<input id='briefColorOne' type='color' value='" + esc(b.colorOne || '#d9c7ae') + "'></label><label>Color two<input id='briefColorTwo' type='color' value='" + esc(b.colorTwo || '#56705d') + "'></label></div></div><label>Must-keep items<textarea id='briefKeep' placeholder='e.g. keep my existing sofa and wooden floor'>" + esc(b.keep || '') + "</textarea></label><label>Optional room photo<input id='briefPhoto' type='file' accept='image/png,image/jpeg,image/webp'></label><small id='photoStatus' class='route-status'>" + (window.vercelUploadedData?'Photo selected. It will be sent only with your design request.':'Photo stays in your browser until you request an AI design.') + "</small><button class='btn btn-primary' id='aiBriefSubmit' type='submit'>Ask Looma for design ideas ✦</button></form></aside><div class='route-panel'><div class='route-section-head'><div><span class='route-kicker'>DESIGN CANVAS</span><h2 style='font:400 28px var(--serif);margin:7px 0 5px;'>Your room, thoughtfully reimagined</h2><p style='margin:0;'>Ask for room analysis and a structured design specification.</p></div><span class='tiny-badge'>AI DESIGNER</span></div><div class='studio-stage' id='studioStage'><p class='ai-caption'>Your design response will appear here after you submit the room brief.</p></div><section class='ai-assistant' aria-label='Looma AI designer'><div class='ai-assistant-head'><div><span class='route-kicker'>LOOMA AI DESIGNER</span><h3>Let’s make a plan that fits.</h3><p>Photos are sent for visual analysis only when you ask for a design. Exact measurements are never inferred from a photo.</p></div><span class='tiny-badge'>RESPONSES API</span></div><div class='ai-status' id='aiStatus' role='status' aria-live='polite'>No AI response yet.</div><div class='ai-conversation' id='aiConversation' role='log' aria-live='polite'></div><div id='aiDesignOutput'></div><form class='ai-chat-form' id='aiChatForm'><label for='aiFollowup'>Ask a follow-up question</label><textarea id='aiFollowup' maxlength='2000' placeholder='For example: how can we keep the existing sofa and add more storage?'></textarea><button class='btn btn-plain' type='submit'>Ask Looma ↗</button></form><div class='ai-actions'><button class='btn btn-primary' type='button' data-action='ai-generate-image'>Generate a room concept image ✦</button><button class='btn btn-plain' type='button' data-action='studio-save'>Save design to projects ♡</button></div><p class='ai-caption'>Generated images save in this browser only and do not sync across devices. They are visual concepts, not measured 3D geometry.</p></section></div></div>";
     return pageShell('studio','Studio',body);
   }
   function renderStudioResults() {
@@ -763,7 +763,7 @@
     const p = savedProjects.find(function(item){return item.name===name;}) || (name==='Quiet bedroom' ? {name:'Quiet bedroom',room:'Bedroom',style:'Japandi',dims:'Idea board',budget:'Just exploring',key:'japandi',sample:true} : null);
     if (!p) return pageShell('projects','Project not found',pageHeader('Your project library','We couldn’t find that project.','It may have been deleted or may not exist in this browser.',"<a class='btn btn-primary' href='#/projects'>Back to projects</a>") + "<div class='route-empty'><h3>No project at this address.</h3><p>Return to your project library or create a new room concept.</p><a class='btn btn-plain' href='#/studio'>Open studio</a></div>");
     return pageShell('project','Project details',pageHeader('Saved room concept',esc(p.name),'Review the selected style and brief assumptions, then continue designing or manage this saved draft.',"<a class='btn btn-plain btn-small' href='#/projects'>← All projects</a>") +
-      "<div class='detail-banner'><div class='detail-banner-visual'>" + svgScene(p.key||'warm',false) + "</div><div class='detail-banner-copy'><span class='route-kicker'>" + (p.sample?'INSPIRATION REFERENCE':'SAVED PROJECT') + "</span><h2>" + esc(p.name) + "</h2><p>" + esc(p.style||'Interior idea') + " — " + esc(styleDesc[p.key]||'A direction to explore') + "</p><div class='detail-facts'><div class='detail-fact'><small>Room</small><strong>" + esc(p.room||'Not specified') + "</strong></div><div class='detail-fact'><small>Dimensions</small><strong>" + esc(p.dims||'Not specified') + "</strong></div><div class='detail-fact'><small>Planning budget</small><strong>" + esc(p.budget||'Not specified') + "</strong></div><div class='detail-fact'><small>Data status</small><strong>Browser saved</strong></div></div><div class='home-route-cta'><button class='btn btn-primary' data-action='continue-project' data-project='" + esc(p.name) + "'>Continue in studio ↗</button>" + (p.sample?'':"<button class='btn btn-plain' data-action='rename-project' data-project='" + esc(p.name) + "'>Rename</button><button class='btn btn-plain' data-action='delete-project' data-project='" + esc(p.name) + "'>Delete</button>") + "</div></div></div><div class='route-section route-two-col'><div class='route-panel'><h3>Design notes</h3><p>This concept is a starting point for discussion. Check dimensions, access, light, furniture clearances and local prices before buying or renovating.</p></div><div class='route-panel'><h3>Keep moving</h3><p>Try a different material palette or create a second concept without losing your first saved direction.</p><a class='btn btn-plain btn-small' href='#/explore'>Explore other styles ↗</a></div></div>");
+      "<div class='detail-banner'><div class='detail-banner-visual'>" + svgScene(p.key||'warm',false) + "</div><div class='detail-banner-copy'><span class='route-kicker'>" + (p.sample?'INSPIRATION REFERENCE':'SAVED PROJECT') + "</span><h2>" + esc(p.name) + "</h2><p>" + esc(p.style||'Interior idea') + " — " + esc(styleDesc[p.key]||'A direction to explore') + "</p><div class='detail-facts'><div class='detail-fact'><small>Room</small><strong>" + esc(p.room||'Not specified') + "</strong></div><div class='detail-fact'><small>Dimensions</small><strong>" + esc(p.dims||'Not specified') + "</strong></div><div class='detail-fact'><small>Planning budget</small><strong>" + esc(p.budget||'Not specified') + "</strong></div><div class='detail-fact'><small>Data status</small><strong>Browser saved</strong></div></div><div class='home-route-cta'><button class='btn btn-primary' data-action='continue-project' data-project='" + esc(p.name) + "'>Continue in studio ↗</button>" + (p.sample?'':"<button class='btn btn-plain' data-action='rename-project' data-project='" + esc(p.name) + "'>Rename</button><button class='btn btn-plain' data-action='delete-project' data-project='" + esc(p.name) + "'>Delete</button>") + "</div></div></div>" + (getProjectImageIds(p).length ? "<div class='route-section route-panel'><h3>Saved concept image</h3><div id='savedProjectImage'><p class='ai-caption'>Loading image from this browser…</p></div></div>" : "") + "<div class='route-section route-two-col'><div class='route-panel'><h3>Design notes</h3><p>This concept is a starting point for discussion. Check dimensions, access, light, furniture clearances and local prices before buying or renovating.</p></div><div class='route-panel'><h3>Keep moving</h3><p>Try a different material palette or create a second concept without losing your first saved direction.</p><a class='btn btn-plain btn-small' href='#/explore'>Explore other styles ↗</a></div></div>");
   }
   function renderCommunity() {
     const ideas = [
@@ -825,7 +825,8 @@
       : route === 'account' ? renderAccount()
       : route === 'support' ? renderSupport()
       : pageShell('home','Page not found',pageHeader('Looma','That page isn’t here.','Choose a section from the navigation to continue.',"<a class='btn btn-primary' href='#/home'>Return home</a>"));
-    if(route==='studio') { renderAiConversation(); if(window.loomaAiDesign) renderAiDesign(window.loomaAiDesign.design); }
+    if(route==='studio') { renderAiConversation(); if(window.loomaAiDesign) renderAiDesign(window.loomaAiDesign.design); if(window.loomaAiImageAssetId) showSavedImage(window.loomaAiImageAssetId,'studioStage'); }
+    if(route==='project') { const savedProject=savedProjects.find(function(item){return item.name===projectName;}); const imageIds=getProjectImageIds(savedProject); if(imageIds.length) showSavedImage(imageIds[imageIds.length-1],'savedProjectImage'); }
     document.querySelectorAll('[data-nav-route]').forEach(function(a){a.style.color=a.dataset.navRoute===route?'var(--ink)':'';a.style.fontWeight=a.dataset.navRoute===route?'750':'';});
     window.scrollTo(0,0);
     if (route === 'explore') filterRouteCards('styleSearch','styleCategory');
@@ -896,7 +897,7 @@
     if(action==='studio-compare') {window.vercelCompare=!window.vercelCompare;renderRoute();}
     if(action==='studio-save') {
       const b=window.vercelBrief;if(!b){toast('Submit a room brief before saving a design.');return;}const opt=window.vercelOptions[window.vercelSelectedConcept]||{name:b.style,key:b.key};
-      persistProject({name:b.name,room:b.room,style:opt.name||b.style,key:opt.key||b.key,dims:b.width+' × '+b.length+' m',budget:b.budget,keep:b.keep||'',design:window.loomaAiDesign?window.loomaAiDesign.design:undefined});
+      const prior=savedProjects.find(function(item){return item.name===b.name;});const imageIds=getProjectImageIds(prior);if(window.loomaAiImageAssetId&&!imageIds.includes(window.loomaAiImageAssetId))imageIds.push(window.loomaAiImageAssetId);persistProject({id:window.loomaAiProjectId||createLocalId(),imageAssetIds:imageIds,name:b.name,room:b.room,style:opt.name||b.style,key:opt.key||b.key,dims:b.width+' × '+b.length+' m',budget:b.budget,keep:b.keep||'',design:window.loomaAiDesign?window.loomaAiDesign.design:undefined});
       toast('Project saved in this browser.');target.textContent='✓ Saved to projects';
     }
     if(action==='studio-export') exportRouteBrief();
@@ -912,7 +913,7 @@
     }
     if(action==='delete-project') {
       const name=target.dataset.project;
-      if(confirm('Delete “'+name+'” from this browser?')){savedProjects=savedProjects.filter(function(p){return p.name!==name;});localStorage.setItem('looma-projects',JSON.stringify(savedProjects));setSavedCount();renderProjects();location.hash='#/projects';}
+      if(confirm('Delete “'+name+'” from this browser?')){const removed=savedProjects.find(function(p){return p.name===name;});deleteGeneratedImages(getProjectImageIds(removed)).catch(function(){});savedProjects=savedProjects.filter(function(p){return p.name!==name;});localStorage.setItem('looma-projects',JSON.stringify(savedProjects));setSavedCount();renderProjects();location.hash='#/projects';}
     }
     if(action==='save-prompt') {
       let list=[];try{list=JSON.parse(localStorage.getItem('looma-prompts')||'[]');}catch(_){}
@@ -924,6 +925,95 @@
     if(action==='faq-toggle') target.parentElement.classList.toggle('open');
     if(action==='account-logout'){localStorage.removeItem('looma-profile');renderRoute();toast('Local profile cleared.');}
   });
+  function createLocalId() {
+    return window.crypto && typeof window.crypto.randomUUID === 'function' ? window.crypto.randomUUID() : 'looma-' + Date.now().toString(36) + '-' + Math.random().toString(36).slice(2);
+  }
+  function getProjectImageIds(project) {
+    return Array.isArray(project && project.imageAssetIds) ? project.imageAssetIds.filter(function(id){return typeof id === 'string';}) : [];
+  }
+  function openLoomaImageStore() {
+    return new Promise(function(resolve,reject) {
+      if (!window.indexedDB) { reject(new Error('This browser does not support local image storage.')); return; }
+      const request=window.indexedDB.open('looma-local-assets',1);
+      request.onupgradeneeded=function(){if(!request.result.objectStoreNames.contains('generatedImages'))request.result.createObjectStore('generatedImages',{keyPath:'id'});};
+      request.onsuccess=function(){resolve(request.result);};
+      request.onerror=function(){reject(request.error||new Error('Could not open local image storage.'));};
+    });
+  }
+  async function saveGeneratedImageLocally(dataUrl,projectId) {
+    const response=await fetch(dataUrl);
+    const blob=await response.blob();
+    if(!blob.type.startsWith('image/'))throw new Error('The generated file is not a supported image.');
+    const id=createLocalId();
+    const db=await openLoomaImageStore();
+    try {
+      await new Promise(function(resolve,reject) {
+        const transaction=db.transaction('generatedImages','readwrite');
+        transaction.objectStore('generatedImages').put({id:id,projectId:projectId,blob:blob,createdAt:new Date().toISOString()});
+        transaction.oncomplete=function(){resolve();};
+        transaction.onerror=function(){reject(transaction.error||new Error('Could not save the generated image.'));};
+        transaction.onabort=function(){reject(transaction.error||new Error('Image storage was interrupted.'));};
+      });
+    } finally { db.close(); }
+    return id;
+  }
+  async function getGeneratedImageBlob(id) {
+    const db=await openLoomaImageStore();
+    try {
+      return await new Promise(function(resolve,reject) {
+        const transaction=db.transaction('generatedImages','readonly');
+        const request=transaction.objectStore('generatedImages').get(id);
+        request.onsuccess=function(){resolve(request.result ? request.result.blob : null);};
+        request.onerror=function(){reject(request.error||new Error('Could not read the saved image.'));};
+      });
+    } finally { db.close(); }
+  }
+  async function deleteGeneratedImages(ids) {
+    const list=Array.isArray(ids)?ids.filter(function(id){return typeof id === 'string';}):[];
+    if(!list.length)return;
+    const db=await openLoomaImageStore();
+    try {
+      await new Promise(function(resolve,reject) {
+        const transaction=db.transaction('generatedImages','readwrite');
+        const store=transaction.objectStore('generatedImages');
+        list.forEach(function(id){store.delete(id);});
+        transaction.oncomplete=function(){resolve();};
+        transaction.onerror=function(){reject(transaction.error||new Error('Could not remove saved images.'));};
+        transaction.onabort=function(){reject(transaction.error||new Error('Image removal was interrupted.'));};
+      });
+    } finally { db.close(); }
+  }
+  async function showSavedImage(id,hostId) {
+    if(!id)return;
+    const host=document.getElementById(hostId);if(!host)return;
+    try {
+      const blob=await getGeneratedImageBlob(id);
+      if(!blob){host.textContent='The saved image is unavailable in this browser.';return;}
+      if(window.loomaImageObjectUrl)URL.revokeObjectURL(window.loomaImageObjectUrl);
+      window.loomaImageObjectUrl=URL.createObjectURL(blob);
+      host.replaceChildren();
+      const image=document.createElement('img');
+      image.className='ai-generated-image';
+      image.alt='Saved AI interior concept image; not measured room geometry';
+      image.src=window.loomaImageObjectUrl;
+      const note=document.createElement('p');
+      note.className='ai-caption';
+      note.textContent='Saved in this browser only. It is not measured room geometry.';
+      host.append(image,note);
+    } catch (_) {
+      host.textContent='Could not load the saved image from this browser.';
+    }
+  }
+  function saveAiSessionContext() {
+    try {
+      sessionStorage.setItem('looma-ai-context:' + window.loomaAiConversationKey, JSON.stringify({
+        messages:window.loomaAiMessages || [],
+        design:window.loomaAiDesign || null,
+        projectId:window.loomaAiProjectId || null,
+        imageAssetId:window.loomaAiImageAssetId || null
+      }));
+    } catch (_) {}
+  }
   function resetAiConversationForBrief(brief) {
     const key = String(brief.name || '').trim().toLowerCase();
     if (window.loomaAiConversationKey !== key) {
@@ -931,11 +1021,16 @@
       window.loomaAiMessages = [];
       window.loomaAiDesign = null;
       window.loomaAiLastPrompt = '';
+      const project=savedProjects.find(function(item){return String(item.name||'').trim().toLowerCase()===key;});
+      window.loomaAiProjectId=project && project.id ? project.id : createLocalId();
+      window.loomaAiImageAssetId=getProjectImageIds(project).slice(-1)[0] || null;
       try {
         const saved = JSON.parse(sessionStorage.getItem('looma-ai-context:' + key) || 'null');
         if (saved && Array.isArray(saved.messages)) {
           window.loomaAiMessages = saved.messages.filter(function(item){return item && ['user','assistant'].includes(item.role) && typeof item.content === 'string';}).slice(-12);
           window.loomaAiDesign = saved.design && typeof saved.design === 'object' ? saved.design : null;
+          if(typeof saved.projectId==='string')window.loomaAiProjectId=saved.projectId;
+          if(typeof saved.imageAssetId==='string')window.loomaAiImageAssetId=saved.imageAssetId;
           const lastUser = window.loomaAiMessages.slice().reverse().find(function(item){return item.role === 'user';});
           window.loomaAiLastPrompt = lastUser ? lastUser.content : '';
         }
@@ -1017,7 +1112,7 @@
       if (typeof data.message !== 'string' || !data.design || typeof data.design !== 'object') throw new Error('Looma returned an incomplete response. Please retry.');
       window.loomaAiMessages.push({role:'assistant',content:data.message});
       window.loomaAiDesign = {message:data.message,design:data.design};
-      try { sessionStorage.setItem('looma-ai-context:' + window.loomaAiConversationKey, JSON.stringify({messages:window.loomaAiMessages,design:window.loomaAiDesign})); } catch (_) {}
+      saveAiSessionContext();
       renderAiConversation();
       renderAiDesign(data.design);
       setAiStatus('Design updated from your room brief.', false);
@@ -1080,7 +1175,22 @@
         actions.appendChild(link);
         stage.append(image,note,actions);
       }
-      setAiStatus('Concept image generated. It is available here to preview or download; it has not been saved to cloud storage.', false);
+      try {
+        window.loomaAiImageAssetId=await saveGeneratedImageLocally(data.image,window.loomaAiProjectId || (window.loomaAiProjectId=createLocalId()));
+        const savedProject=savedProjects.find(function(item){return item.id===window.loomaAiProjectId;});
+        if(savedProject){
+          const ids=getProjectImageIds(savedProject);
+          if(!ids.includes(window.loomaAiImageAssetId))ids.push(window.loomaAiImageAssetId);
+          savedProject.imageAssetIds=ids;
+          try{localStorage.setItem('looma-projects',JSON.stringify(savedProjects));}catch(_){}
+          renderProjects();
+        }
+        saveAiSessionContext();
+        setAiStatus('Concept image generated and saved to this browser. It will not sync to other devices.', false);
+      } catch (_) {
+        window.loomaAiImageAssetId=null;
+        setAiStatus('Concept image generated, but this browser could not save it. Download it now to keep a copy.', false);
+      }
     } catch (error) {
       setAiStatus(error.message || 'Image generation failed. Please retry.', true);
       const status = document.getElementById('aiStatus');
