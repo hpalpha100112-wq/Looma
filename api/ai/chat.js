@@ -36,8 +36,9 @@ export default async function handler(req, res) {
       return { role: item.role, content: item.content.trim() };
     });
     if (messages[messages.length - 1].role !== "user") return res.status(400).json({ error: "The last conversation turn must be from you." });
-    if (!process.env.OPENAI_MODEL) {
-      const error = new Error("Looma AI is not configured yet. Add OPENAI_MODEL in Vercel Environment Variables.");
+    const missingChatConfig = ["OPENAI_API_KEY", "OPENAI_MODEL"].filter((name) => !process.env[name]);
+    if (missingChatConfig.length) {
+      const error = new Error("Looma AI is not configured yet. Add " + missingChatConfig.join(" and ") + " in Vercel Environment Variables.");
       error.code = "AI_NOT_CONFIGURED";
       throw error;
     }
