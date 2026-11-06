@@ -13,8 +13,9 @@ export default async function handler(req, res) {
     if (typeof body.prompt !== "string" || !body.prompt.trim() || body.prompt.length > 2_000) return res.status(400).json({ error: "Describe the interior concept in 2,000 characters or fewer." });
     const photo = validatePhotoDataUrl(body.photo);
     if (!allowRequest(req, res, 4)) return;
-    if (!process.env.OPENAI_IMAGE_MODEL) {
-      const error = new Error("Image generation is not configured yet. Add OPENAI_IMAGE_MODEL in Vercel Environment Variables.");
+    const missingImageConfig = ["OPENAI_API_KEY", "OPENAI_IMAGE_MODEL"].filter((name) => !process.env[name]);
+    if (missingImageConfig.length) {
+      const error = new Error("Image generation is not configured yet. Add " + missingImageConfig.join(" and ") + " in Vercel Environment Variables.");
       error.code = "AI_NOT_CONFIGURED";
       throw error;
     }
